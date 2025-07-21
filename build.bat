@@ -1,0 +1,3 @@
+@echo off
+echo Exporting (to "build" folder)...
+pyinstaller --noconfirm --onefile --windowed KL_Py.py && rmdir /q /s build && mkdir build && xcopy /f /s /q /y dist\* build && rmdir /q /s dist && echo Exported to "build" successfully. && echo Launching for test... && cd build && KL_Py.exe && cd ..
