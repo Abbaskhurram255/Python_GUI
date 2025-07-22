@@ -1,6 +1,6 @@
 import os, sys, base64, requests, math, re
 import tkinter as tk
-from tkinter import font as tkFont, messagebox, simpledialog, Frame, Button, Menu, Checkbutton, Radiobutton
+from tkinter import font as tkFont, messagebox, simpledialog, Frame, Button, Menu, Checkbutton, Radiobutton, Entry, Text, StringVar
 from collections import defaultdict
 from functools import reduce
 from typing import List, Callable
@@ -415,7 +415,112 @@ class CustomMenu(Menu):
         super().__init__(master, tearoff=0, **kwargs)
         self.add_command(label=text)
         
- 
+class ContextMenu(Menu):
+    def __init__(self, master=None, text=None, bg=None):
+        super().__init__(master, tearoff=0)
+        self.configure(fg='black', bg=bg if bg else 'white')
+        if text:
+            self.add_command(label=text)
+
+    def add_item(self, label, command):
+        self.add_command(label=label, command=command)
+
+class DropDown(Menu):
+    def __init__(self, master=None, items=None):
+        super().__init__(master, tearoff=0)
+        self.items = items if items else []
+        for item in self.items:
+            self.add_command(label=item)
+
+class TextField(Entry):
+    def __init__(self, master=None, text='', width=20):
+        super().__init__(master, width=width)
+        self.insert(0, text)
+
+    def get_text(self):
+        return self.get()
+
+    def set_text(self, text):
+        self.delete(0, 'end')
+        self.insert(0, text)
+
+class TextArea(Text):
+    def __init__(self, master=None, width=40, height=10):
+        super().__init__(master, width=width, height=height)
+
+    def get_text(self):
+        return self.get("1.0", 'end-1c')
+
+    def set_text(self, text):
+        self.delete("1.0", 'end')
+        self.insert("1.0", text)
+
+class TextPane(Text):
+    def __init__(self, master=None):
+        super().__init__(master)
+
+    def get_text(self):
+        return self.get("1.0", 'end-1c')
+
+    def set_text(self, text):
+        self.delete("1.0", 'end')
+        self.insert("1.0", text)
+        
+class PwdField(Entry):
+    def __init__(self, master=None, text='', columns=20, **kwargs):
+        super().__init__(master, show='*', width=columns, **kwargs)
+        self._text_var = StringVar(value=text)
+        self.config(textvariable=self._text_var)
+
+    def cursor(self, cursor_type):
+        self.config(cursor=cursor_type)
+        return self
+
+    def border(self, border_width):
+        self.config(borderwidth=border_width)
+        return self
+
+    def text(self):
+        return self._text_var.get()
+
+    def set_text(self, text):
+        self._text_var.set(text)
+        return self
+
+    def val(self):
+        return self.text()
+
+    def set_val(self, value):
+        self.set_text(value)
+        return self
+
+    def value(self):
+        return self.text()
+
+    def set_value(self, value):
+        self.set_text(value)
+        return self
+
+    def on_key(self, key, action):
+        self.bind('<KeyPress>', lambda e: action() if e.keysym == key else None)
+        return self
+
+    def on_click(self, button, action):
+        self.bind('<Button-{}>'.format(button), lambda e: action())
+        return self
+
+    def add_tooltip(self, text):
+        self.tooltip = text
+        return self
+
+    def remove_tooltip(self):
+        self.tooltip = ''
+        return self
+
+    def tool_tip_text(self):
+        return self.tooltip if hasattr(self, 'tooltip') else ''
+       
+
             
 def main():
     ui:gui = gui("My GUI")
