@@ -1,6 +1,6 @@
 import os, sys, base64, requests, math, re
 import tkinter as tk
-from tkinter import font as tkFont, messagebox, simpledialog
+from tkinter import font as tkFont, messagebox, simpledialog, Frame, Button, Menu, Checkbutton, Radiobutton
 from collections import defaultdict
 from functools import reduce
 from typing import List, Callable
@@ -281,7 +281,7 @@ class label(tk.Label):
         if self.tooltip_window:
             self.tooltip_window.destroy()
             self.tooltip_window = None
-
+            
 class panel(tk.Frame):
     def __init__(self, master=None, **kwargs):
         super().__init__(master, **kwargs)
@@ -323,6 +323,99 @@ class panel(tk.Frame):
         if self.tooltip_window:
             self.tooltip_window.destroy()
             self.tooltip_window = None
+            
+class BordLay(Frame):
+    def __init__(self, master=None, hgap=0, vgap=0):
+        super().__init__(master)
+        self.hgap = hgap
+        self.vgap = vgap
+
+class GridLay(Frame):
+    def __init__(self, master=None, rows=1, columns=1, hgap=0, vgap=0):
+        super().__init__(master)
+        self.rows = rows
+        self.columns = columns
+        self.hgap = hgap
+        self.vgap = vgap
+
+class FlowLay(Frame):
+    def __init__(self, master=None, align=0, hgap=0, vgap=0):
+        super().__init__(master)
+        self.align = align
+        self.hgap = hgap
+        self.vgap = vgap
+
+class Panel(Frame):
+    def __init__(self, master=None, layout=None):
+        super().__init__(master)
+        if layout:
+            self.configure(layout)
+
+    def set_bg(self, color):
+        self.configure(bg=color)
+
+    def set_fg(self, color):
+        self.configure(fg=color)
+
+    def add_component(self, *components):
+        for component in components:
+            if component:
+                component.pack()
+
+class Btn(Button):
+    def __init__(self, master=None, text="", command=None):
+        super().__init__(master, text=text, command=command)
+        self.config(focusable=False)
+
+    def set_bg(self, color):
+        self.configure(bg=color)
+
+    def set_fg(self, color):
+        self.configure(fg=color)
+
+class ToggleBtn(Button):
+    def __init__(self, master=None, text="", command=None):
+        super().__init__(master, text=text, command=command)
+        self.config(focusable=False)
+
+class RadioBtn(Button):
+    def __init__(self, master=None, text="", command=None):
+        super().__init__(master, text=text, command=command)
+        self.config(focusable=False)
+
+class RadioButtonItem(Radiobutton):
+    def __init__(self, master=None, text="", variable=None, value=None, command=None, **kwargs):
+        super().__init__(master, text=text, variable=variable, value=value, command=command, **kwargs)
+        self.config(focus=False)
+
+class CheckBox(Checkbutton):
+    def __init__(self, master=None, text="", variable=None, command=None, **kwargs):
+        super().__init__(master, text=text, variable=variable, command=command, **kwargs)
+        self.config(focus=False)
+
+class CheckBoxItem(Checkbutton):
+    def __init__(self, master=None, text="", variable=None, command=None, **kwargs):
+        super().__init__(master, text=text, variable=variable, command=command, **kwargs)
+        self.config(focus=False)
+
+class MenuBar(Menu):
+    def __init__(self, master=None, *menus):
+        super().__init__(master)
+        for menu in menus:
+            if menu is not None:
+                self.add_cascade(menu=menu)
+
+class MenuItem(Menu):
+    def __init__(self, master=None, text="", command=None, **kwargs):
+        super().__init__(master, tearoff=0, **kwargs)
+        self.add_command(label=text, command=command)
+
+class CustomMenu(Menu):
+    def __init__(self, master=None, text="", **kwargs):
+        super().__init__(master, tearoff=0, **kwargs)
+        self.add_command(label=text)
+        
+ 
             
 def main():
     ui:gui = gui("My GUI")
