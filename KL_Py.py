@@ -520,6 +520,43 @@ class PwdField(Entry):
     def tool_tip_text(self):
         return self.tooltip if hasattr(self, 'tooltip') else ''
        
+from PIL import Image, ImageDraw, ImageColor
+import io
+class Icon:
+    def __init__(self, image_data=None, filename=None, image=None, url=None):
+        if image_data is not None:
+            self.image = Image.open(io.BytesIO(image_data))
+        elif filename is not None:
+            self.image = Image.open(filename)
+        elif image is not None:
+            self.image = image
+        elif url is not None:
+            self.image = Image.open(requests.get(url, stream=True).raw)
+        else:
+            self.image = None
+
+class ImageClass(Icon):
+    def __init__(self, image_data=None, filename=None, image=None, url=None):
+        super().__init__(image_data, filename, image, url)
+
+class Img(ImageClass):
+    def __init__(self, image_data=None, filename=None, image=None, url=None):
+        super().__init__(image_data, filename, image, url)
+
+class LineBorder:
+    def __init__(self, color, thickness=1, rounded_corners=False):
+        self.color = ImageColor.getrgb(color)
+        self.thickness = thickness
+        self.rounded_corners = rounded_corners
+
+    def draw(self, image):
+        draw = ImageDraw.Draw(image)
+        width, height = image.size
+        if self.rounded_corners:
+            draw.rectangle([0, 0, width, height], outline=self.color, width=self.thickness, fill=None)
+        else:
+            draw.rectangle([0, 0, width, height], outline=self.color, width=self.thickness)
+            
 
             
 def main():
