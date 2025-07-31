@@ -11,4 +11,7 @@ else (
     echo Exporting <to "build" folder, where the default icon will be used since no "app.ico" or "icon.ico" files were located in the project's root directory>...
     pyinstaller --noconfirm --onefile --windowed --add-data "assets;assets" KL_py.py
 )
-rmdir /q /s build && mkdir build && xcopy /f /s /q /y dist\* build && rmdir /q /s dist && echo Exported to "build" successfully. && echo Launching for test... && cd build && KL_Py.exe && cd ..\
+if not exist "assets" (
+    md assets
+)
+rmdir /q /s build && mkdir build && xcopy /f /s /q /y dist\* build && rmdir /q /s dist && xcopy "assets" "build/assets"  /s /e /i /h /c /y && echo Exported to "build" successfully. && echo Launching for test... && cd build && KL_Py.exe && cd ..\
