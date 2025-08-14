@@ -1,10 +1,11 @@
 from FreeSimpleGUI import *
 
-theme("DarkTeal4")
+theme("Reds")
 
 lay = [
-    [T("Please fill the following fields:")],
-    [T("Name", size=(15,1)), I(key="Name")],
+    [Text("Please fill the following fields:")],
+    [T("Name", size=(15,2)), I(key="name")],
+    [T("Password", size=(15, 2)), I(key="pwd")],
     [Submit(), Exit()]
 ]
 
@@ -16,5 +17,7 @@ while True:
     if event == WIN_CLOSED or event == "Exit":
         break
     elif event == "Submit":
-        print(event, values)
+        print("Event: "+event)
+        print("Name="+values["name"])
+        print("Password="+values["name"])
 window.close()
