@@ -9,8 +9,11 @@ lay = [
     [Submit(), Exit()]
 ]
 
-
 ui = Window("Simple Data Entry Form", lay)
+admin: dict = {
+    "email": "abbaskhurram255@gmail.com",
+    "password": "00000000"
+}
 password_hidden = True
 
 while True:
@@ -24,9 +27,11 @@ while True:
         print(f"    Email={email},")
         print(f"    Password={password}")
         print("}")
-        if email == "abbaskhurram255@gmail.com" and password == "00000000":
+        if email == admin["email"] and password == admin["password"]:
             popup(f"Logged in as {email}")
         else:
+            ui["email"].update(text_color="red")
+            ui["pwd"].update(text_color="red")
             popup("Invalid Credentials!")
     elif event == "reveal-password":
         if password_hidden:
