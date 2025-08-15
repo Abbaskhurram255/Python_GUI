@@ -1,4 +1,5 @@
 from FreeSimpleGUI import *
+from KL_Py import *
 
 theme("Reds")
 
@@ -10,13 +11,13 @@ lay = [
 ]
 
 ui = Window("Simple Data Entry Form", lay)
-admin: dict = {
+admin: obj = {
     "email": "abbaskhurram255@gmail.com",
     "password": "00000000"
 }
-password_hidden = True
+password_hidden: haal = Ha
 
-while True:
+while Yes:
     event, values = ui.read()
     if event == WIN_CLOSED or event == "Exit":
         break
@@ -38,5 +39,5 @@ while True:
             ui["pwd"].update(password_char="")
         else:
             ui["pwd"].update(password_char="*")
-        password_hidden = not password_hidden
+        password_hidden = nahi(password_hidden)
 ui.close()
