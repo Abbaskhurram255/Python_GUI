@@ -20,7 +20,8 @@ while Yes:
     # changing the type of variable values to obj for quicker dot-driven access
     if values is not None:
         values = obj(values)
-    if event == WIN_CLOSED or event == "Exit":
+    if event in [WIN_CLOSED, "Exit"]:
+        # print("hate to see you go!")
         break
     elif event == "Submit":
         email, pwd = values.values()
