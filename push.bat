@@ -1,5 +1,5 @@
 @echo off
-copy "KL_Py.py" "C:\Users\Adi\Documents\GitHub\hindCPlusPlus" && copy "simplegui.py" "C:\Users\Adi\Documents\GitHub\hindCPlusPlus" && copy "requirements.txt" "C:\Users\Adi\Documents\GitHub\hindCPlusPlus" && xcopy "build" "C:\Users\Adi\Documents\GitHub\hindCPlusPlus\build" /s /e /i /h /c /y
+copy *.py "C:\Users\Adi\Documents\GitHub\hindCPlusPlus" && copy "requirements.txt" "C:\Users\Adi\Documents\GitHub\hindCPlusPlus" && xcopy "build" "C:\Users\Adi\Documents\GitHub\hindCPlusPlus\build" /s /e /i /h /c /y
 if exist hindGui (
     xcopy "hindGui" "C:\Users\Adi\Documents\GitHub\hindCPlusPlus\hindGui" /s /e /i /h /c /y
 )
