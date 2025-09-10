@@ -24,7 +24,7 @@ lay = [
 ]
 
 
-app = hindGui("Dynamic App", lay, fasla=(12, 6))
+app: hindGui = hindGui("Dynamic App", lay, fasla=(12, 6))
 username: str
 layout_number: int = 1
 
