@@ -37,7 +37,7 @@ class Text(Element):
         expand_x=False,
         expand_y=False,
         grab=None,
-        tooltip=None,
+        hover=None,
         visible=True,
         metadata=None,
     ):
@@ -82,8 +82,8 @@ class Text(Element):
         :type expand_y:          (bool)
         :param grab:             If True can grab this element and move the window around. Default is False
         :type grab:              (bool)
-        :param tooltip:          text, that will appear when mouse hovers over the element
-        :type tooltip:           (str)
+        :param hover:          text, that will appear when mouse hovers over the element
+        :type hover:           (str)
         :param visible:          set visibility state of the element
         :type visible:           (bool)
         :param metadata:         User metadata that can be set to ANYTHING
@@ -118,7 +118,7 @@ class Text(Element):
             text_color=self.TextColor,
             pad=pad,
             event=event,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )

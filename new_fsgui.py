@@ -1,9 +1,10 @@
 from KL_Py import *
 
+
 lay1 = [
     [Text("Please enter your name and email address")],
-    [Text("Name: ", size=11, p=(0, 8)), Input(event="name")],
-    [Text("Email address: ", p=(0, 8)), Input(event="email")]
+    [Text("Name: ", size=11, p=(0, 8)), Input(event="name", auto_wipe=Yes)],
+    [Text("Email address: ", p=(0, 8)), Input(event="email", auto_wipe=No)]
 ]
 
 lay2 = [
@@ -20,21 +21,22 @@ lay = [
     [Column(lay1, event="col1", visible=True),
     Column(lay2, event="col2", visible=False),
     Column(lay3, event="col3", visible=False)],
-    [Button("Next"), Button("Return to Start", visible=False), Button("Exit")]
+    [Button("Next", hover="Click to go to the next page"), Button(text="Return to Start", visible=False), Button("Exit")]
 ]
 
 
-app: hindGui = hindGui("Dynamic App", lay, fasla=(12, 6))
+app: hindGui = hindGui("Dynamic App", lay, fasla=(12, 6), on_top=Yes)
 username: str
 layout_number: int = 1
 
 while True:
     event, values = app.parh()
-    if event in (None, "Exit"):
+    if event in [None, "Exit", "Escape"]:
         break
     if event == "Next":
         app[f"col{layout_number}"].change(visible=False)
         if layout_number == 1:
+            app["Return to Start"].change(text="Return to Start")
             username = values["name"].strip()
         if layout_number < 3:
             app["Return to Start"].change(visible=True)
@@ -47,12 +49,14 @@ while True:
             app["instructions"].change(f"Thank you for voting{', ' + username if len(username) > 0 else ''}")
         if layout_number == 3:
             app["Next"].change(visible=False)
-        print(f"New Layout: {layout_number}")
+            app["Return to Start"].change(text="Refill")
+        kaho("New Layout: {layout_number}")
     elif event == "Return to Start":
         app["Next"].change(visible=True)
         app[f"col{layout_number}"].change(visible=False)
         app[f"col1"].change(visible=True)
         layout_number = 1
         app["Return to Start"].change(visible=False)
-        print(f"New Layout: {layout_number}")
+        app.clear_inputs()
+        kaho("New Layout: {layout_number}")
 app.die()
