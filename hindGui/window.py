@@ -147,7 +147,7 @@ class Window:
         no_titlebar=False,
         grab_anywhere=False,
         grab_anywhere_using_control=True,
-        keep_on_top=None,
+        on_top=None,
         resizable=False,
         disable_close=False,
         disable_minimize=False,
@@ -238,8 +238,8 @@ class Window:
         :type grab_anywhere:                         (bool)
         :param grab_anywhere_using_control:          If True can use CONTROL event + left mouse mouse to click and drag to move the window. DEFAULT is TRUE. Unlike normal grab anywhere, it works on all elements.
         :type grab_anywhere_using_control:           (bool)
-        :param keep_on_top:                          If True, window will be created on top of all other windows on screen. It can be bumped down if another window created with this parm
-        :type keep_on_top:                           (bool)
+        :param on_top:                          If True, window will be created on top of all other windows on screen. It can be bumped down if another window created with this parm
+        :type on_top:                           (bool)
         :param resizable:                            If True, allows the user to resize the window. Note the not all Elements will change size or location when resizing.
         :type resizable:                             (bool)
         :param disable_close:                        If True, the X button in the top right corner of the window will no work.  Use with caution and always give a way out toyour users
@@ -360,11 +360,11 @@ class Window:
         self.Grab = grab_anywhere
         self.GrabAnywhere = grab_anywhere
         self.GrabAnywhereUsingControlKey = grab_anywhere_using_control
-        if keep_on_top is None and hindGui.DEFAULT_KEEP_ON_TOP is not None:
-            keep_on_top = hindGui.DEFAULT_KEEP_ON_TOP
-        elif keep_on_top is None:
-            keep_on_top = False
-        self.KeepOnTop = keep_on_top
+        if on_top is None and hindGui.DEFAULT_on_top is not None:
+            on_top = hindGui.DEFAULT_on_top
+        elif on_top is None:
+            on_top = False
+        self.KeepOnTop = on_top
         self.ForceTopLevel = force_toplevel
         self.Resizable = resizable
         self._AlphaChannel = alpha_channel if alpha_channel is not None else hindGui.DEFAULT_ALPHA_CHANNEL
@@ -965,7 +965,7 @@ class Window:
                         'Saved window screenshot to disk',
                         background_color='#1c1e23',
                         text_color='white',
-                        keep_on_top=True,
+                        on_top=True,
                         font='_ 30',
                     )
                     continue
@@ -2035,33 +2035,33 @@ class Window:
         except:
             pass
 
-    def keep_on_top_set(self):
+    def on_top_set(self):
         """
-        Sets keep_on_top after a window has been created.  Effect is the same
+        Sets on_top after a window has been created.  Effect is the same
         as if the window was created with this set.  The Window is also brought
         to the front
         """
-        if not self._is_window_created('tried Window.keep_on_top_set'):
+        if not self._is_window_created('tried Window.on_top_set'):
             return
         self.KeepOnTop = True
         self.bring_to_front()
         try:
             self.TKroot.wm_attributes('-topmost', 1)
         except Exception as e:
-            warnings.warn('Problem in Window.keep_on_top_set trying to set wm_attributes topmost' + str(e), UserWarning)
+            warnings.warn('Problem in Window.on_top_set trying to set wm_attributes topmost' + str(e), UserWarning)
 
-    def keep_on_top_clear(self):
+    def on_top_clear(self):
         """
-        Clears keep_on_top after a window has been created.  Effect is the same
+        Clears on_top after a window has been created.  Effect is the same
         as if the window was created with this set.
         """
-        if not self._is_window_created('tried Window.keep_on_top_clear'):
+        if not self._is_window_created('tried Window.on_top_clear'):
             return
         self.KeepOnTop = False
         try:
             self.TKroot.wm_attributes('-topmost', 0)
         except Exception as e:
-            warnings.warn('Problem in Window.keep_on_top_clear trying to clear wm_attributes topmost' + str(e), UserWarning)
+            warnings.warn('Problem in Window.on_top_clear trying to clear wm_attributes topmost' + str(e), UserWarning)
 
     def current_location(self, more_accurate=False, without_titlebar=False):
         """
@@ -2829,6 +2829,9 @@ class Window:
             if elem.metadata == TITLEBAR_METADATA_MARKER:
                 return True
         return False
+
+    def clear_inputs(self):
+        self.do_no_clear = False
 
     AddRow = add_row
     AddRows = add_rows

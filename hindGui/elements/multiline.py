@@ -21,7 +21,7 @@ class Multiline(Element):
 
     def __init__(
         self,
-        default_text='',
+        text='',
         enter_submits=False,
         disabled=False,
         autoscroll=False,
@@ -37,7 +37,7 @@ class Multiline(Element):
         horizontal_scroll=False,
         change_submits=False,
         enable_events=False,
-        do_not_clear=True,
+        auto_wipe=True,
         event=None,
         k=None,
         write_only=False,
@@ -50,7 +50,7 @@ class Multiline(Element):
         font=None,
         pad=None,
         p=None,
-        tooltip=None,
+        hover=None,
         justification=None,
         no_scrollbar=False,
         wrap_lines=None,
@@ -69,8 +69,8 @@ class Multiline(Element):
         metadata=None,
     ):
         """
-        :param default_text:                 Initial text to show
-        :type default_text:                  (Any)
+        :param text:                 Initial text to show
+        :type text:                  (Any)
         :param enter_submits:                if True, the Window.read call will return is enter event is pressed in this element
         :type enter_submits:                 (bool)
         :param disabled:                     set disable state
@@ -101,8 +101,8 @@ class Multiline(Element):
         :type change_submits:                (bool)
         :param enable_events:                If True then any event press that happens when the element has focus will generate an event.
         :type enable_events:                 (bool)
-        :param do_not_clear:                 if False the element will be cleared any time the Window.read call returns
-        :type do_not_clear:                  (bool)
+        :param auto_wipe:                 if False the element will be cleared any time the Window.read call returns
+        :type auto_wipe:                  (bool)
         :param event:                          Used with window.find_element and with return values to uniquely identify this element to uniquely identify this element
         :type event:                           str | int | tuple | object
         :param k:                            Same as the Event. You can use either k or event. Which ever is set will be used.
@@ -127,8 +127,8 @@ class Multiline(Element):
         :type pad:                           (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
         :param p:                            Same as pad parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, pad will be used
         :type p:                             (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
-        :param tooltip:                      text, that will appear when mouse hovers over the element
-        :type tooltip:                       (str)
+        :param hover:                      text, that will appear when mouse hovers over the element
+        :type hover:                       (str)
         :param justification:                text justification. left, right, center. Can use single characters l, r, c.
         :type justification:                 (str)
         :param no_scrollbar:                 If False then a vertical scrollbar will be shown (the default)
@@ -163,11 +163,11 @@ class Multiline(Element):
         :type metadata:                      (Any)
         """
 
-        self.DefaultText = str(default_text)
+        self.text = str(text)
         self.EnterSubmits = enter_submits
         bg = background_color if background_color else hindGui.DEFAULT_INPUT_ELEMENTS_COLOR
         self.Focus = focus
-        self.do_not_clear = do_not_clear
+        self.auto_wipe = auto_wipe
         fg = text_color if text_color is not None else hindGui.DEFAULT_INPUT_TEXT_COLOR
         self.selected_text_color = selected_text_color
         self.selected_background_color = selected_background_color
@@ -208,7 +208,7 @@ class Multiline(Element):
             text_color=fg,
             event=event,
             pad=pad,
-            tooltip=tooltip,
+            hover=hover,
             font=font or hindGui.DEFAULT_FONT,
             visible=visible,
             metadata=metadata,
@@ -234,6 +234,7 @@ class Multiline(Element):
         background_color_for_value=None,
         visible=None,
         autoscroll=None,
+        auto_wipe=None,
         justification=None,
         font_for_value=None,
     ):
@@ -322,7 +323,7 @@ class Multiline(Element):
                 print('* Error setting multiline *', e)
             if self.Disabled:
                 self.TKText.configure(state='disabled')
-            self.DefaultText = value
+            self.text = value
 
         if self.Autoscroll:
             if not self.auto_scroll_only_at_bottom or (self.auto_scroll_only_at_bottom and current_scroll_position == 1.0):
@@ -576,7 +577,7 @@ class Output(Multiline):
         autoscroll_only_at_bottom=False,
         echo_stdout_stderr=False,
         font=None,
-        tooltip=None,
+        hover=None,
         event=None,
         k=None,
         right_click_menu=None,
@@ -613,8 +614,8 @@ class Output(Multiline):
         :type echo_stdout_stderr:           (bool)
         :param font:                        specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
         :type font:                         (str or (str, int[, str]) or None)
-        :param tooltip:                     text, that will appear when mouse hovers over the element
-        :type tooltip:                      (str)
+        :param hover:                     text, that will appear when mouse hovers over the element
+        :type hover:                      (str)
         :param event:                         Used with window.find_element and with return values to uniquely identify this element to uniquely identify this element
         :type event:                          str | int | tuple | object
         :param k:                           Same as the Event. You can use either k or event. Which ever is set will be used.
@@ -659,7 +660,7 @@ class Output(Multiline):
             p=p,
             echo_stdout_stderr=echo_stdout_stderr,
             font=font,
-            tooltip=tooltip,
+            hover=hover,
             wrap_lines=wrap_lines,
             horizontal_scroll=horizontal_scroll,
             event=event,

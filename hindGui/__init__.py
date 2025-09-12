@@ -5392,9 +5392,9 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
             # -------------------------  INPUT placement element  ------------------------- #
             elif element_type == ELEM_TYPE_INPUT_TEXT:
                 element = element  # type: InputText
-                default_text = element.DefaultText
+                text = element.DefaultText
                 element.TKStringVar = tk.StringVar()
-                element.TKStringVar.set(default_text)
+                element.TKStringVar.set(text)
                 show = element.pwd_char if element.pwd_char else ''
                 bd = border_depth
                 if element.Justification is not None:
@@ -11064,7 +11064,7 @@ def popup_get_folder(
     layout += [[Text(message, auto_size_text=True, text_color=text_color, background_color=background_color)]]
 
     if not history:
-        layout += [[InputText(default_text=default_path, size=size, event='-INPUT-'), browse_button]]
+        layout += [[InputText(text=default_path, size=size, event='-INPUT-'), browse_button]]
     else:
         file_list = history_settings.get('-PSG folder list-', [])
         last_entry = file_list[0] if file_list else ''
@@ -11361,7 +11361,7 @@ def popup_get_file(
     layout += [[Text(message, auto_size_text=True, text_color=text_color, background_color=background_color)]]
 
     if not history:
-        layout += [[InputText(default_text=default_path, size=size, event='-INPUT-'), browse_button]]
+        layout += [[InputText(text=default_path, size=size, event='-INPUT-'), browse_button]]
     else:
         file_list = history_settings.get('-PSG file list-', [])
         last_entry = file_list[0] if file_list else ''
@@ -11441,7 +11441,7 @@ def popup_get_file(
 def popup_get_text(
     message,
     title=None,
-    default_text='',
+    text='',
     password_char='',
     size=(None, None),
     button_color=None,
@@ -11466,8 +11466,8 @@ def popup_get_text(
     :type message:                   (str)
     :param title:                    Window title
     :type title:                     (str)
-    :param default_text:             default value to put into input area
-    :type default_text:              (str)
+    :param text:             default value to put into input area
+    :type text:              (str)
     :param password_char:            character to be shown instead of actually typed characters. WARNING - if history=True then can't hide passwords
     :type password_char:             (str)
     :param size:                     (width, height) of the InputText Element
@@ -11531,10 +11531,10 @@ def popup_get_text(
 
     layout += [[Text(message, auto_size_text=True, text_color=text_color, background_color=background_color)]]
     if not history:
-        layout += [[InputText(default_text=default_text, size=size, event='-INPUT-', password_char=password_char)]]
+        layout += [[InputText(text=text, size=size, event='-INPUT-', password_char=password_char)]]
     else:
         text_list = history_settings.get('-PSG text list-', [])
-        last_entry = text_list[0] if text_list else default_text
+        last_entry = text_list[0] if text_list else text
         layout += [
             [
                 Combo(
@@ -13966,7 +13966,7 @@ class _Debugger:
         layout += [
             [
                 Text('Custom Watch (any expression)'),
-                Input(default_text=self.custom_watch, size=(40, 1), event='-CUSTOM_WATCH-'),
+                Input(text=self.custom_watch, size=(40, 1), event='-CUSTOM_WATCH-'),
             ]
         ]
         layout += [[Ok(), Cancel(), Button('Clear All'), Button('Select [almost] All', event='-AUTO_SELECT-')]]
@@ -15896,7 +15896,7 @@ def _create_main_window():
         [
             Input('Input Text', size=(25, 1)),
         ],
-        [Multiline(size=(30, 5), default_text='Multiline Input')],
+        [Multiline(size=(30, 5), text='Multiline Input')],
     ]
 
     frame2 = [
