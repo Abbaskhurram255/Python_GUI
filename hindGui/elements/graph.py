@@ -38,7 +38,7 @@ class Graph(Element):
         motion_events=False,
         event=None,
         k=None,
-        tooltip=None,
+        hover=None,
         right_click_menu=None,
         expand_x=False,
         expand_y=False,
@@ -72,8 +72,8 @@ class Graph(Element):
         :type event:                str | int | tuple | object
         :param k:                 Same as the Key. You can use either k or event. Which ever is set will be used.
         :type k:                  str | int | tuple | object
-        :param tooltip:           text, that will appear when mouse hovers over the element
-        :type tooltip:            (str)
+        :param hover:           text, that will appear when mouse hovers over the element
+        :type hover:            (str)
         :param right_click_menu:  A list of lists of Menu items to show when this element is right clicked. See user docs for exact format.
         :type right_click_menu:   List[List[ List[str] | str ]]
         :param expand_x:          If True the element will automatically expand in the X direction to fill available space
@@ -115,7 +115,7 @@ class Graph(Element):
             size=canvas_size,
             pad=pad,
             event=event,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )

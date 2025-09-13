@@ -32,7 +32,7 @@ class OptionMenu(Element):
         k=None,
         pad=None,
         p=None,
-        tooltip=None,
+        hover=None,
         visible=True,
         metadata=None,
     ):
@@ -65,8 +65,8 @@ class OptionMenu(Element):
         :type pad:               (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
         :param p:                Same as pad parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, pad will be used
         :type p:                 (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
-        :param tooltip:          text that will appear when mouse hovers over this element
-        :type tooltip:           (str)
+        :param hover:          text that will appear when mouse hovers over this element
+        :type hover:           (str)
         :param visible:          set visibility state of the element
         :type visible:           (bool)
         :param metadata:         User metadata that can be set to ANYTHING
@@ -93,7 +93,7 @@ class OptionMenu(Element):
             text_color=fg,
             event=event,
             pad=pad,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )

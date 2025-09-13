@@ -39,7 +39,7 @@ class Tab(Element):
         border_width=None,
         event=None,
         k=None,
-        tooltip=None,
+        hover=None,
         right_click_menu=None,
         expand_x=False,
         expand_y=False,
@@ -73,8 +73,8 @@ class Tab(Element):
         :type event:                    str | int | tuple | object
         :param k:                     Same as the Key. You can use either k or event. Which ever is set will be used.
         :type k:                      str | int | tuple | object
-        :param tooltip:               text, that will appear when mouse hovers over the element
-        :type tooltip:                (str)
+        :param hover:               text, that will appear when mouse hovers over the element
+        :type hover:                (str)
         :param right_click_menu:      A list of lists of Menu items to show when this element is right clicked. See user docs for exact format.
         :type right_click_menu:       List[List[ List[str] | str ]]
         :param expand_x:              If True the element will automatically expand in the X direction to fill available space
@@ -140,7 +140,7 @@ class Tab(Element):
             font=font,
             pad=pad,
             event=event,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )
@@ -331,7 +331,7 @@ class TabGroup(Element):
         k=None,
         size=(None, None),
         s=(None, None),
-        tooltip=None,
+        hover=None,
         right_click_menu=None,
         expand_x=False,
         expand_y=False,
@@ -379,8 +379,8 @@ class TabGroup(Element):
         :type size:                       (int|None, int|None)
         :param s:                         Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
         :type s:                          (int|None, int|None)
-        :param tooltip:                   text, that will appear when mouse hovers over the element
-        :type tooltip:                    (str)
+        :param hover:                   text, that will appear when mouse hovers over the element
+        :type hover:                    (str)
         :param right_click_menu:          A list of lists of Menu items to show when this element is right clicked. See user docs for exact format.
         :type right_click_menu:           List[List[ List[str] | str ]]
         :param expand_x:                  If True the element will automatically expand in the X direction to fill available space
@@ -433,7 +433,7 @@ class TabGroup(Element):
             font=font,
             pad=pad,
             event=event,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )
@@ -665,8 +665,8 @@ class TabGroup(Element):
             )
         if tab_element.BorderWidth is not None:
             tab_element.TKFrame.configure(borderwidth=tab_element.BorderWidth)
-        if tab_element.Tooltip is not None:
-            tab_element.TooltipObject = Hover(tab_element.TKFrame, text=tab_element.Tooltip, timeout=hindGui.DEFAULT_TOOLTIP_TIME)
+        if tab_element.Hover is not None:
+            tab_element.HoverObject = Hover(tab_element.TKFrame, text=tab_element.Hover, timeout=hindGui.DEFAULT_HOVER_TIME)
         _add_right_click_menu(tab_element, form)
 
     def change(self, visible=None):

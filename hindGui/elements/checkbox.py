@@ -37,7 +37,7 @@ class Checkbox(Element):
         k=None,
         pad=None,
         p=None,
-        tooltip=None,
+        hover=None,
         right_click_menu=None,
         expand_x=False,
         expand_y=False,
@@ -79,8 +79,8 @@ class Checkbox(Element):
         :type pad:                  (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
         :param p:                   Same as pad parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, pad will be used
         :type p:                    (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
-        :param tooltip:             text, that will appear when mouse hovers over the element
-        :type tooltip:              (str)
+        :param hover:             text, that will appear when mouse hovers over the element
+        :type hover:              (str)
         :param right_click_menu:    A list of lists of Menu items to show when this element is right clicked. See user docs for exact format.
         :type right_click_menu:     List[List[ List[str] | str ]]
         :param expand_x:            If True the element will automatically expand in the X direction to fill available space
@@ -133,7 +133,7 @@ class Checkbox(Element):
             text_color=self.TextColor,
             event=event,
             pad=pad,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )

@@ -26,7 +26,7 @@ class Image(Element):
         p=None,
         event=None,
         k=None,
-        tooltip=None,
+        hover=None,
         subsample=None,
         zoom=None,
         right_click_menu=None,
@@ -57,8 +57,8 @@ class Image(Element):
         :type event:               str | int | tuple | object
         :param k:                Same as the Key. You can use either k or event. Which ever is set will be used.
         :type k:                 str | int | tuple | object
-        :param tooltip:          text, that will appear when mouse hovers over the element
-        :type tooltip:           (str)
+        :param hover:          text, that will appear when mouse hovers over the element
+        :type hover:           (str)
         :param subsample:        amount to reduce the size of the image. Divides the size by this number. 2=1/2, 3=1/3, 4=1/4, etc
         :type subsample:         (int)
         :param zoom:             amount to increase the size of the image.
@@ -113,7 +113,7 @@ class Image(Element):
             background_color=background_color,
             pad=pad,
             event=event,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )

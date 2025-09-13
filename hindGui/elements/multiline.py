@@ -37,7 +37,7 @@ class Multiline(Element):
         horizontal_scroll=False,
         change_submits=False,
         enable_events=False,
-        do_not_clear=True,
+        auto_wipe=False,
         event=None,
         k=None,
         write_only=False,
@@ -101,8 +101,8 @@ class Multiline(Element):
         :type change_submits:                (bool)
         :param enable_events:                If True then any event press that happens when the element has focus will generate an event.
         :type enable_events:                 (bool)
-        :param do_not_clear:                 if False the element will be cleared any time the Window.read call returns
-        :type do_not_clear:                  (bool)
+        :param auto_wipe:                 if False the element will be cleared any time the Window.read call returns
+        :type auto_wipe:                  (bool)
         :param event:                          Used with window.find_element and with return values to uniquely identify this element to uniquely identify this element
         :type event:                           str | int | tuple | object
         :param k:                            Same as the Event. You can use either k or event. Which ever is set will be used.
@@ -167,7 +167,7 @@ class Multiline(Element):
         self.EnterSubmits = enter_submits
         bg = background_color if background_color else hindGui.DEFAULT_INPUT_ELEMENTS_COLOR
         self.Focus = focus
-        self.do_not_clear = do_not_clear
+        self.auto_wipe = auto_wipe
         fg = text_color if text_color is not None else hindGui.DEFAULT_INPUT_TEXT_COLOR
         self.selected_text_color = selected_text_color
         self.selected_background_color = selected_background_color

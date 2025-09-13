@@ -30,7 +30,7 @@ class Input(Element):
         border_width=None,
         change_submits=False,
         enable_events=False,
-        do_not_clear=True,
+        auto_wipe=False,
         event=None,
         k=None,
         focus=False,
@@ -75,8 +75,8 @@ class Input(Element):
         :type change_submits:                      (bool)
         :param enable_events:                      If True then changes to this element are immediately reported as an event. Use this instead of change_submits (Default = False)
         :type enable_events:                       (bool)
-        :param do_not_clear:                       If False then the field will be set to blank after ANY event (button, any event) (Default = True)
-        :type do_not_clear:                        (bool)
+        :param auto_wipe:                       If False then the field will be set to blank after ANY event (button, any event) (Default = True)
+        :type auto_wipe:                        (bool)
         :param event:                                Value that uniquely identifies this element from all other elements. Used when Finding an element or in return values. Must be unique to the window
         :type event:                                 str | int | tuple | object
         :param k:                                  Same as the Key. You can use either k or event. Which ever is set will be used.
@@ -120,7 +120,7 @@ class Input(Element):
         self.selected_text_color = selected_text_color
         self.selected_background_color = selected_background_color
         self.Focus = focus
-        self.do_not_clear = do_not_clear
+        self.auto_wipe = auto_wipe
         self.Justification = justification
         self.Disabled = disabled
         self.ChangeSubmits = change_submits or enable_events

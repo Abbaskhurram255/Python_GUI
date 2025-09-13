@@ -39,7 +39,7 @@ class Slider(Element):
         p=None,
         expand_x=False,
         expand_y=False,
-        tooltip=None,
+        hover=None,
         visible=True,
         metadata=None,
     ):
@@ -90,8 +90,8 @@ class Slider(Element):
         :type expand_x:                (bool)
         :param expand_y:               If True the element will automatically expand in the Y direction to fill available space
         :type expand_y:                (bool)
-        :param tooltip:                text, that will appear when mouse hovers over the element
-        :type tooltip:                 (str)
+        :param hover:                text, that will appear when mouse hovers over the element
+        :type hover:                 (str)
         :param visible:                set visibility state of the element
         :type visible:                 (bool)
         :param metadata:               User metadata that can be set to ANYTHING
@@ -127,7 +127,7 @@ class Slider(Element):
             text_color=text_color,
             event=event,
             pad=pad,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )

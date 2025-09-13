@@ -5002,7 +5002,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 stringvar = tk.StringVar()
                 element.TKStringVar = stringvar
                 element.Location = (row_num, col_num)
-                btext = element.ButtonText
+                btext = element.text
                 btype = element.BType
                 if element.AutoSizeButton is not None:
                     auto_size = element.AutoSizeButton
@@ -5164,7 +5164,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 stringvar = tk.StringVar()
                 element.TKStringVar = stringvar
                 element.Location = (row_num, col_num)
-                btext = element.ButtonText
+                btext = element.text
                 pos = -1
                 if DEFAULT_USE_BUTTON_SHORTCUTS is True:
                     pos = btext.find(MENU_SHORTCUT_CHARACTER)
@@ -5292,7 +5292,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
             elif element_type == ELEM_TYPE_BUTTONMENU:
                 element = element  # type: ButtonMenu
                 element.Location = (row_num, col_num)
-                btext = element.ButtonText
+                btext = element.text
                 if element.AutoSizeButton is not None:
                     auto_size = element.AutoSizeButton
                 else:
@@ -7012,7 +7012,7 @@ def StartupTK(window):
     if window.DisableMinimize:
         root.attributes('-toolwindow', 1)
 
-    if window.KeepOnTop:
+    if window.OnTop:
         root.wm_attributes('-topmost', 1)
 
     if window.TransparentColor is not None:
