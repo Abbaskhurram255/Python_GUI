@@ -60,7 +60,7 @@ class Element:
         text_color=None,
         event=None,
         pad=None,
-        hover=None,
+        tooltip=None,
         visible=True,
         metadata=None,
         sbar_trough_color=None,
@@ -90,8 +90,8 @@ class Element:
         :type event:                          str | int | tuple | object
         :param pad:                         Amount of padding to put around element in pixels (left/right, top/bottom). If an int is given, then auto-converted to tuple (int, int)
         :type pad:                          (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
-        :param hover:                     text, that will appear when mouse hovers over the element
-        :type hover:                      (str)
+        :param tooltip:                     text, that will appear when mouse hovers over the element
+        :type tooltip:                      (str)
         :param visible:                     set visibility state of the element (Default = True)
         :type visible:                      (bool)
         :param metadata:                    User metadata that can be set to ANYTHING
@@ -145,7 +145,7 @@ class Element:
         self.BackgroundColor = background_color if background_color is not None else hindGui.DEFAULT_ELEMENT_BACKGROUND_COLOR
         self.TextColor = text_color if text_color is not None else hindGui.DEFAULT_ELEMENT_TEXT_COLOR
         self.Event = event  # dictionary event for return values
-        self.Tooltip = hover
+        self.Tooltip = tooltip
         self.TooltipObject = None
         self._visible = visible
         self.TKRightClickMenu = None
@@ -593,12 +593,12 @@ class Element:
         self.Widget.unbind(bind_string)
         self.user_bind_dict.pop(bind_string, None)
 
-    def set_hover(self, hover_text):
+    def set_tooltip(self, tooltip_text):
         """
-        Called by application to change the hover text for an Element.  Normally invoked using the Element Object such as: window.Element('event').SetToolTip('New tip').
+        Called by application to change the tooltip text for an Element.  Normally invoked using the Element Object such as: window.Element('event').SetToolTip('New tip').
 
-        :param hover_text: the text to show in hover.
-        :type hover_text:  (str)
+        :param tooltip_text: the text to show in tooltip.
+        :type tooltip_text:  (str)
         """
 
         if self.TooltipObject:
@@ -607,7 +607,7 @@ class Element:
             except:
                 pass
 
-        self.TooltipObject = ToolTip(self.Widget, text=hover_text, timeout=hindGui.DEFAULT_TOOLTIP_TIME)
+        self.TooltipObject = ToolTip(self.Widget, text=tooltip_text, timeout=hindGui.DEFAULT_TOOLTIP_TIME)
 
     def set_focus(self, force=False):
         """
@@ -1039,7 +1039,7 @@ class Element:
         """
         return self.change(*args, **kwargs)
 
-    SetTooltip = set_hover
+    SetTooltip = set_tooltip
     SetFocus = set_focus
 
 

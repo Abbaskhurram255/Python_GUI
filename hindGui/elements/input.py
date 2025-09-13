@@ -16,7 +16,7 @@ class Input(Element):
 
     def __init__(
         self,
-        text='',
+        default_text='',
         size=(None, None),
         s=(None, None),
         disabled=False,
@@ -26,11 +26,11 @@ class Input(Element):
         background_color=None,
         text_color=None,
         font=None,
-        hover=None,
+        tooltip=None,
         border_width=None,
         change_submits=False,
-        enable_events=True,
-        auto_wipe=False,
+        enable_events=False,
+        do_not_clear=True,
         event=None,
         k=None,
         focus=False,
@@ -49,8 +49,8 @@ class Input(Element):
         metadata=None,
     ):
         """
-        :param text:                       Text initially shown in the input box as a default value(Default value = ''). Will automatically be converted to string
-        :type text:                        (Any)
+        :param default_text:                       Text initially shown in the input box as a default value(Default value = ''). Will automatically be converted to string
+        :type default_text:                        (Any)
         :param size:                               w=characters-wide, h=rows-high. If an int is supplied rather than a tuple, then a tuple is created width=int supplied and heigh=1
         :type size:                                (int, int) |  (int, None) | int
         :param s:                                  Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -67,16 +67,16 @@ class Input(Element):
         :type text_color:                          (str)
         :param font:                               specifies the font family, size. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
         :type font:                                (str or (str, int[, str]) or None)
-        :param hover:                            text, that will appear when mouse hovers over the element
-        :type hover:                             (str)
+        :param tooltip:                            text, that will appear when mouse hovers over the element
+        :type tooltip:                             (str)
         :param border_width:                       width of border around element in pixels
         :type border_width:                        (int)
         :param change_submits:                     * DEPRICATED DO NOT USE. Use `enable_events` instead
         :type change_submits:                      (bool)
         :param enable_events:                      If True then changes to this element are immediately reported as an event. Use this instead of change_submits (Default = False)
         :type enable_events:                       (bool)
-        :param auto_wipe:                       If False then the field will be set to blank after ANY event (button, any event) (Default = True)
-        :type auto_wipe:                        (bool)
+        :param do_not_clear:                       If False then the field will be set to blank after ANY event (button, any event) (Default = True)
+        :type do_not_clear:                        (bool)
         :param event:                                Value that uniquely identifies this element from all other elements. Used when Finding an element or in return values. Must be unique to the window
         :type event:                                 str | int | tuple | object
         :param k:                                  Same as the Key. You can use either k or event. Which ever is set will be used.
@@ -111,7 +111,7 @@ class Input(Element):
         :type metadata:                            (Any)
         """
 
-        self.text = text if text is not None else ''
+        self.DefaultText = default_text if default_text is not None else ''
         self.pwd_char = ""
         if pwd == True and pwd_char:
             self.pwd_char = pwd_char
@@ -120,7 +120,7 @@ class Input(Element):
         self.selected_text_color = selected_text_color
         self.selected_background_color = selected_background_color
         self.Focus = focus
-        self.auto_wipe = auto_wipe
+        self.do_not_clear = do_not_clear
         self.Justification = justification
         self.Disabled = disabled
         self.ChangeSubmits = change_submits or enable_events
@@ -145,7 +145,7 @@ class Input(Element):
             event=event,
             pad=pad,
             font=font,
-            hover=hover,
+            tooltip=tooltip,
             visible=visible,
             metadata=metadata,
         )
@@ -237,7 +237,7 @@ class Input(Element):
                     self.TKStringVar.set(value)
                 except:
                     pass
-            self.text = value
+            self.DefaultText = value
             if paste is True:
                 try:
                     self.TKEntry.delete('sel.first', 'sel.last')

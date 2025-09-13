@@ -36,7 +36,7 @@ class Radio(Element):
         k=None,
         pad=None,
         p=None,
-        hover=None,
+        tooltip=None,
         change_submits=False,
         enable_events=False,
         right_click_menu=None,
@@ -76,8 +76,8 @@ class Radio(Element):
         :type pad:               (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
         :param p:                Same as pad parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, pad will be used
         :type p:                 (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
-        :param hover:          text, that will appear when mouse hovers over the element
-        :type hover:           (str)
+        :param tooltip:          text, that will appear when mouse hovers over the element
+        :type tooltip:           (str)
         :param change_submits:   DO NOT USE. Only listed for backwards compat - Use enable_events instead
         :type change_submits:    (bool)
         :param enable_events:    Turns on the element specific events. Radio Button events happen when an item is selected
@@ -135,7 +135,7 @@ class Radio(Element):
             text_color=self.TextColor,
             event=event,
             pad=pad,
-            hover=hover,
+            tooltip=tooltip,
             visible=visible,
             metadata=metadata,
         )
