@@ -15,7 +15,7 @@ from hindGui import LOOK_AND_FEEL_TABLE
 from hindGui import PackFormIntoFrame
 from hindGui import popup_error
 from hindGui import popup_error_with_traceback
-from hindGui import ToolTip
+from hindGui import Hover
 from hindGui._utils import _error_popup_with_traceback
 from hindGui.window import Window
 
@@ -666,7 +666,7 @@ class TabGroup(Element):
         if tab_element.BorderWidth is not None:
             tab_element.TKFrame.configure(borderwidth=tab_element.BorderWidth)
         if tab_element.Tooltip is not None:
-            tab_element.TooltipObject = ToolTip(tab_element.TKFrame, text=tab_element.Tooltip, timeout=hindGui.DEFAULT_TOOLTIP_TIME)
+            tab_element.TooltipObject = Hover(tab_element.TKFrame, text=tab_element.Tooltip, timeout=hindGui.DEFAULT_TOOLTIP_TIME)
         _add_right_click_menu(tab_element, form)
 
     def change(self, visible=None):

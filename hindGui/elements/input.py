@@ -26,7 +26,7 @@ class Input(Element):
         background_color=None,
         text_color=None,
         font=None,
-        tooltip=None,
+        hover=None,
         border_width=None,
         change_submits=False,
         enable_events=False,
@@ -67,8 +67,8 @@ class Input(Element):
         :type text_color:                          (str)
         :param font:                               specifies the font family, size. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
         :type font:                                (str or (str, int[, str]) or None)
-        :param tooltip:                            text, that will appear when mouse hovers over the element
-        :type tooltip:                             (str)
+        :param hover:                            text, that will appear when mouse hovers over the element
+        :type hover:                             (str)
         :param border_width:                       width of border around element in pixels
         :type border_width:                        (int)
         :param change_submits:                     * DEPRICATED DO NOT USE. Use `enable_events` instead
@@ -145,7 +145,7 @@ class Input(Element):
             event=event,
             pad=pad,
             font=font,
-            tooltip=tooltip,
+            hover=hover,
             visible=visible,
             metadata=metadata,
         )

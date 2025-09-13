@@ -50,7 +50,7 @@ class Multiline(Element):
         font=None,
         pad=None,
         p=None,
-        tooltip=None,
+        hover=None,
         justification=None,
         no_scrollbar=False,
         wrap_lines=None,
@@ -127,8 +127,8 @@ class Multiline(Element):
         :type pad:                           (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
         :param p:                            Same as pad parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, pad will be used
         :type p:                             (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
-        :param tooltip:                      text, that will appear when mouse hovers over the element
-        :type tooltip:                       (str)
+        :param hover:                      text, that will appear when mouse hovers over the element
+        :type hover:                       (str)
         :param justification:                text justification. left, right, center. Can use single characters l, r, c.
         :type justification:                 (str)
         :param no_scrollbar:                 If False then a vertical scrollbar will be shown (the default)
@@ -208,7 +208,7 @@ class Multiline(Element):
             text_color=fg,
             event=event,
             pad=pad,
-            tooltip=tooltip,
+            hover=hover,
             font=font or hindGui.DEFAULT_FONT,
             visible=visible,
             metadata=metadata,
@@ -576,7 +576,7 @@ class Output(Multiline):
         autoscroll_only_at_bottom=False,
         echo_stdout_stderr=False,
         font=None,
-        tooltip=None,
+        hover=None,
         event=None,
         k=None,
         right_click_menu=None,
@@ -613,8 +613,8 @@ class Output(Multiline):
         :type echo_stdout_stderr:           (bool)
         :param font:                        specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
         :type font:                         (str or (str, int[, str]) or None)
-        :param tooltip:                     text, that will appear when mouse hovers over the element
-        :type tooltip:                      (str)
+        :param hover:                     text, that will appear when mouse hovers over the element
+        :type hover:                      (str)
         :param event:                         Used with window.find_element and with return values to uniquely identify this element to uniquely identify this element
         :type event:                          str | int | tuple | object
         :param k:                           Same as the Event. You can use either k or event. Which ever is set will be used.
@@ -659,7 +659,7 @@ class Output(Multiline):
             p=p,
             echo_stdout_stderr=echo_stdout_stderr,
             font=font,
-            tooltip=tooltip,
+            hover=hover,
             wrap_lines=wrap_lines,
             horizontal_scroll=horizontal_scroll,
             event=event,

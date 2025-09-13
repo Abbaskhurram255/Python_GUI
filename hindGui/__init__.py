@@ -106,14 +106,14 @@ DEFAULT_AUTOCLOSE_TIME = 3  # time in seconds to show an autoclose form
 DEFAULT_DEBUG_WINDOW_SIZE = (80, 20)
 DEFAULT_WINDOW_LOCATION = (None, None)
 MAX_SCROLLED_TEXT_BOX_HEIGHT = 50
-DEFAULT_TOOLTIP_TIME = 400
-DEFAULT_TOOLTIP_OFFSET = (0, -20)
+DEFAULT_HOVER_TIME = 400
+DEFAULT_HOVER_OFFSET = (0, -20)
 DEFAULT_KEEP_ON_TOP = None
 DEFAULT_SCALING = None
 DEFAULT_ALPHA_CHANNEL = 1.0
 DEFAULT_HIDE_WINDOW_WHEN_CREATING = True
-TOOLTIP_BACKGROUND_COLOR = '#ffffe0'
-TOOLTIP_FONT = None
+HOVER_BACKGROUND_COLOR = '#ffffe0'
+HOVER_FONT = None
 DEFAULT_USE_BUTTON_SHORTCUTS = False
 #################### COLOR STUFF ####################
 BLUES = ('#082567', '#0A37A3', '#00345B')
@@ -963,22 +963,22 @@ tkinter_keysyms = ('space', 'exclam', 'quotedbl', 'numbersign', 'dollar', 'perce
 # fmt: on
 
 # ------------------------------------------------------------------------- #
-#                       ToolTip used by the Elements                        #
+#                       Hover used by the Elements                        #
 # ------------------------------------------------------------------------- #
 
 
-class ToolTip:
+class Hover:
     """
-    Create a tooltip for a given widget
+    Create a hover for a given widget
     (inspired by https://stackoverflow.com/a/36221216)
     This is an INTERNALLY USED only class.  Users should not refer to this class at all.
     """
 
-    def __init__(self, widget, text, timeout=DEFAULT_TOOLTIP_TIME):
+    def __init__(self, widget, text, timeout=DEFAULT_HOVER_TIME):
         """
         :param widget:  The tkinter widget
         :type widget:   widget type varies
-        :param text:    text for the tooltip. It can inslude \n
+        :param text:    text for the hover. It can inslude \n
         :type text:     (str)
         :param timeout: Time in milliseconds that mouse must remain still before tip is shown
         :type timeout:  (int)
@@ -1032,12 +1032,12 @@ class ToolTip:
 
     def showtip(self):
         """
-        Creates a topoltip window with the tooltip text inside of it
+        Creates a topoltip window with the hover text inside of it
         """
         if self.tipwindow:
             return
-        x = self.widget.winfo_rootx() + self.x + DEFAULT_TOOLTIP_OFFSET[0]
-        y = self.widget.winfo_rooty() + self.y + DEFAULT_TOOLTIP_OFFSET[1]
+        x = self.widget.winfo_rootx() + self.x + DEFAULT_HOVER_OFFSET[0]
+        y = self.widget.winfo_rooty() + self.y + DEFAULT_HOVER_OFFSET[1]
         self.tipwindow = tk.Toplevel(self.widget)
         # if not sys.platform.startswith('darwin'):
         try:
@@ -1054,17 +1054,17 @@ class ToolTip:
             self.tipwindow,
             text=self.text,
             justify=tk.LEFT,
-            background=TOOLTIP_BACKGROUND_COLOR,
+            background=HOVER_BACKGROUND_COLOR,
             relief=tk.SOLID,
             borderwidth=1,
         )
-        if TOOLTIP_FONT is not None:
-            label.config(font=TOOLTIP_FONT)
+        if HOVER_FONT is not None:
+            label.config(font=HOVER_FONT)
         label.pack()
 
     def hidetip(self):
         """
-        Destroy the tooltip window
+        Destroy the hover window
         """
         if self.tipwindow:
             self.tipwindow.destroy()
@@ -1660,7 +1660,7 @@ def FolderBrowse(
     button_text='Browse',
     target=(ThisRow, -1),
     initial_folder=None,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -1685,8 +1685,8 @@ def FolderBrowse(
     :type target:            str | (int, int)
     :param initial_folder:   starting path for folders and files
     :type initial_folder:    (str)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param size:             (w,h) w=characters-wide, h=rows-high
     :type size:              (int, int)
     :param s:                Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -1728,7 +1728,7 @@ def FolderBrowse(
         button_type=BUTTON_TYPE_BROWSE_FOLDER,
         target=target,
         initial_folder=initial_folder,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -1754,7 +1754,7 @@ def FileBrowse(
     target=(ThisRow, -1),
     file_types=FILE_TYPES_ALL_FILES,
     initial_folder=None,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -1782,8 +1782,8 @@ def FileBrowse(
     :type file_types:        Tuple[(str, str), ...]
     :param initial_folder:   starting path for folders and files
     :type initial_folder:
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param size:             (w,h) w=characters-wide, h=rows-high
     :type size:              (int, int)
     :param s:                Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -1825,7 +1825,7 @@ def FileBrowse(
         target=target,
         file_types=file_types,
         initial_folder=initial_folder,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -1852,7 +1852,7 @@ def FilesBrowse(
     file_types=FILE_TYPES_ALL_FILES,
     disabled=False,
     initial_folder=None,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -1883,8 +1883,8 @@ def FilesBrowse(
     :type disabled:          (bool)
     :param initial_folder:   starting path for folders and files
     :type initial_folder:    (str)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param size:             (w,h) w=characters-wide, h=rows-high
     :type size:              (int, int)
     :param s:                Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -1928,7 +1928,7 @@ def FilesBrowse(
         initial_folder=initial_folder,
         change_submits=change_submits,
         enable_events=enable_events,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -1956,7 +1956,7 @@ def FileSaveAs(
     initial_folder=None,
     default_extension='',
     disabled=False,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -1987,8 +1987,8 @@ def FileSaveAs(
     :type initial_folder:     (str)
     :param disabled:          set disable state for element (Default = False)
     :type disabled:           (bool)
-    :param tooltip:           text, that will appear when mouse hovers over the element
-    :type tooltip:            (str)
+    :param hover:           text, that will appear when mouse hovers over the element
+    :type hover:            (str)
     :param size:              (w,h) w=characters-wide, h=rows-high
     :type size:               (int, int)
     :param s:                 Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -2028,7 +2028,7 @@ def FileSaveAs(
         file_types=file_types,
         initial_folder=initial_folder,
         default_extension=default_extension,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         disabled=disabled,
@@ -2056,7 +2056,7 @@ def SaveAs(
     initial_folder=None,
     default_extension='',
     disabled=False,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -2087,8 +2087,8 @@ def SaveAs(
     :type initial_folder:     (str)
     :param disabled:          set disable state for element (Default = False)
     :type disabled:           (bool)
-    :param tooltip:           text, that will appear when mouse hovers over the element
-    :type tooltip:            (str)
+    :param hover:           text, that will appear when mouse hovers over the element
+    :type hover:            (str)
     :param size:              (w,h) w=characters-wide, h=rows-high
     :type size:               (int, int)
     :param s:                 Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -2128,7 +2128,7 @@ def SaveAs(
         file_types=file_types,
         initial_folder=initial_folder,
         default_extension=default_extension,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         disabled=disabled,
@@ -2157,7 +2157,7 @@ def Save(
     button_color=None,
     bind_return_key=True,
     disabled=False,
-    tooltip=None,
+    hover=None,
     font=None,
     focus=False,
     pad=None,
@@ -2185,8 +2185,8 @@ def Save(
     :type bind_return_key:   (bool)
     :param disabled:         set disable state for element (Default = False)
     :type disabled:          (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param focus:            if focus should be set to this
@@ -2213,7 +2213,7 @@ def Save(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2242,7 +2242,7 @@ def Submit(
     button_color=None,
     disabled=False,
     bind_return_key=True,
-    tooltip=None,
+    hover=None,
     font=None,
     focus=False,
     pad=None,
@@ -2270,8 +2270,8 @@ def Submit(
     :type disabled:          (bool)
     :param bind_return_key:  (Default = True) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
     :type bind_return_key:   (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param focus:            if focus should be set to this
@@ -2298,7 +2298,7 @@ def Submit(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2328,7 +2328,7 @@ def Open(
     button_color=None,
     disabled=False,
     bind_return_key=True,
-    tooltip=None,
+    hover=None,
     font=None,
     focus=False,
     pad=None,
@@ -2356,8 +2356,8 @@ def Open(
     :type disabled:          (bool)
     :param bind_return_key:  (Default = True) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
     :type bind_return_key:   (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param focus:            if focus should be set to this
@@ -2384,7 +2384,7 @@ def Open(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2413,7 +2413,7 @@ def OK(
     button_color=None,
     disabled=False,
     bind_return_key=True,
-    tooltip=None,
+    hover=None,
     font=None,
     focus=False,
     pad=None,
@@ -2441,8 +2441,8 @@ def OK(
     :type disabled:          (bool)
     :param bind_return_key:  (Default = True) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
     :type bind_return_key:   (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param focus:            if focus should be set to this
@@ -2469,7 +2469,7 @@ def OK(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2498,7 +2498,7 @@ def Ok(
     button_color=None,
     disabled=False,
     bind_return_key=True,
-    tooltip=None,
+    hover=None,
     font=None,
     focus=False,
     pad=None,
@@ -2526,8 +2526,8 @@ def Ok(
     :type disabled:          (bool)
     :param bind_return_key:  (Default = True) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
     :type bind_return_key:   (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param focus:            if focus should be set to this
@@ -2554,7 +2554,7 @@ def Ok(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2582,7 +2582,7 @@ def Cancel(
     auto_size_button=None,
     button_color=None,
     disabled=False,
-    tooltip=None,
+    hover=None,
     font=None,
     bind_return_key=False,
     focus=False,
@@ -2609,8 +2609,8 @@ def Cancel(
     :type button_color:      (str, str) | str
     :param disabled:         set disable state for element (Default = False)
     :type disabled:          (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param bind_return_key:  (Default = False) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
@@ -2639,7 +2639,7 @@ def Cancel(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2667,7 +2667,7 @@ def Quit(
     auto_size_button=None,
     button_color=None,
     disabled=False,
-    tooltip=None,
+    hover=None,
     font=None,
     bind_return_key=False,
     focus=False,
@@ -2694,8 +2694,8 @@ def Quit(
     :type button_color:      (str, str) | str
     :param disabled:         set disable state for element (Default = False)
     :type disabled:          (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param bind_return_key:  (Default = False) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
@@ -2724,7 +2724,7 @@ def Quit(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2752,7 +2752,7 @@ def Exit(
     auto_size_button=None,
     button_color=None,
     disabled=False,
-    tooltip=None,
+    hover=None,
     font=None,
     bind_return_key=False,
     focus=False,
@@ -2779,8 +2779,8 @@ def Exit(
     :type button_color:      (str, str) | str
     :param disabled:         set disable state for element (Default = False)
     :type disabled:          (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param bind_return_key:  (Default = False) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
@@ -2809,7 +2809,7 @@ def Exit(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2837,7 +2837,7 @@ def Yes(
     auto_size_button=None,
     button_color=None,
     disabled=False,
-    tooltip=None,
+    hover=None,
     font=None,
     bind_return_key=True,
     focus=False,
@@ -2864,8 +2864,8 @@ def Yes(
     :type button_color:      (str, str) | str
     :param disabled:         set disable state for element (Default = False)
     :type disabled:          (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param bind_return_key:  (Default = True) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
@@ -2894,7 +2894,7 @@ def Yes(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -2922,7 +2922,7 @@ def No(
     auto_size_button=None,
     button_color=None,
     disabled=False,
-    tooltip=None,
+    hover=None,
     font=None,
     bind_return_key=False,
     focus=False,
@@ -2949,8 +2949,8 @@ def No(
     :type button_color:      (str, str) | str
     :param disabled:         set disable state for element (Default = False)
     :type disabled:          (bool)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
     :param bind_return_key:  (Default = False) If True, then the return event will cause a the Listbox to generate an event
@@ -2979,7 +2979,7 @@ def No(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -3008,7 +3008,7 @@ def Help(
     button_color=None,
     disabled=False,
     font=None,
-    tooltip=None,
+    hover=None,
     bind_return_key=False,
     focus=False,
     pad=None,
@@ -3036,8 +3036,8 @@ def Help(
     :type disabled:          (bool)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param bind_return_key:  (Default = False) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
     :type bind_return_key:   (bool)
     :param focus:            if focus should be set to this
@@ -3064,7 +3064,7 @@ def Help(
     return Button(
         button_text=button_text,
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -3093,7 +3093,7 @@ def Debug(
     button_color=None,
     disabled=False,
     font=None,
-    tooltip=None,
+    hover=None,
     bind_return_key=False,
     focus=False,
     pad=None,
@@ -3124,8 +3124,8 @@ def Debug(
     :type disabled:          (bool)
     :param font:             specifies the  font family, size, etc. Tuple or Single string format 'name size styles'. Styles: italic * roman bold normal underline overstrike
     :type font:              (str or (str, int[, str]) or None)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param bind_return_key:  (Default = False) If True, this button will appear to be clicked when return event is pressed in other elements such as Input and elements with return event options
     :type bind_return_key:   (bool)
     :param focus:            if focus should be set to this
@@ -3155,7 +3155,7 @@ def Debug(
     return Button(
         button_text='',
         button_type=BUTTON_TYPE_READ_FORM,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -3186,7 +3186,7 @@ def SimpleButton(
     image_size=(None, None),
     image_subsample=None,
     border_width=None,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -3218,8 +3218,8 @@ def SimpleButton(
     :type image_size:        (Default = (None))
     :param image_subsample:  amount to reduce the size of the image
     :type image_subsample:   amount to reduce the size of the image
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param size:             (w,h) w=characters-wide, h=rows-high
     :type size:              (int, int)
     :param s:                Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -3261,7 +3261,7 @@ def SimpleButton(
         image_size=image_size,
         image_subsample=image_subsample,
         border_width=border_width,
-        tooltip=tooltip,
+        hover=hover,
         disabled=disabled,
         size=size,
         s=s,
@@ -3288,7 +3288,7 @@ def CloseButton(
     image_size=(None, None),
     image_subsample=None,
     border_width=None,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -3321,8 +3321,8 @@ def CloseButton(
     :type image_size:        (Default = (None))
     :param image_subsample:  amount to reduce the size of the image
     :type image_subsample:   amount to reduce the size of the image
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param size:             (w,h) w=characters-wide, h=rows-high
     :type size:              (int, int)
     :param s:                Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -3364,7 +3364,7 @@ def CloseButton(
         image_size=image_size,
         image_subsample=image_subsample,
         border_width=border_width,
-        tooltip=tooltip,
+        hover=hover,
         disabled=disabled,
         size=size,
         s=s,
@@ -3394,7 +3394,7 @@ def ReadButton(
     image_size=(None, None),
     image_subsample=None,
     border_width=None,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -3422,8 +3422,8 @@ def ReadButton(
     :type image_size:        (Default = (None))
     :param image_subsample:  amount to reduce the size of the image
     :type image_subsample:   amount to reduce the size of the image
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param size:             (w,h) w=characters-wide, h=rows-high
     :type size:              (int, int)
     :param s:                Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -3468,7 +3468,7 @@ def ReadButton(
         image_size=image_size,
         image_subsample=image_subsample,
         border_width=border_width,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         disabled=disabled,
@@ -3499,7 +3499,7 @@ def RealtimeButton(
     image_size=(None, None),
     image_subsample=None,
     border_width=None,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -3531,8 +3531,8 @@ def RealtimeButton(
     :type image_subsample:   amount to reduce the size of the image
     :param border_width:     width of border around element
     :type border_width:      (int)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param size:             (w,h) w=characters-wide, h=rows-high
     :type size:              (int, int)
     :param s:                Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -3576,7 +3576,7 @@ def RealtimeButton(
         image_size=image_size,
         image_subsample=image_subsample,
         border_width=border_width,
-        tooltip=tooltip,
+        hover=hover,
         disabled=disabled,
         size=size,
         s=s,
@@ -3604,7 +3604,7 @@ def DummyButton(
     image_size=(None, None),
     image_subsample=None,
     border_width=None,
-    tooltip=None,
+    hover=None,
     size=(None, None),
     s=(None, None),
     auto_size_button=None,
@@ -3642,8 +3642,8 @@ def DummyButton(
     :type image_subsample:   amount to reduce the size of the image
     :param border_width:     width of border around element
     :type border_width:      (int)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param size:             (w,h) w=characters-wide, h=rows-high
     :type size:              (int, int)
     :param s:                Same as size parameter.  It's an alias. If EITHER of them are set, then the one that's set will be used. If BOTH are set, size will be used
@@ -3687,7 +3687,7 @@ def DummyButton(
         image_size=image_size,
         image_subsample=image_subsample,
         border_width=border_width,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -3717,7 +3717,7 @@ def CalendarButton(
     image_data=None,
     image_size=(None, None),
     image_subsample=None,
-    tooltip=None,
+    hover=None,
     border_width=None,
     size=(None, None),
     s=(None, None),
@@ -3764,8 +3764,8 @@ def CalendarButton(
     :type image_size:              (Default = (None))
     :param image_subsample:        amount to reduce the size of the image
     :type image_subsample:         amount to reduce the size of the image
-    :param tooltip:                text, that will appear when mouse hovers over the element
-    :type tooltip:                 (str)
+    :param hover:                text, that will appear when mouse hovers over the element
+    :type hover:                 (str)
     :param border_width:           width of border around element
     :type border_width:            width of border around element
     :param size:                   (w,h) w=characters-wide, h=rows-high
@@ -3828,7 +3828,7 @@ def CalendarButton(
         image_size=image_size,
         image_subsample=image_subsample,
         border_width=border_width,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -3869,7 +3869,7 @@ def ColorChooserButton(
     image_data=None,
     image_size=(None, None),
     image_subsample=None,
-    tooltip=None,
+    hover=None,
     border_width=None,
     size=(None, None),
     s=(None, None),
@@ -3904,8 +3904,8 @@ def ColorChooserButton(
     :type image_size:        (int, int)
     :param image_subsample:  amount to reduce the size of the image. Divides the size by this number. 2=1/2, 3=1/3, 4=1/4, etc
     :type image_subsample:   (int)
-    :param tooltip:          text, that will appear when mouse hovers over the element
-    :type tooltip:           (str)
+    :param hover:          text, that will appear when mouse hovers over the element
+    :type hover:           (str)
     :param border_width:     width of border around element
     :type border_width:      (int)
     :param size:             (w,h) w=characters-wide, h=rows-high
@@ -3954,7 +3954,7 @@ def ColorChooserButton(
         image_size=image_size,
         image_subsample=image_subsample,
         border_width=border_width,
-        tooltip=tooltip,
+        hover=hover,
         size=size,
         s=s,
         auto_size_button=auto_size_button,
@@ -4990,8 +4990,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 element.TKText = tktext_label
                 if element.ClickSubmits:
                     tktext_label.bind('<Button-1>', element._TextClickedHandler)
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKText, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKText, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
                 if element.Grab:
                     element._grab_anywhere_on()
@@ -5139,8 +5139,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.MouseOverColors[0] not in (COLOR_SYSTEM_DEFAULT, None):
                     tkbutton.config(activeforeground=element.MouseOverColors[0])
 
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKButton, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKButton, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 try:
                     if element.HighlightColors[1] != COLOR_SYSTEM_DEFAULT:
                         tkbutton.config(highlightbackground=element.HighlightColors[1])
@@ -5286,8 +5286,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 tkbutton.configure(style=style_name)  # IMPORTANT!  Apply the style to the button!
                 _add_right_click_menu_and_grab(element)
 
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKButton, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKButton, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
             # -------------------------  BUTTONMENU placement element  ------------------------- #
             elif element_type == ELEM_TYPE_BUTTONMENU:
                 element = element  # type: ButtonMenu
@@ -5386,8 +5386,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     # tkbutton.pack_forget()
                 if element.Disabled:
                     element.TKButton['state'] = 'disabled'
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKButton, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKButton, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
 
             # -------------------------  INPUT placement element  ------------------------- #
             elif element_type == ELEM_TYPE_INPUT_TEXT:
@@ -5447,8 +5447,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.ReadOnly:
                     element.TKEntry['state'] = 'readonly'
 
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKEntry, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKEntry, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
                 # row_should_expand = True
@@ -5552,8 +5552,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.TKCombo['state'] = 'readonly'
                 if element.Disabled is True:  # note overrides readonly if disabled
                     element.TKCombo['state'] = 'disabled'
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKCombo, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKCombo, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
             # -------------------------  OPTIONMENU placement Element (Like ComboBox but different) element  ------------------------- #
@@ -5583,8 +5583,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     # element.TKOptionMenu.pack_forget()
                 if element.Disabled is True:
                     element.TKOptionMenu['state'] = 'disabled'
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKOptionMenu, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKOptionMenu, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
             # -------------------------  LISTBOX placement element  ------------------------- #
             elif element_type == ELEM_TYPE_INPUT_LISTBOX:
                 element = element  # type: Listbox
@@ -5663,8 +5663,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.TKListbox.bind('<Double-Button-1>', element._ListboxSelectHandler)
                 if element.Disabled is True:
                     element.TKListbox['state'] = 'disabled'
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKListbox, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKListbox, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
             # -------------------------  MULTILINE placement element  ------------------------- #
             elif element_type == ELEM_TYPE_INPUT_MULTILINE:
@@ -5752,8 +5752,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
 
                 if element.Disabled is True:
                     element.TKText['state'] = 'disabled'
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKText, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKText, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
 
                 if element.reroute_cprint:
                     cprint_set_output_destination(toplevel_form, element.Event)
@@ -5805,8 +5805,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.visible is False:
                     element._pack_forget_save_settings()
                     # element.TKCheckbutton.pack_forget()
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKCheckbutton, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKCheckbutton, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
             # -------------------------  PROGRESS placement element  ------------------------- #
@@ -5901,8 +5901,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.visible is False:
                     element._pack_forget_save_settings()
                     # element.TKRadio.pack_forget()
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKRadio, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKRadio, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
                 # -------------------------  SPIN placement element  ------------------------- #
@@ -5938,8 +5938,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.TKSpinBox['state'] = 'readonly'
                 if element.Disabled is True:  # note overrides readonly if disabled
                     element.TKSpinBox['state'] = 'disabled'
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKSpinBox, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKSpinBox, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 if element.BindReturnKey:
                     element.TKSpinBox.bind('<Return>', element._SpinboxSelectHandler)
                 _add_right_click_menu_and_grab(element)
@@ -5990,8 +5990,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.visible is False:
                     element._pack_forget_save_settings()
                     # element.tktext_label.pack_forget()
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.tktext_label, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.tktext_label, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 if element.EnableEvents and element.tktext_label is not None:
                     element.tktext_label.bind('<ButtonPress-1>', element._ClickHandler)
 
@@ -6014,8 +6014,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.visible is False:
                     element._pack_forget_save_settings()
                     # element._TKCanvas.pack_forget()
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element._TKCanvas, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element._TKCanvas, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
                 # -------------------------  Graph placement element  ------------------------- #
@@ -6038,8 +6038,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.visible is False:
                     element._pack_forget_save_settings()
                     # element._TKCanvas2.pack_forget()
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element._TKCanvas2, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element._TKCanvas2, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 if element.ChangeSubmits:
                     element._TKCanvas2.bind('<ButtonRelease-1>', element.ButtonReleaseCallBack)
                     element._TKCanvas2.bind('<ButtonPress-1>', element.ButtonPressCallBack)
@@ -6119,8 +6119,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     labeled_frame.configure(labelanchor=element.TitleLocation)
                 if element.BorderWidth is not None:
                     labeled_frame.configure(borderwidth=element.BorderWidth)
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(labeled_frame, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(labeled_frame, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
                 # row_should_expand=True
             # -------------------------  Tab placement element  ------------------------- #
@@ -6191,8 +6191,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
 
                 # if element.BorderWidth is not None:
                 #     element.TKFrame.configure(borderwidth=element.BorderWidth)
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKFrame, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKFrame, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
                 # row_should_expand = True
             # -------------------------  TabGroup placement element  ------------------------- #
@@ -6255,8 +6255,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
 
                 if element.ChangeSubmits:
                     element.TKNotebook.bind('<<NotebookTabChanged>>', element._TabGroupSelectHandler)
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKNotebook, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKNotebook, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 if element.Size != (None, None):
                     element.TKNotebook.configure(width=element.Size[0], height=element.Size[1])
                 _add_right_click_menu_and_grab(element)
@@ -6310,8 +6310,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 element.TKScale = tkscale
                 if element.Disabled is True:
                     element.TKScale['state'] = 'disabled'
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKScale, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKScale, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
             # -------------------------  TABLE placement element  ------------------------- #
@@ -6527,8 +6527,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.visible is False:
                     element._pack_forget_save_settings(alternate_widget=element.element_frame)  # seems like it should be the frame if following other elements conventions
                     # element.TKTreeview.pack_forget()
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKTreeview, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKTreeview, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
                 if tclversion_detailed == '8.6.9' and ENABLE_TREEVIEW_869_PATCH:
@@ -6708,8 +6708,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element._pack_forget_save_settings(alternate_widget=element.element_frame)  # seems like it should be the frame if following other elements conventions
                     # element.TKTreeview.pack_forget()
                 treeview.bind('<<TreeviewSelect>>', element._treeview_selected)
-                if element.Tooltip is not None:  # tooltip
-                    element.TooltipObject = ToolTip(element.TKTreeview, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:  # hover
+                    element.HoverObject = Hover(element.TKTreeview, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
                 if tclversion_detailed == '8.6.9' and ENABLE_TREEVIEW_869_PATCH:
@@ -6823,8 +6823,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 element.TKText = tktext_label
                 if element.ClickSubmits:
                     tktext_label.bind('<Button-1>', element._TextClickedHandler)
-                if element.Tooltip is not None:
-                    element.TooltipObject = ToolTip(element.TKText, text=element.Tooltip, timeout=DEFAULT_TOOLTIP_TIME)
+                if element.Hover is not None:
+                    element.HoverObject = Hover(element.TKText, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
         # ............................DONE WITH ROW pack the row of widgets ..........................#
@@ -8174,8 +8174,8 @@ def set_options(
     debug_win_size=(None, None),
     window_location=(None, None),
     error_button_color=(None, None),
-    tooltip_time=None,
-    tooltip_font=None,
+    hover_time=None,
+    hover_font=None,
     use_ttk_buttons=None,
     ttk_theme=None,
     suppress_error_popups=None,
@@ -8197,7 +8197,7 @@ def set_options(
     scaling=None,
     disable_modal_windows=None,
     force_modal_windows=None,
-    tooltip_offset=(None, None),
+    hover_offset=(None, None),
     sbar_trough_color=None,
     sbar_background_color=None,
     sbar_arrow_color=None,
@@ -8275,10 +8275,10 @@ def set_options(
     :type window_location:                  (int, int) | None
     :param error_button_color:              (Default = (None))
     :type error_button_color:               ???
-    :param tooltip_time:                    time in milliseconds to wait before showing a tooltip. Default is 400ms
-    :type tooltip_time:                     (int)
-    :param tooltip_font:                    font to use for all tooltips
-    :type tooltip_font:                     str or Tuple[str, int] or Tuple[str, int, str]
+    :param hover_time:                    time in milliseconds to wait before showing a hover. Default is 400ms
+    :type hover_time:                     (int)
+    :param hover_font:                    font to use for all hovers
+    :type hover_font:                     str or Tuple[str, int] or Tuple[str, int, str]
     :param use_ttk_buttons:                 if True will cause all buttons to be ttk buttons
     :type use_ttk_buttons:                  (bool)
     :param ttk_theme:                       Theme to use with ttk widgets.  Choices (on Windows) include - 'default', 'winnative', 'clam', 'alt', 'classic', 'vista', 'xpnative'
@@ -8321,8 +8321,8 @@ def set_options(
     :type disable_modal_windows:            (bool)
     :param force_modal_windows:             If True then all windows will be modal (the disable option will be ignored... all windows will be forced to be modal)
     :type force_modal_windows:              (bool)
-    :param tooltip_offset:                  Offset to use for tooltips as a tuple. These values will be added to the mouse location when the widget was entered.
-    :type tooltip_offset:                   ((None, None) | (int, int))
+    :param hover_offset:                  Offset to use for hovers as a tuple. These values will be added to the mouse location when the widget was entered.
+    :type hover_offset:                   ((None, None) | (int, int))
     :param sbar_trough_color:               Scrollbar color of the trough
     :type sbar_trough_color:                (str)
     :param sbar_background_color:           Scrollbar color of the background of the arrow buttons at the ends AND the color of the "thumb" (the thing you grab and slide). Switches to arrow color when mouse is over
@@ -8379,11 +8379,11 @@ def set_options(
     global DEFAULT_WINDOW_LOCATION
     global DEFAULT_ELEMENT_TEXT_COLOR
     global DEFAULT_INPUT_TEXT_COLOR
-    global DEFAULT_TOOLTIP_TIME
+    global DEFAULT_HOVER_TIME
     global DEFAULT_ERROR_BUTTON_COLOR
     global DEFAULT_TTK_THEME
     global USE_TTK_BUTTONS
-    global TOOLTIP_FONT
+    global HOVER_FONT
     global SUPPRESS_ERROR_POPUPS
     global SUPPRESS_RAISE_KEY_ERRORS
     global SUPPRESS_KEY_GUESSING
@@ -8402,7 +8402,7 @@ def set_options(
     global DEFAULT_SCALING
     global DEFAULT_MODAL_WINDOWS_ENABLED
     global DEFAULT_MODAL_WINDOWS_FORCED
-    global DEFAULT_TOOLTIP_OFFSET
+    global DEFAULT_HOVER_OFFSET
     global DEFAULT_ALPHA_CHANNEL
     global _pysimplegui_user_settings
     global ttk_part_overrides_from_options
@@ -8510,8 +8510,8 @@ def set_options(
     if input_text_color is not None:
         DEFAULT_INPUT_TEXT_COLOR = input_text_color
 
-    if tooltip_time is not None:
-        DEFAULT_TOOLTIP_TIME = tooltip_time
+    if hover_time is not None:
+        DEFAULT_HOVER_TIME = hover_time
 
     if error_button_color != (None, None):
         DEFAULT_ERROR_BUTTON_COLOR = error_button_color
@@ -8522,8 +8522,8 @@ def set_options(
     if use_ttk_buttons is not None:
         USE_TTK_BUTTONS = use_ttk_buttons
 
-    if tooltip_font is not None:
-        TOOLTIP_FONT = tooltip_font
+    if hover_font is not None:
+        HOVER_FONT = hover_font
 
     if suppress_error_popups is not None:
         SUPPRESS_ERROR_POPUPS = suppress_error_popups
@@ -8589,8 +8589,8 @@ def set_options(
     if force_modal_windows is not None:
         DEFAULT_MODAL_WINDOWS_FORCED = force_modal_windows
 
-    if tooltip_offset != (None, None):
-        DEFAULT_TOOLTIP_OFFSET = tooltip_offset
+    if hover_offset != (None, None):
+        DEFAULT_HOVER_OFFSET = hover_offset
 
     if alpha_channel is not None:
         DEFAULT_ALPHA_CHANNEL = alpha_channel
@@ -9146,7 +9146,7 @@ def theme_previewer(columns=12, scrollable=False, scroll_area_size=(None, None),
     def sample_layout(theme_name):
         return [
             [Text('Text element'), InputText('Input data here', size=(10, 1))],
-            [Button('Ok', event=f"choose_{theme_name}", tooltip=f"Choose {theme_name}"), Button('Disabled', disabled=True), Slider((1, 10), orientation='h', size=(5, 15))],
+            [Button('Ok', event=f"choose_{theme_name}", hover=f"Choose {theme_name}"), Button('Disabled', disabled=True), Slider((1, 10), orientation='h', size=(5, 15))],
         ]
 
     names = list_of_look_and_feel_values()
@@ -9208,7 +9208,7 @@ def _theme_preview_window_swatches():
         [Text('Themes as color swatches', text_color='white', background_color='black', font='Default 25')],
         [
             Text(
-                'Tooltip and right click a color to get the value',
+                'Hover and right click a color to get the value',
                 text_color='white',
                 background_color='black',
                 font='Default 15',
@@ -9248,7 +9248,7 @@ def _theme_preview_window_swatches():
                         pad=(0, 0),
                         font='DEFAUlT 20',
                         right_click_menu=['Nothing', [color]],
-                        tooltip=color,
+                        hover=color,
                         enable_events=True,
                         event=(i, color),
                     )
@@ -11078,7 +11078,7 @@ def popup_get_folder(
                     bind_return_key=True,
                 ),
                 browse_button,
-                Button('Clear History', tooltip='Clears the list of folders shown in the combobox'),
+                Button('Clear History', hover='Clears the list of folders shown in the combobox'),
             ]
         ]
 
@@ -11375,7 +11375,7 @@ def popup_get_file(
                     bind_return_key=True,
                 ),
                 browse_button,
-                Button('Clear History', tooltip='Clears the list of files shown in the combobox'),
+                Button('Clear History', hover='Clears the list of files shown in the combobox'),
             ]
         ]
 
@@ -11544,7 +11544,7 @@ def popup_get_text(
                     size=size if size != (None, None) else (80, 1),
                     bind_return_key=True,
                 ),
-                Button('Clear History', tooltip='Clears the list of files shown in the combobox'),
+                Button('Clear History', hover='Clears the list of files shown in the combobox'),
             ]
         ]
 
@@ -12021,7 +12021,7 @@ def popup_notify(
 
     message = output
 
-    # def __init__(self, menu=None, filename=None, data=None, data_base64=None, tooltip=None, metadata=None):
+    # def __init__(self, menu=None, filename=None, data=None, data_base64=None, hover=None, metadata=None):
     return SystemTray.notify(
         title=title,
         message=message,
@@ -13625,7 +13625,7 @@ class _Debugger:
                 In(
                     size=(83, 1),
                     event='-REPL-',
-                    tooltip='Type in any "expression" or "statement"\n and it will be disaplayed below.\nPress RETURN KEY instead of "Go"\nbutton for faster use',
+                    hover='Type in any "expression" or "statement"\n and it will be disaplayed below.\nPress RETURN KEY instead of "Go"\nbutton for faster use',
                 ),
                 B('Go', bind_return_key=True, visible=True),
             ],
@@ -14808,7 +14808,7 @@ def main_open_github_issue():
 
     frame_details = [[Multiline(size=(65, 10), font='Courier 10', k='-ML DETAILS-', expand_x=True, expand_y=True)]]
 
-    tooltip_project_details = 'If you care to share a little about your project,\nthen by all means tell us what you are making!'
+    hover_project_details = 'If you care to share a little about your project,\nthen by all means tell us what you are making!'
     frame_project_details = [
         [
             Multiline(
@@ -14817,12 +14817,12 @@ def main_open_github_issue():
                 k='-ML PROJECT DETAILS-',
                 expand_x=True,
                 expand_y=True,
-                tooltip=tooltip_project_details,
+                hover=hover_project_details,
             )
         ]
     ]
 
-    tooltip_where_find_psg = 'Where did you learn about PySimpleGUI?'
+    hover_where_find_psg = 'Where did you learn about PySimpleGUI?'
     frame_where_you_found_psg = [
         [
             Multiline(
@@ -14831,13 +14831,13 @@ def main_open_github_issue():
                 k='-ML FOUND PSG-',
                 expand_x=True,
                 expand_y=True,
-                tooltip=tooltip_where_find_psg,
+                hover=hover_where_find_psg,
             )
         ]
     ]
 
-    tooltip_code = 'A short program that can be immediately run will considerably speed up getting you quality help.'
-    frame_code = [[Multiline(size=(80, 10), font='Courier 8', k='-ML CODE-', expand_x=True, expand_y=True, tooltip=tooltip_code)]]
+    hover_code = 'A short program that can be immediately run will considerably speed up getting you quality help.'
+    frame_code = [[Multiline(size=(80, 10), font='Courier 8', k='-ML CODE-', expand_x=True, expand_y=True, hover=hover_code)]]
 
     frame_markdown = [[Multiline(size=(80, 10), font='Courier 8', k='-ML MARKDOWN-', expand_x=True, expand_y=True)]]
 
@@ -14898,7 +14898,7 @@ def main_open_github_issue():
 
     layout = [
         [
-            pin(B(SYMBOL_DOWN, pad=(0, 0), k='-HIDE CLIST-', tooltip='Hide/show upper sections of window')),
+            pin(B(SYMBOL_DOWN, pad=(0, 0), k='-HIDE CLIST-', hover='Hide/show upper sections of window')),
             pin(Col(top_layout, k='-TOP COL-')),
         ],
         [layout_pane],
@@ -15205,7 +15205,7 @@ def main_global_pysimplegui_settings():
         'idle': '<editor> <file>',
     }
 
-    tooltip = (
+    hover = (
         'Format strings for some popular editors/IDEs:\n'
         + 'PyCharm - <editor> --line <line> <file>\n'
         + 'Notepad++ - <editor> -n<line> <file>\n'
@@ -15220,9 +15220,9 @@ def main_global_pysimplegui_settings():
         + 'IDLE - <editor> <file>\n'
     )
 
-    tooltip_file_explorer = 'This is the program you normally use to "Browse" for files\n' + 'For Windows this is normally "explorer". On Linux "nemo" is sometimes used.'
+    hover_file_explorer = 'This is the program you normally use to "Browse" for files\n' + 'For Windows this is normally "explorer". On Linux "nemo" is sometimes used.'
 
-    tooltip_theme = 'The normal default theme for PySimpleGUI is "Dark Blue 13\n' + 'If you do not call theme("theme name") by your program to change the theme, then the default is used.\n' + 'This setting allows you to set the theme that PySimpleGUI will use for ALL of your programs that\n' + 'do not set a theme specifically.'
+    hover_theme = 'The normal default theme for PySimpleGUI is "Dark Blue 13\n' + 'If you do not call theme("theme name") by your program to change the theme, then the default is used.\n' + 'This setting allows you to set the theme that PySimpleGUI will use for ALL of your programs that\n' + 'do not set a theme specifically.'
 
     # ------------------------- TTK Tab -------------------------
     ttk_scrollbar_tab_layout = [
@@ -15319,8 +15319,8 @@ def main_global_pysimplegui_settings():
             [T('Use tags <editor> <file> <line> to specify the string')],
             [T('that will be executed to edit python files using your editor')],
             [
-                T('Edit Format String (hover for tooltip)', tooltip=tooltip),
-                In(settings.get('-editor format string-', '<editor> <file>'), k='-EDITOR FORMAT-', tooltip=tooltip),
+                T('Edit Format String (hover for hover)', hover=hover),
+                In(settings.get('-editor format string-', '<editor> <file>'), k='-EDITOR FORMAT-', hover=hover),
             ],
         ],
         font='_ 16',
@@ -15331,10 +15331,10 @@ def main_global_pysimplegui_settings():
 
     explorer_tab = Tab(
         'Explorer Program',
-        [[In(settings.get('-explorer program-', ''), k='-EXPLORER PROGRAM-', tooltip=tooltip_file_explorer)]],
+        [[In(settings.get('-explorer program-', ''), k='-EXPLORER PROGRAM-', hover=hover_file_explorer)]],
         font='_ 16',
         expand_x=True,
-        tooltip=tooltip_file_explorer,
+        hover=hover_file_explorer,
     )
 
     # ------------------------- Snapshots Tab -------------------------
@@ -15387,7 +15387,7 @@ def main_global_pysimplegui_settings():
                     settings.get('-theme-', None),
                     readonly=True,
                     k='-THEME-',
-                    tooltip=tooltip_theme,
+                    hover=hover_theme,
                 ),
                 Checkbox(
                     'Always use custom Titlebar',
@@ -15932,7 +15932,7 @@ def _create_main_window():
 
     frame3 = [
         [Checkbox('Checkbox1', True, k='-CB1-'), Checkbox('Checkbox2', k='-CB2-')],
-        [Radio('Radio Button1', 1, event='-R1-'), Radio('Radio Button2', 1, default=True, event='-R2-', tooltip='Radio 2')],
+        [Radio('Radio Button1', 1, event='-R1-'), Radio('Radio Button2', 1, default=True, event='-R2-', hover='Radio 2')],
         [T('', size=(1, 4))],
     ]
 
@@ -16039,7 +16039,7 @@ def _create_main_window():
     ]
     tab_upgrade = Tab('Upgrade\n', upgrade_recommendation_tab_layout, expand_x=True)
 
-    tab1 = Tab('Graph\n', frame6, tooltip='Graph is in here', title_color='red')
+    tab1 = Tab('Graph\n', frame6, hover='Graph is in here', title_color='red')
     tab2 = Tab(
         'CB, Radio\nList, Combo',
         [
@@ -16048,38 +16048,38 @@ def _create_main_window():
                     'Multiple Choice Group',
                     frame2,
                     title_color='#FFFFFF',
-                    tooltip='Checkboxes, radio buttons, etc',
+                    hover='Checkboxes, radio buttons, etc',
                     vertical_alignment='t',
                 ),
                 Frame(
                     'Binary Choice Group',
                     frame3,
                     title_color='#FFFFFF',
-                    tooltip='Binary Choice',
+                    hover='Binary Choice',
                     vertical_alignment='t',
                 ),
             ]
         ],
     )
-    # tab3 = Tab('Table and Tree', [[Frame('Structured Data Group', frame5, title_color='red', element_justification='l')]], tooltip='tab 3', title_color='red', )
+    # tab3 = Tab('Table and Tree', [[Frame('Structured Data Group', frame5, title_color='red', element_justification='l')]], hover='tab 3', title_color='red', )
     tab3 = Tab(
         'Table &\nTree',
         [[Column(frame5, element_justification='l', vertical_alignment='t')]],
-        tooltip='tab 3',
+        hover='tab 3',
         title_color='red',
         k='-TAB TABLE-',
     )
     tab4 = Tab(
         'Sliders\n',
         [[Frame('Variable Choice Group', frame4, title_color='blue')]],
-        tooltip='tab 4',
+        hover='tab 4',
         title_color='red',
         k='-TAB VAR-',
     )
     tab5 = Tab(
         'Input\nMultiline',
         [[Frame('TextInput', frame1, title_color='blue')]],
-        tooltip='tab 5',
+        hover='tab 5',
         title_color='red',
         k='-TAB TEXT-',
     )
@@ -16096,9 +16096,9 @@ def _create_main_window():
     layout_top = Column(
         [
             [
-                Image(EMOJI_BASE64_HAPPY_BIG_SMILE, enable_events=True, event='-LOGO-', tooltip='This is PySimpleGUI logo'),
+                Image(EMOJI_BASE64_HAPPY_BIG_SMILE, enable_events=True, event='-LOGO-', hover='This is PySimpleGUI logo'),
                 Image(data=DEFAULT_BASE64_LOADING_GIF, enable_events=True, event='-IMAGE-'),
-                Text('PySimpleGUI Test Harness', font='ANY 14', tooltip='My tooltip', event='-TEXT1-'),
+                Text('PySimpleGUI Test Harness', font='ANY 14', hover='My hover', event='-TEXT1-'),
             ],
             VerLine(ver, 'PySimpleGUI Version') + [Image(HEART_3D_BASE64, subsample=4)],
             # VerLine('{}/{}'.format(tkversion, tclversion), 'TK/TCL Versions'),
@@ -16122,11 +16122,11 @@ def _create_main_window():
         ],
         [
             B('Button', highlight_colors=('yellow', 'red'), pad=(1, 0)),
-            B('ttk Button', use_ttk_buttons=True, tooltip='This is a TTK Button', pad=(1, 0)),
-            B('See-through Mode', tooltip='Make the background transparent', pad=(1, 0)),
+            B('ttk Button', use_ttk_buttons=True, hover='This is a TTK Button', pad=(1, 0)),
+            B('See-through Mode', hover='Make the background transparent', pad=(1, 0)),
             B('Upgrade PySimpleGUI from GitHub', button_color='white on red', event='-INSTALL-', pad=(1, 0)),
-            B('Global Settings', tooltip='Settings across all PySimpleGUI programs', pad=(1, 0)),
-            B('Exit', tooltip='Exit button', pad=(1, 0)),
+            B('Global Settings', hover='Settings across all PySimpleGUI programs', pad=(1, 0)),
+            B('Exit', hover='Exit button', pad=(1, 0)),
         ],
         # [B(image_data=ICON_BUY_ME_A_COFFEE,pad=(1, 0), event='-COFFEE-'),
         [
@@ -16247,7 +16247,7 @@ def main():
         window['+PROGRESS+'].UpdateBar(i % 800)
         window.Element('-IMAGE-').UpdateAnimation(DEFAULT_BASE64_LOADING_GIF, time_between_frames=50)
         if event == 'Button':
-            window.Element('-TEXT1-').SetTooltip('NEW TEXT')
+            window.Element('-TEXT1-').SetHover('NEW TEXT')
             window.Element('-MENU-').change(visible=True)
         elif event == 'Popout':
             show_debugger_popout_window()

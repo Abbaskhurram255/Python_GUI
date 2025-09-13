@@ -43,7 +43,7 @@ class Button(Element):
         button_text='',
         button_type=BUTTON_TYPE_READ_FORM,
         target=(None, None),
-        tooltip=None,
+        hover=None,
         file_types=FILE_TYPES_ALL_FILES,
         initial_folder=None,
         default_extension='',
@@ -85,8 +85,8 @@ class Button(Element):
         :type button_type:            (int)
         :param target:                event or (row,col) target for the button. Note that -1 for column means 1 element to the left of this one. The constant ThisRow is used to indicate the current row. The Button itself is a valid target for some types of button
         :type target:                 str | (int, int)
-        :param tooltip:               text, that will appear when mouse hovers over the element
-        :type tooltip:                (str)
+        :param hover:               text, that will appear when mouse hovers over the element
+        :type hover:                (str)
         :param file_types:            the filetypes that will be used to match files. To indicate all files: (("ALL Files", "*.* *"),).
         :type file_types:             Tuple[(str, str), ...]
         :param initial_folder:        starting path for folders and files
@@ -235,7 +235,7 @@ class Button(Element):
         self.expand_y = expand_y
 
         sz = size if size != (None, None) else s
-        super().__init__(ELEM_TYPE_BUTTON, size=sz, font=font, pad=pad, event=_key, tooltip=tooltip, visible=visible, metadata=metadata)
+        super().__init__(ELEM_TYPE_BUTTON, size=sz, font=font, pad=pad, event=_key, hover=hover, visible=visible, metadata=metadata)
         return
 
     def _compute_highlight_colors(self):
@@ -635,7 +635,7 @@ class ButtonMenu(Element):
         self,
         button_text,
         menu_def,
-        tooltip=None,
+        hover=None,
         disabled=False,
         image_source=None,
         image_filename=None,
@@ -668,8 +668,8 @@ class ButtonMenu(Element):
         :type button_text:                (str)
         :param menu_def:                  A list of lists of Menu items to show when this element is clicked. See docs for format as they are the same for all menu types
         :type menu_def:                   List[List[str]]
-        :param tooltip:                   text, that will appear when mouse hovers over the element
-        :type tooltip:                    (str)
+        :param hover:                   text, that will appear when mouse hovers over the element
+        :type hover:                    (str)
         :param disabled:                  If True button will be created disabled
         :type disabled:                   (bool)
         :param image_source:              Image to place on button. Use INSTEAD of the image_filename and image_data. Unifies these into 1 easier to use parm
@@ -767,7 +767,7 @@ class ButtonMenu(Element):
             font=font,
             pad=pad,
             event=event,
-            tooltip=tooltip,
+            hover=hover,
             text_color=self.TextColor,
             background_color=self.BackgroundColor,
             visible=visible,

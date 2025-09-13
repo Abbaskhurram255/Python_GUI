@@ -35,7 +35,7 @@ from hindGui import theme_text_color
 from hindGui import TITLEBAR_CLOSE_KEY
 from hindGui import TITLEBAR_MAXIMIZE_KEY
 from hindGui import TITLEBAR_MINIMIZE_KEY
-from hindGui import ToolTip
+from hindGui import Hover
 from hindGui import ttk_part_mapping_dict
 from hindGui import TTK_SCROLLBAR_PART_ARROW_BUTTON_ARROW_COLOR
 from hindGui import TTK_SCROLLBAR_PART_ARROW_WIDTH
@@ -60,7 +60,7 @@ class Element:
         text_color=None,
         event=None,
         pad=None,
-        tooltip=None,
+        hover=None,
         visible=True,
         metadata=None,
         sbar_trough_color=None,
@@ -90,8 +90,8 @@ class Element:
         :type event:                          str | int | tuple | object
         :param pad:                         Amount of padding to put around element in pixels (left/right, top/bottom). If an int is given, then auto-converted to tuple (int, int)
         :type pad:                          (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
-        :param tooltip:                     text, that will appear when mouse hovers over the element
-        :type tooltip:                      (str)
+        :param hover:                     text, that will appear when mouse hovers over the element
+        :type hover:                      (str)
         :param visible:                     set visibility state of the element (Default = True)
         :type visible:                      (bool)
         :param metadata:                    User metadata that can be set to ANYTHING
@@ -145,8 +145,8 @@ class Element:
         self.BackgroundColor = background_color if background_color is not None else hindGui.DEFAULT_ELEMENT_BACKGROUND_COLOR
         self.TextColor = text_color if text_color is not None else hindGui.DEFAULT_ELEMENT_TEXT_COLOR
         self.Event = event  # dictionary event for return values
-        self.Tooltip = tooltip
-        self.TooltipObject = None
+        self.Hover = hover
+        self.HoverObject = None
         self._visible = visible
         self.TKRightClickMenu = None
         self.Widget = None  # Set when creating window. Has the main tkinter widget for element
@@ -593,21 +593,21 @@ class Element:
         self.Widget.unbind(bind_string)
         self.user_bind_dict.pop(bind_string, None)
 
-    def set_tooltip(self, tooltip_text):
+    def set_hover(self, hover_text):
         """
-        Called by application to change the tooltip text for an Element.  Normally invoked using the Element Object such as: window.Element('event').SetToolTip('New tip').
+        Called by application to change the hover text for an Element.  Normally invoked using the Element Object such as: window.Element('event').SetHover('New tip').
 
-        :param tooltip_text: the text to show in tooltip.
-        :type tooltip_text:  (str)
+        :param hover_text: the text to show in hover.
+        :type hover_text:  (str)
         """
 
-        if self.TooltipObject:
+        if self.HoverObject:
             try:
-                self.TooltipObject.leave()
+                self.HoverObject.leave()
             except:
                 pass
 
-        self.TooltipObject = ToolTip(self.Widget, text=tooltip_text, timeout=hindGui.DEFAULT_TOOLTIP_TIME)
+        self.HoverObject = Hover(self.Widget, text=hover_text, timeout=hindGui.DEFAULT_HOVER_TIME)
 
     def set_focus(self, force=False):
         """
@@ -1039,7 +1039,7 @@ class Element:
         """
         return self.change(*args, **kwargs)
 
-    SetTooltip = set_tooltip
+    SetHover = set_hover
     SetFocus = set_focus
 
 
