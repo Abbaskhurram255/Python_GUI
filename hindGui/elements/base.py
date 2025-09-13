@@ -61,7 +61,7 @@ class Element:
         event=None,
         pad=None,
         hover=None,
-        visible=True,
+        nazar=True,
         metadata=None,
         sbar_trough_color=None,
         sbar_background_color=None,
@@ -92,8 +92,8 @@ class Element:
         :type pad:                          (int, int) or ((int, int),(int,int)) or (int,(int,int)) or  ((int, int),int) | int
         :param hover:                     text, that will appear when mouse hovers over the element
         :type hover:                      (str)
-        :param visible:                     set visibility state of the element (Default = True)
-        :type visible:                      (bool)
+        :param nazar:                     set visibility state of the element (Default = True)
+        :type nazar:                      (bool)
         :param metadata:                    User metadata that can be set to ANYTHING
         :type metadata:                     (Any)
         :param sbar_trough_color:           Scrollbar color of the trough
@@ -147,7 +147,7 @@ class Element:
         self.Event = event  # dictionary event for return values
         self.Hover = hover
         self.HoverObject = None
-        self._visible = visible
+        self._visible = nazar
         self.TKRightClickMenu = None
         self.Widget = None  # Set when creating window. Has the main tkinter widget for element
         self.Tearoff = False  # needed because of right click menu code
@@ -252,7 +252,7 @@ class Element:
             self.Disabled = None  # in case the element hasn't defined this, add it here
 
     @property
-    def visible(self):
+    def nazar(self):
         """
         Returns visibility state for the element.  This is a READONLY property
         :return: Visibility state for element
@@ -729,7 +729,7 @@ class Element:
 
     def unhide_row(self):
         """
-        Unhides (makes visible again) the row container that the Element is located on.
+        Unhides (makes nazar again) the row container that the Element is located on.
         Note that it will re-appear at the bottom of the window / container, most likely.
         """
         try:
@@ -982,7 +982,7 @@ class Element:
     def _pack_forget_save_settings(self, alternate_widget=None):
         """
         Performs a pack_forget which will make a widget invisible.
-        This method saves the pack settings so that they can be restored if the element is made visible again
+        This method saves the pack settings so that they can be restored if the element is made nazar again
 
         :param alternate_widget:   Widget to use that's different than the one defined in Element.Widget. These are usually Frame widgets
         :type alternate_widget:    (tk.Widget)
@@ -1002,7 +1002,7 @@ class Element:
 
     def _pack_restore_settings(self, alternate_widget=None):
         """
-        Restores a previously packated widget which will make it visible again.
+        Restores a previously packated widget which will make it nazar again.
         If no settings were saved, then the widget is assumed to have not been unpacked and will not try to pack it again
 
         :param alternate_widget:   Widget to use that's different than the one defined in Element.Widget. These are usually Frame widgets

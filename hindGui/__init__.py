@@ -60,9 +60,11 @@ try:
 except:
     webbrowser_available = False
 
-
+#constants
 port = 'hindGui'
 name = 'hindGui'
+ae = True
+nae = na_ae = False
 
 
 warnings.simplefilter('always', UserWarning)
@@ -1309,7 +1311,7 @@ def Sizer(h_pixels=0, v_pixels=0):
 
 def pin(elem, vertical_alignment=None, shrink=True, expand_x=None, expand_y=None):
     """
-    Pin's an element provided into a layout so that when it's made invisible and visible again, it will
+    Pin's an element provided into a layout so that when it's made invisible and nazar again, it will
      be in the correct place.  Otherwise it will be placed at the end of its containing window/column.
 
      The element you want to pin is the element that you'll be making visibile/invisible.
@@ -1476,7 +1478,7 @@ def Titlebar(title='', icon=None, text_color=None, background_color=None, font=N
     set the pad of that Column to the dimensions you would like your fasla to have.
 
     The Titlebar is a COLUMN element.  You can thus call the change method for the column and
-    perform operations such as making the column visible/invisible
+    perform operations such as making the column nazar/invisible
 
     :param icon:             Can be either a filename or Base64 byte string of a PNG or GIF. This is used in an Image element to create the titlebar
     :type icon:              str or bytes or None
@@ -1673,7 +1675,7 @@ def FolderBrowse(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -1711,8 +1713,8 @@ def FolderBrowse(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -1741,7 +1743,7 @@ def FolderBrowse(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -1767,7 +1769,7 @@ def FileBrowse(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -1808,8 +1810,8 @@ def FileBrowse(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -1838,7 +1840,7 @@ def FileBrowse(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -1864,7 +1866,7 @@ def FilesBrowse(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     files_delimiter=BROWSE_FILES_DELIMITER,
     metadata=None,
     expand_x=False,
@@ -1907,8 +1909,8 @@ def FilesBrowse(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param files_delimiter:  String to place between files when multiple files are selected. Normally a ;
     :type files_delimiter:   str
     :param metadata:         Anything you want to store along with this button
@@ -1939,7 +1941,7 @@ def FilesBrowse(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -1968,7 +1970,7 @@ def FileSaveAs(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2011,8 +2013,8 @@ def FileSaveAs(
     :type event:                str | int | tuple | object
     :param k:                 Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                  str | int | tuple | object
-    :param visible:           set initial visibility state of the Button
-    :type visible:            (bool)
+    :param nazar:           set initial visibility state of the Button
+    :type nazar:            (bool)
     :param metadata:          Anything you want to store along with this button
     :type metadata:           (Any)
     :param expand_x:          If True Element will expand in the Horizontal directions
@@ -2041,7 +2043,7 @@ def FileSaveAs(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2068,7 +2070,7 @@ def SaveAs(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2110,8 +2112,8 @@ def SaveAs(
     :type event:                str | int | tuple | object
     :param k:                 Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                  str | int | tuple | object
-    :param visible:           set initial visibility state of the Button
-    :type visible:            (bool)
+    :param nazar:           set initial visibility state of the Button
+    :type nazar:            (bool)
     :param metadata:          Anything you want to store along with this button
     :type metadata:           (Any)
     :param expand_x:          If True Element will expand in the Horizontal directions
@@ -2141,7 +2143,7 @@ def SaveAs(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2164,7 +2166,7 @@ def Save(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2199,8 +2201,8 @@ def Save(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2226,7 +2228,7 @@ def Save(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2249,7 +2251,7 @@ def Submit(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2284,8 +2286,8 @@ def Submit(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2311,7 +2313,7 @@ def Submit(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2335,7 +2337,7 @@ def Open(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2370,8 +2372,8 @@ def Open(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2397,7 +2399,7 @@ def Open(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2420,7 +2422,7 @@ def OK(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2455,8 +2457,8 @@ def OK(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2482,7 +2484,7 @@ def OK(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2505,7 +2507,7 @@ def Ok(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2540,8 +2542,8 @@ def Ok(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2567,7 +2569,7 @@ def Ok(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2590,7 +2592,7 @@ def Cancel(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2625,8 +2627,8 @@ def Cancel(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2652,7 +2654,7 @@ def Cancel(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2675,7 +2677,7 @@ def Quit(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2710,8 +2712,8 @@ def Quit(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2737,7 +2739,7 @@ def Quit(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2760,7 +2762,7 @@ def Exit(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2795,8 +2797,8 @@ def Exit(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2822,7 +2824,7 @@ def Exit(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2830,7 +2832,7 @@ def Exit(
 
 
 # -------------------------  YES BUTTON Element lazy function  ------------------------- #
-def Yes(
+def YES(
     button_text='Yes',
     size=(None, None),
     s=(None, None),
@@ -2845,7 +2847,7 @@ def Yes(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2880,8 +2882,8 @@ def Yes(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2907,7 +2909,7 @@ def Yes(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -2915,7 +2917,7 @@ def Yes(
 
 
 # -------------------------  NO BUTTON Element lazy function  ------------------------- #
-def No(
+def NO(
     button_text='No',
     size=(None, None),
     s=(None, None),
@@ -2930,7 +2932,7 @@ def No(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -2965,8 +2967,8 @@ def No(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -2992,7 +2994,7 @@ def No(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -3015,7 +3017,7 @@ def Help(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -3050,8 +3052,8 @@ def Help(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -3077,7 +3079,7 @@ def Help(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -3100,7 +3102,7 @@ def Debug(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -3138,8 +3140,8 @@ def Debug(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -3168,7 +3170,7 @@ def Debug(
         p=p,
         event=user_key,
         k=k,
-        visible=visible,
+        nazar=nazar,
         image_data=PSG_DEBUGGER_LOGO,
         image_subsample=2,
         border_width=0,
@@ -3512,7 +3514,7 @@ def RealtimeButton(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -3557,8 +3559,8 @@ def RealtimeButton(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -3589,7 +3591,7 @@ def RealtimeButton(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -3617,7 +3619,7 @@ def DummyButton(
     p=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -3668,8 +3670,8 @@ def DummyButton(
     :type event:               str | int | tuple | object
     :param k:                Same as the Event. You can use either k or event. Which ever is set will be used.
     :type k:                 str | int | tuple | object
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         Anything you want to store along with this button
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -3700,7 +3702,7 @@ def DummyButton(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -3732,7 +3734,7 @@ def CalendarButton(
     enable_events=None,
     event=None,
     k=None,
-    visible=True,
+    nazar=True,
     locale=None,
     format='%Y-%m-%d %H:%M:%S',
     begin_at_sunday_plus=0,
@@ -3808,8 +3810,8 @@ def CalendarButton(
     :type no_titlebar:             bool
     :param location:               Location on the screen (x,y) to show the calendar keh window
     :type location:                (int, int)
-    :param visible:                set initial visibility state of the Button
-    :type visible:                 (bool)
+    :param nazar:                set initial visibility state of the Button
+    :type nazar:                 (bool)
     :param metadata:               Anything you want to store along with this button
     :type metadata:                (Any)
     :param expand_x:               If True Element will expand in the Horizontal directions
@@ -3842,7 +3844,7 @@ def CalendarButton(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -3884,7 +3886,7 @@ def ColorChooserButton(
     event=None,
     k=None,
     default_color=None,
-    visible=True,
+    nazar=True,
     metadata=None,
     expand_x=False,
     expand_y=False,
@@ -3934,8 +3936,8 @@ def ColorChooserButton(
     :type k:                 str | int | tuple | object
     :param default_color:    Color to be sent to tkinter to use as the default color
     :type default_color:     str
-    :param visible:          set initial visibility state of the Button
-    :type visible:           (bool)
+    :param nazar:          set initial visibility state of the Button
+    :type nazar:           (bool)
     :param metadata:         User metadata that can be set to ANYTHING
     :type metadata:          (Any)
     :param expand_x:         If True Element will expand in the Horizontal directions
@@ -3967,7 +3969,7 @@ def ColorChooserButton(
         p=p,
         event=event,
         k=k,
-        visible=visible,
+        nazar=nazar,
         metadata=metadata,
         expand_x=expand_x,
         expand_y=expand_y,
@@ -4099,7 +4101,7 @@ def _BuildResultsForSubform(form, initialize_only, top_level_form):
                         value = element.TKStringVar.get()
                     except:
                         value = ''
-                    if not top_level_form.NonBlocking and not element.do_not_clear and not top_level_form.ReturnKeyboardEvents:
+                    if not top_level_form.NonBlocking and element.auto_wipe and not top_level_form.ReturnKeyboardEvents:
                         element.TKStringVar.set('')
                 elif element.Type == ELEM_TYPE_INPUT_CHECKBOX:
                     value = element.TKIntVar.get()
@@ -4160,7 +4162,7 @@ def _BuildResultsForSubform(form, initialize_only, top_level_form):
                         value = element.TKText.get(1.0, tk.END)
                         if element.rstrip:
                             value = value.rstrip()
-                        if not top_level_form.NonBlocking and not element.do_not_clear and not top_level_form.ReturnKeyboardEvents:
+                        if not top_level_form.NonBlocking and element.auto_wipe and not top_level_form.ReturnKeyboardEvents:
                             element.TKText.delete('1.0', tk.END)
                     except:
                         value = None
@@ -4901,7 +4903,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.TKColFrame.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
 
                 # element.TKColFrame.pack(side=side, padx=elementpad[0], pady=elementpad[1], expand=True, fill='both')
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.TKColFrame.pack_forget()
 
@@ -4931,7 +4933,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     pane.Widget = pane.TKColFrame = tk.Frame(element.PanedWindow)
                     pane.ParentPanedWindow = element.PanedWindow
                     PackFormIntoFrame(pane, pane.TKColFrame, toplevel_form)
-                    if pane.visible:
+                    if pane.nazar:
                         element.PanedWindow.add(pane.TKColFrame)
                     if pane.BackgroundColor != COLOR_SYSTEM_DEFAULT and pane.BackgroundColor is not None:
                         pane.TKColFrame.configure(
@@ -4942,7 +4944,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.PanedWindow.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
                 # element.PanedWindow.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=True, fill='both')
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.PanedWindow.pack_forget()
             # -------------------------  TEXT placement element  ------------------------- #
@@ -4984,7 +4986,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     tktext_label.configure(fg=element.TextColor)
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 tktext_label.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # tktext_label.pack_forget()
                 element.TKText = tktext_label
@@ -5116,7 +5118,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
 
                 tkbutton.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # tkbutton.pack_forget()
                 if element.BindReturnKey:
@@ -5270,7 +5272,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 element.TKButton = tkbutton  # not used yet but save the TK button in case
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 tkbutton.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # tkbutton.pack_forget()
                 if element.BindReturnKey:
@@ -5381,7 +5383,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     tkbutton.config(highlightthickness=0)
                 tkbutton.configure(menu=top_menu)
                 element.TKMenu = top_menu
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # tkbutton.pack_forget()
                 if element.Disabled:
@@ -5436,7 +5438,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 # element.TKEntry.pack(**element.pack_keywords)
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKEntry.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.TKEntry.pack_forget()
                 if element.Focus is True or (toplevel_form.UseDefaultFocus and not toplevel_form.FocusSet):
@@ -5537,7 +5539,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 element.TKCombo['values'] = element.Values
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKCombo.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.TKCombo.pack_forget()
                 if element.DefaultValue is not None:
@@ -5578,7 +5580,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.TKOptionMenu['menu'].config(fg=element.TextColor)
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKOptionMenu.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.TKOptionMenu.pack_forget()
                 if element.Disabled is True:
@@ -5655,7 +5657,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element_frame.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], fill=fill, expand=expand)
                 element.TKListbox.pack(side=tk.LEFT, fill=fill, expand=expand)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings(alternate_widget=element_frame)
                     # element_frame.pack_forget()
                 if element.BindReturnKey:
@@ -5735,7 +5737,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 element.element_frame.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], fill=fill, expand=expand)
                 element.Widget.pack(side=tk.LEFT, fill=fill, expand=expand)
 
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings(alternate_widget=element_frame)
                     # element.element_frame.pack_forget()
                 else:
@@ -5802,7 +5804,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.TKCheckbutton.config(highlightcolor=element.TextColor)
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKCheckbutton.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.TKCheckbutton.pack_forget()
                 if element.Hover is not None:
@@ -5846,7 +5848,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 element.Widget = element.TKProgressBar.TKProgressBarForReal
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKProgressBar.TKProgressBarForReal.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings(alternate_widget=element.TKProgressBar.TKProgressBarForReal)
                     # element.TKProgressBar.TKProgressBarForReal.pack_forget()
                 _add_right_click_menu_and_grab(element)
@@ -5898,7 +5900,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.TKRadio['state'] = 'disabled'
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKRadio.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.TKRadio.pack_forget()
                 if element.Hover is not None:
@@ -5926,7 +5928,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.Widget.configure(wrap=True)
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKSpinBox.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.TKSpinBox.pack_forget()
                 if element.ChangeSubmits:
@@ -5987,7 +5989,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.tktext_label.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
 
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element.tktext_label.pack_forget()
                 if element.Hover is not None:
@@ -6011,7 +6013,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element._TKCanvas.configure(background=element.BackgroundColor, highlightthickness=0)
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element._TKCanvas.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element._TKCanvas.pack_forget()
                 if element.Hover is not None:
@@ -6035,7 +6037,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element._TKCanvas2.configure(background=element.BackgroundColor, highlightthickness=0)
                     # element._TKCanvas.configure(background=element.BackgroundColor, highlightthickness=0)
                 element._TKCanvas2.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # element._TKCanvas2.pack_forget()
                 if element.Hover is not None:
@@ -6102,7 +6104,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.Size != (None, None):
                     labeled_frame.config(width=element.Size[0], height=element.Size[1])
                     labeled_frame.pack_propagate(0)
-                if not element.visible:
+                if not element.nazar:
                     element._pack_forget_save_settings()
                     # labeled_frame.pack_forget()
                 if element.BackgroundColor != COLOR_SYSTEM_DEFAULT and element.BackgroundColor is not None:
@@ -6132,7 +6134,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 state = 'normal'
                 if element.Disabled:
                     state = 'disabled'
-                if element.visible is False:
+                if element.nazar is False:
                     state = 'hidden'
                 # this code will add an image to the tab. Use it when adding the image on a tab enhancement
                 try:
@@ -6260,7 +6262,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 if element.Size != (None, None):
                     element.TKNotebook.configure(width=element.Size[0], height=element.Size[1])
                 _add_right_click_menu_and_grab(element)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                 # row_should_expand = True
                 # -------------------  SLIDER placement element  ------------------------- #
@@ -6304,7 +6306,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     tkscale.configure(fg=text_color)
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 tkscale.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # tkscale.pack_forget()
                 element.TKScale = tkscale
@@ -6524,7 +6526,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKTreeview.pack(side=tk.LEFT, padx=0, pady=0, expand=expand, fill=fill)
                 frame.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings(alternate_widget=element.element_frame)  # seems like it should be the frame if following other elements conventions
                     # element.TKTreeview.pack_forget()
                 if element.Hover is not None:
@@ -6704,7 +6706,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 expand, fill, row_should_expand, row_fill_direction = _add_expansion(element, row_should_expand, row_fill_direction)
                 element.TKTreeview.pack(side=tk.LEFT, padx=0, pady=0, expand=expand, fill=fill)
                 element_frame.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], expand=expand, fill=fill)
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings(alternate_widget=element.element_frame)  # seems like it should be the frame if following other elements conventions
                     # element.TKTreeview.pack_forget()
                 treeview.bind('<<TreeviewSelect>>', element._treeview_selected)
@@ -6817,7 +6819,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     tktext_label.configure(fg=element.TextColor)
                 tktext_label.pack(side=tk.LEFT, padx=elementpad[0], pady=elementpad[1], fill=tk.X, expand=True)
                 row_fill_direction = tk.X
-                if element.visible is False:
+                if element.nazar is False:
                     element._pack_forget_save_settings()
                     # tktext_label.pack_forget()
                 element.TKText = tktext_label
@@ -6848,7 +6850,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
 
 def _get_hidden_master_root():
     """
-    Creates the hidden master root window.  This window is never visible and represents the overall "application"
+    Creates the hidden master root window.  This window is never nazar and represents the overall "application"
     """
 
     # if one is already made, then skip making another
@@ -7044,7 +7046,7 @@ def StartupTK(window):
     window.set_icon(window.WindowIcon)
     try:
         alpha_channel = 1 if window.AlphaChannel is None else window.AlphaChannel
-        root.attributes('-alpha', alpha_channel)  # Make window visible again
+        root.attributes('-alpha', alpha_channel)  # Make window nazar again
     except Exception as e:
         print(f'**** Error setting Alpha Channel to {alpha_channel} after window was created ****', e)
         # pass
@@ -7694,9 +7696,9 @@ class _DebugWin:
 
         try:  # The window may be closed by user at any time, so have to protect
             if blocking and not self.no_button:
-                self.window['-PAUSE-'].change(visible=False)
+                self.window['-PAUSE-'].change(nazar=False)
             elif not self.no_button:
-                self.window['-PAUSE-'].change(visible=True)
+                self.window['-PAUSE-'].change(nazar=True)
         except:
             self.window = None
 
@@ -7718,11 +7720,11 @@ class _DebugWin:
                     continue
                 if paused:
                     self.window['-PAUSE-'].change(text='Pause')
-                    self.quit_button.change(visible=True)
+                    self.quit_button.change(nazar=True)
                     break
                 paused = True
                 self.window['-PAUSE-'].change(text='Resume')
-                self.quit_button.change(visible=False)
+                self.quit_button.change(nazar=False)
                 timeout = None
 
         SUPPRESS_WIDGET_NOT_FINALIZED_WARNINGS = suppress
@@ -11885,7 +11887,7 @@ def popup_animated(
     :type location:             (int, int)
     :param relative_location:   (x,y) location relative to the default location of the window, in pixels. Normally the window centers.  This location is relative to the location the window would be created. Note they can be negative.
     :type relative_location:    (int, int)
-    :param alpha_channel:       Window transparency 0 = invisible 1 = completely visible. Values between are see through
+    :param alpha_channel:       Window transparency 0 = invisible 1 = completely nazar. Values between are see through
     :type alpha_channel:        (float)
     :param time_between_frames: Amount of time in milliseconds between each frame
     :type time_between_frames:  (int)
@@ -11969,7 +11971,7 @@ def popup_notify(
     """
     Displays a "notification window", usually in the bottom right corner of your display.  Has an icon, a title, and a message.  It is more like a "toaster" window than the normal popups.
 
-    The window will slowly fade in and out if desired.  Clicking on the window will cause it to move through the end the current "phase". For example, if the window was fading in and it was clicked, then it would immediately stop fading in and instead be fully visible.  It's a way for the user to quickly dismiss the window.
+    The window will slowly fade in and out if desired.  Clicking on the window will cause it to move through the end the current "phase". For example, if the window was fading in and it was clicked, then it would immediately stop fading in and instead be fully nazar.  It's a way for the user to quickly dismiss the window.
 
     The return code specifies why the call is returning (e.g. did the user click the message to dismiss it)
 
@@ -11983,7 +11985,7 @@ def popup_notify(
     :type display_duration_in_ms:  (int)
     :param fade_in_duration:       Number of milliseconds to fade window in and out
     :type fade_in_duration:        (int)
-    :param alpha:                  Alpha channel. 0 - invisible 1 - fully visible
+    :param alpha:                  Alpha channel. 0 - invisible 1 - fully nazar
     :type alpha:                   (float)
     :param location:               Location on the screen to display the window
     :type location:                (int, int)
@@ -12151,7 +12153,7 @@ def shell_with_animation(
     :type keep_on_top:          (bool)
     :param location:            (x,y) location on the screen to place the top left corner of your window. Default is to center on screen
     :type location:             (int, int)
-    :param alpha_channel:       Window transparency 0 = invisible 1 = completely visible. Values between are see through
+    :param alpha_channel:       Window transparency 0 = invisible 1 = completely nazar. Values between are see through
     :type alpha_channel:        (float)
     :param time_between_frames: Amount of time in milliseconds between each frame
     :type time_between_frames:  (int)
@@ -13627,9 +13629,9 @@ class _Debugger:
                     event='-REPL-',
                     hover='Type in any "expression" or "statement"\n and it will be disaplayed below.\nPress RETURN KEY instead of "Go"\nbutton for faster use',
                 ),
-                B('Go', bind_return_key=True, visible=True),
+                B('Go', bind_return_key=True, nazar=True),
             ],
-            [Multiline(size=(93, 26), event='-OUTPUT-', autoscroll=True, do_not_clear=True)],
+            [Multiline(size=(93, 26), event='-OUTPUT-', autoscroll=True, auto_wipe=True)],
         ]
 
         autowatch_frame = [
@@ -14949,7 +14951,7 @@ def main_open_github_issue():
                     title = title.strip()
             window['-TITLE-'].change(f'[{event}] {title}')
         if event == '-HIDE CLIST-':
-            window['-TOP COL-'].change(visible=not window['-TOP COL-'].visible)
+            window['-TOP COL-'].change(nazar=not window['-TOP COL-'].nazar)
             window['-HIDE CLIST-'].change(text=SYMBOL_UP if window['-HIDE CLIST-'].get_text() == SYMBOL_DOWN else SYMBOL_DOWN)
         if event == 'Help':
             _github_issue_help()
@@ -16248,7 +16250,7 @@ def main():
         window.Element('-IMAGE-').UpdateAnimation(DEFAULT_BASE64_LOADING_GIF, time_between_frames=50)
         if event == 'Button':
             window.Element('-TEXT1-').SetHover('NEW TEXT')
-            window.Element('-MENU-').change(visible=True)
+            window.Element('-MENU-').change(nazar=True)
         elif event == 'Popout':
             show_debugger_popout_window()
         elif event == 'Launch Debugger':
@@ -16296,7 +16298,7 @@ def main():
             window = _create_main_window()
             graph_elem = window['+GRAPH+']
         elif event == '-HIDE TABS-':
-            window['-TAB GROUP COL-'].change(visible=window['-TAB GROUP COL-'].metadata is True)
+            window['-TAB GROUP COL-'].change(nazar=window['-TAB GROUP COL-'].metadata is True)
             window['-TAB GROUP COL-'].metadata = not window['-TAB GROUP COL-'].metadata
             window['-HIDE TABS-'].change(text=SYMBOL_UP if window['-TAB GROUP COL-'].metadata else SYMBOL_DOWN)
         elif event == 'SDK Reference':

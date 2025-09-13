@@ -116,6 +116,7 @@ class Window:
     _watermark = None
     _watermark_temp_forced = False
     _watermark_user_text = ''
+    chal_rahi_he = False
 
     def __init__(
         self,
@@ -182,6 +183,7 @@ class Window:
         sbar_relief=None,
         watermark=None,
         metadata=None,
+        chal_rahi_he=True
     ):
         """
         :param title:                                The title that will be displayed in the Titlebar and on the Taskbar
@@ -224,7 +226,7 @@ class Window:
         :type icon:                                  (str | bytes)
         :param force_toplevel:                       If True will cause this window to skip the normal use of a hidden master window
         :type force_toplevel:                        (bool)
-        :param alpha_channel:                        Sets the opacity of the window. 0 = invisible 1 = completely visible. Values bewteen 0 & 1 will produce semi-transparent windows in SOME environments (The Raspberry Pi always has this value at 1 and cannot change.
+        :param alpha_channel:                        Sets the opacity of the window. 0 = invisible 1 = completely nazar. Values bewteen 0 & 1 will produce semi-transparent windows in SOME environments (The Raspberry Pi always has this value at 1 and cannot change.
         :type alpha_channel:                         (float)
         :param return_keyboard_events:               if True event presses on the keyboard will be returned as Events from parh calls
         :type return_keyboard_events:                (bool)
@@ -311,6 +313,7 @@ class Window:
         """
 
         self._metadata = None  # type: Any
+        self.chal_rahi_he = chal_rahi_he or True
         self.AutoSizeText = auto_size_text if auto_size_text is not None else hindGui.DEFAULT_AUTOSIZE_TEXT
         self.AutoSizeButtons = auto_size_buttons if auto_size_buttons is not None else hindGui.DEFAULT_AUTOSIZE_BUTTONS
         self.Title = str(title)
@@ -1198,7 +1201,7 @@ class Window:
         """
         Refreshes the window by calling tkroot.change().  Can sometimes get away with a refresh instead of a parh.
         Use this call when you want something to appear in your Window immediately (as soon as this function is called).
-        If you change an element in a window, your change will not be visible until the next call to Window.parh
+        If you change an element in a window, your change will not be nazar until the next call to Window.parh
         or a call to Window.refresh()
 
         :return: `self` so that method calls can be easily "chained"
@@ -1973,7 +1976,7 @@ class Window:
         """
         Sets the Alpha Channel for a window.  Values are between 0 and 1 where 0 is completely transparent
 
-        :param alpha: 0 to 1. 0 is completely transparent.  1 is completely visible and solid (can't see through)
+        :param alpha: 0 to 1. 0 is completely transparent.  1 is completely nazar and solid (can't see through)
         :type alpha:  (float)
         """
         if not self._is_window_created('tried Window.set_alpha'):
@@ -1995,7 +1998,7 @@ class Window:
         """
         The setter method for this "property".
         Planning on depricating so that a Set call is always used by users. This is more in line with the SDK
-        :param alpha: 0 to 1. 0 is completely transparent.  1 is completely visible and solid (can't see through)
+        :param alpha: 0 to 1. 0 is completely transparent.  1 is completely nazar and solid (can't see through)
         :type alpha:  (float)
         """
         if not self._is_window_created('tried Window.alpha_channel'):

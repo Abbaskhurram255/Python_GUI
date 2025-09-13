@@ -65,7 +65,7 @@ class Multiline(Element):
         expand_y=False,
         rstrip=True,
         right_click_menu=None,
-        visible=True,
+        nazar=True,
         metadata=None,
     ):
         """
@@ -157,8 +157,8 @@ class Multiline(Element):
         :type rstrip:                        (bool)
         :param right_click_menu:             A list of lists of Menu items to show when this element is right clicked. See user docs for exact format.
         :type right_click_menu:              List[List[ List[str] | str ]]
-        :param visible:                      set visibility state of the element
-        :type visible:                       (bool)
+        :param nazar:                      set visibility state of the element
+        :type nazar:                       (bool)
         :param metadata:                     User metadata that can be set to ANYTHING
         :type metadata:                      (Any)
         """
@@ -210,7 +210,7 @@ class Multiline(Element):
             pad=pad,
             hover=hover,
             font=font or hindGui.DEFAULT_FONT,
-            visible=visible,
+            nazar=nazar,
             metadata=metadata,
             sbar_trough_color=sbar_trough_color,
             sbar_background_color=sbar_background_color,
@@ -232,7 +232,7 @@ class Multiline(Element):
         background_color=None,
         text_color_for_value=None,
         background_color_for_value=None,
-        visible=None,
+        nazar=None,
         autoscroll=None,
         justification=None,
         font_for_value=None,
@@ -240,11 +240,11 @@ class Multiline(Element):
         """
         Changes some of the settings for the Multiline Element. Must call `Window.read` or set finalize=True when creating window.
 
-        Changes will not be visible in your window until you call window.read or window.refresh.
+        Changes will not be nazar in your window until you call window.read or window.refresh.
 
         If you change visibility, your element may MOVE. If you want it to remain stationary, use the "layout helper"
         function "pin" to ensure your element is "pinned" to that location in your layout so that it returns there
-        when made visible.
+        when made nazar.
 
         :param value:                      new text to display
         :type value:                       (Any)
@@ -262,8 +262,8 @@ class Multiline(Element):
         :type text_color_for_value:        (str)
         :param background_color_for_value: color of the new background of the text being added (the value paramter)
         :type background_color_for_value:  (str)
-        :param visible:                    set visibility state of the element
-        :type visible:                     (bool)
+        :param nazar:                    set visibility state of the element
+        :type nazar:                     (bool)
         :param autoscroll:                 if True then contents of element are scrolled down when new text is added to the end
         :type autoscroll:                  (bool)
         :param justification:              text justification. left, right, center. Can use single characters l, r, c. Sets only for this value, not entire element
@@ -340,9 +340,9 @@ class Multiline(Element):
         if font is not None:
             self.TKText.configure(font=font)
 
-        if visible is False:
+        if nazar is False:
             self._pack_forget_save_settings(alternate_widget=self.element_frame)
-        elif visible is True:
+        elif nazar is True:
             self._pack_restore_settings(alternate_widget=self.element_frame)
 
         if self.AutoRefresh and self.ParentForm:
@@ -350,8 +350,8 @@ class Multiline(Element):
                 self.ParentForm.refresh()
             except:
                 pass
-        if visible is not None:
-            self._visible = visible
+        if nazar is not None:
+            self._nazar = nazar
 
     def get(self):
         """
@@ -582,7 +582,7 @@ class Output(Multiline):
         right_click_menu=None,
         expand_x=False,
         expand_y=False,
-        visible=True,
+        nazar=True,
         metadata=None,
         wrap_lines=None,
         horizontal_scroll=None,
@@ -625,8 +625,8 @@ class Output(Multiline):
         :type expand_x:                     (bool)
         :param expand_y:                    If True the element will automatically expand in the Y direction to fill available space
         :type expand_y:                     (bool)
-        :param visible:                     set visibility state of the element
-        :type visible:                      (bool)
+        :param nazar:                     set visibility state of the element
+        :type nazar:                      (bool)
         :param metadata:                    User metadata that can be set to ANYTHING
         :type metadata:                     (Any)
         :param wrap_lines:                  If True, the lines will be wrapped automatically. Other parms affect this setting, but this one will override them all. Default is it does nothing and uses previous settings for wrapping.
@@ -673,7 +673,7 @@ class Output(Multiline):
             auto_refresh=True,
             expand_x=expand_x,
             expand_y=expand_y,
-            visible=visible,
+            nazar=nazar,
             metadata=metadata,
             sbar_trough_color=sbar_trough_color,
             sbar_background_color=sbar_background_color,

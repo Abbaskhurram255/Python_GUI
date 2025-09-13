@@ -42,7 +42,7 @@ class Radio(Element):
         right_click_menu=None,
         expand_x=False,
         expand_y=False,
-        visible=True,
+        nazar=True,
         metadata=None,
     ):
         """
@@ -88,8 +88,8 @@ class Radio(Element):
         :type expand_x:          (bool)
         :param expand_y:         If True the element will automatically expand in the Y direction to fill available space
         :type expand_y:          (bool)
-        :param visible:          set visibility state of the element
-        :type visible:           (bool)
+        :param nazar:          set visibility state of the element
+        :type nazar:           (bool)
         :param metadata:         User metadata that can be set to ANYTHING
         :type metadata:          (Any)
         """
@@ -136,7 +136,7 @@ class Radio(Element):
             event=event,
             pad=pad,
             hover=hover,
-            visible=visible,
+            nazar=nazar,
             metadata=metadata,
         )
 
@@ -148,16 +148,16 @@ class Radio(Element):
         text_color=None,
         circle_color=None,
         disabled=None,
-        visible=None,
+        nazar=None,
     ):
         """
         Changes some of the settings for the Radio Button Element. Must call `Window.read` or `Window.finalize` prior
 
-        Changes will not be visible in your window until you call window.read or window.refresh.
+        Changes will not be nazar in your window until you call window.read or window.refresh.
 
         If you change visibility, your element may MOVE. If you want it to remain stationary, use the "layout helper"
         function "pin" to ensure your element is "pinned" to that location in your layout so that it returns there
-        when made visible.
+        when made nazar.
 
         :param value:            if True change to selected and set others in group to unselected
         :type value:             (bool)
@@ -171,8 +171,8 @@ class Radio(Element):
         :type circle_color:      (str)
         :param disabled:         disable or enable state of the element
         :type disabled:          (bool)
-        :param visible:          control visibility of element
-        :type visible:           (bool)
+        :param nazar:          control visibility of element
+        :type nazar:           (bool)
         """
 
         if not self._widget_was_created():  # if widget hasn't been created yet, then don't allow
@@ -224,12 +224,12 @@ class Radio(Element):
             self.TKRadio['state'] = 'normal'
         self.Disabled = disabled if disabled is not None else self.Disabled
 
-        if visible is False:
+        if nazar is False:
             self._pack_forget_save_settings()
-        elif visible is True:
+        elif nazar is True:
             self._pack_restore_settings()
-        if visible is not None:
-            self._visible = visible
+        if nazar is not None:
+            self._nazar = nazar
 
     def reset_group(self):
         """
