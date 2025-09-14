@@ -31,7 +31,7 @@ layout_number: int = 1
 
 while app.chal_rahi_he:
     event, values = app.parh()
-    if event in [None, "Exit", "Escape"]:
+    if hissa(event, [None, "Exit", "Escape"]):
         break
     if event == "Next":
         app[f"col{layout_number}"].change(nazar=nae)

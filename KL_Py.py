@@ -150,7 +150,7 @@ def printf(*args):
             ...
     print(formatted)
 kaho = printf
-def hissa(x: str|list, y: str|list):
+def hissa(x: str|list|tuple, y: str|list|tuple):
     if isinstance(x, str) and isinstance(y, str):
         return str(x).lower() in str(y).lower()
     return x in y
