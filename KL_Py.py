@@ -1,7 +1,8 @@
 import os, sys, base64, requests, math, re, inspect, ast
 from collections import defaultdict
 from collections.abc import Iterable, Sequence
-from functools import reduce
+from functools import reduce, lru_cache, cache
+from copy import deepcopy
 from types import *
 from typing import List, Callable, TypeVar, Any, Optional, Final
 from numbers import Number
@@ -158,18 +159,61 @@ def printf(*args):
             ...
     print(formatted)
 kaho = printf
-def hissa(x: str|list|tuple, y: str|list|tuple):
+def flat(lst: list) -> list:
+    if lst == None:
+        return []
+    out = []
+    for item in lst:
+        if isinstance(item, Iterable) and not isinstance(item, (str, bytes)):
+            out.extend(flat(item))
+        else:
+            out.append(item)
+    return out
+def clone(item: list|tuple|dict):
+    if item == None:
+        return None
+    return deepcopy(item)
+    #:params        item {{object to clone}}
+    #:types         [(list, tuple, dict),
+    #:returns       list|tuple {{cloned object}}]
+def hissa(x: str|list|tuple, y: str|list|tuple) -> haal:
     if isinstance(x, str) and isinstance(y, str):
         return match_i(x, y)
     return x in y
-def barabar(x, y):
+def barabar(x, y) -> haal:
     if isinstance(x, str) and isinstance(y, str):
         return x.lower() == y.lower()
     return x == y
-def khali(x: Iterable):
+def khali(x: Iterable) -> haal:
     if x == None:
         return False
     return len(x) == 0
+is_empty = isempty = khali
+# type checks
+is_none = isnone = is_null = isnull = lambda x: x == None
+isnt_none = isntnone = non_none = nonnone = lambda x: not is_none(x)
+is_string = isstring = is_str = isstr = lambda x: isinstance(x, str)
+isnt_string = isntstring = isnt_str = isntstr = non_string = nonstring = non_str = nonstr = lambda x: not is_string(x)
+is_integer = isinteger = is_int = isint = lambda x: isinstance(x, int)
+isnt_integer = isntinteger = isnt_int = isntint = non_integer = noninteger = non_int = nonint = lambda x: not is_integer(x)
+is_float = isfloat = is_flt = isflt = lambda x: isinstance(x, float)
+isnt_float = isntfloat = isnt_float = isntfloat = non_float = nonfloat = non_flt = nonflt = lambda x: not is_float(x)
+is_boolean = isboolean = is_bool = isbool = lambda x: isinstance(x, bool)
+isnt_boolean = isntboolean = isnt_bool = isntbool = non_boolean = nonboolean = non_bool = nonbool = lambda x: not is_boolean(x)
+is_array = isarray = is_arr = isarr = lambda x: isinstance(x, (list, tuple))
+isnt_array = isntarray = isnt_arr = isntarr = non_array = nonarray = non_arr = nonarr = lambda x: not is_array(x)
+is_stringarray = is_stringarr = is_strarray = is_strarr = isstringarray = isstringarr = isstrarray = isstrarr = lambda x: isinstance(x, (list[str], tuple[str, ...]))
+isnt_stringarray = isnt_stringarr = isnt_strarray = isnt_strarr = isntstringarray = isntstringarr = isntstrarray = isntstrarr = non_stringarray = non_stringarr = non_strarray = non_strarr = nonstringarray = nonstringarr = nonstrarray = nonstrarr = lambda x: not is_stringarray(x)
+is_integerarray = is_integerarr = is_intarray = is_intarr = isintegerarray = isintegerarr = isintarray = isintarr = lambda x: isinstance(x, (list[int], tuple[int, ...]))
+isnt_integerarray = isnt_integerarr = isnt_intarray = isnt_intarr = isntintegerarray = isntintegerarr = isntintarray = isntintarr = non_integerarray = non_integerarr = non_intarray = non_intarr = nonintegerarray = nonintegerarr = nonintarray = nonintarr = lambda x: not is_integerarray(x)
+is_floatarray = is_floatarr = is_fltarray = is_fltarr = isfloatarray = isfloatarr = isfltarray = isfltarr = lambda x: isinstance(x, (list[float], tuple[float, ...]))
+isnt_floatarray = isnt_floatarr = isnt_fltarray = isnt_fltarr = isntfloatarray = isntfloatarr = isntfltarray = isntfltarr = non_floatarray = non_floatarr = non_fltarray = non_fltarr = nonfloatarray = nonfloatarr = nonfltarray = nonfltarr = lambda x: not is_floatarray(x)
+is_booleanarray = is_booleanarr = is_boolarray = is_boolarr = isbooleanarray = isbooleanarr = isboolarray = isboolarr = lambda x: isinstance(x, (list[bool], tuple[bool, ...]))
+isnt_booleanarray = isnt_booleanarr = isnt_boolarray = isnt_boolarr = isntbooleanarray = isntbooleanarr = isntboolarray = isntboolarr = non_booleanarray = non_booleanarr = non_boolarray = non_boolarr = nonbooleanarray = nonbooleanarr = nonboolarray = nonboolarr = lambda x: not is_booleanarray(x)
+is_iterable = isiterable = lambda x: isinstance(x, Iterable)
+isnt_iterable = isntiterable = non_iterable = noniterable = lambda x: not is_iterable(x)
+is_callable = iscallable = is_function = isfunction = is_func = isfunc = lambda x: callable(x)
+isnt_callable = isntcallable = non_callable = noncallable = lambda x: not is_callable(x)
 def replace(src: str, to_replace: str, replacement: str = "") -> str:
     occurences: list[str] = re.findall(to_replace, src)
     for occurence in occurences:
@@ -371,27 +415,21 @@ class kmath:
         @staticmethod
         def m(n: Number) -> Number:
             return round(n * 3.048e-1, 2)
-        
         @staticmethod
         def km(n: Number) -> Number:
             return round(n * 3.048e-4, 2)
-        
         @staticmethod
         def mi(n: Number) -> Number:
             return round(n * 1.89394e-4, 2)
-        
         @staticmethod
         def inch(n: Number) -> Number:
             return round(n * 1.2e1, 2)
-        
         @staticmethod
         def cm(n: Number) -> Number:
             return round(n * 3.48e+1, 2)
-        
         @staticmethod
         def mm(n: Number) -> Number:
             return round(n * 3.048e+2, 2)
-        
         @staticmethod
         def yd(n: Number) -> Number:
             return round(n * 3.33333e-1, 2)
@@ -399,27 +437,21 @@ class kmath:
         @staticmethod
         def m(n: Number) -> Number:
             return round(n * 2.54e-2, 2)
-        
         @staticmethod
         def km(n: Number) -> Number:
             return round(n * 2.54e-5, 2)
-        
         @staticmethod
         def mi(n: Number) -> Number:
             return round(n * 1.57828e-5, 2)
-        
         @staticmethod
         def ft(n: Number) -> Number:
             return round(n * 8.333e-2, 2)
-        
         @staticmethod
         def cm(n: Number) -> Number:
             return round(n * 2.54, 2)
-        
         @staticmethod
         def mm(n: Number) -> Number:
             return round(n * 2.54e+1, 2)
-        
         @staticmethod
         def yd(n: Number) -> Number:
             return round(n * 2.77778e-2, 2)
@@ -427,27 +459,21 @@ class kmath:
         @staticmethod
         def m(n: Number) -> Number:
             return round(n * 1e-2, 2)
-        
         @staticmethod
         def km(n: Number) -> Number:
             return round(n * 1e-5, 2)
-        
         @staticmethod
         def mi(n: Number) -> Number:
             return round(n * 621371e-6, 2)
-        
         @staticmethod
         def ft(n: Number) -> Number:
             return round(n * 3.28084e-2, 2)
-        
         @staticmethod
         def inch(n: Number) -> Number:
             return round(n * 3.93701e-1, 2)
-        
         @staticmethod
         def mm(n: Number) -> Number:
             return round(n * 1e1, 2)
-        
         @staticmethod
         def yd(n: Number) -> Number:
             return round(n * 1.09361e-2, 2)
@@ -455,27 +481,21 @@ class kmath:
         @staticmethod
         def m(n: Number) -> Number:
             return round(n * 1e-3, 2)
-        
         @staticmethod
         def km(n: Number) -> Number:
             return round(n * 1e-6, 2)
-        
         @staticmethod
         def mi(n: Number) -> Number:
             return round(n * 6.21371e-7, 2)
-        
         @staticmethod
         def ft(n: Number) -> Number:
             return round(n * 3.28084e-3, 2)
-        
         @staticmethod
         def inch(n: Number) -> Number:
             return round(n * 3.93701e-2, 2)
-        
         @staticmethod
         def cm(n: Number) -> Number:
             return round(n * 1e-1, 2)
-        
         @staticmethod
         def yd(n: Number) -> Number:
             return round(n * 1.09361e-3, 2)
@@ -483,27 +503,21 @@ class kmath:
         @staticmethod
         def m(n: Number) -> Number:
             return round(n * 9.144e-1, 2)
-        
         @staticmethod
         def km(n: Number) -> Number:
             return round(n * 9.144e-4, 2)
-        
         @staticmethod
         def mi(n: Number) -> Number:
             return round(n * 5.68182e-4, 2)
-        
         @staticmethod
         def ft(n: Number) -> Number:
             return round(n * 3, 2)
-        
         @staticmethod
         def inch(n: Number) -> Number:
             return round(n * 3.6e1, 2)
-        
         @staticmethod
         def cm(n: Number) -> Number:
             return round(n * 9.144e+1, 2)
-        
         @staticmethod
         def mm(n: Number) -> Number:
             return round(n * 9.144e+2, 2)
@@ -511,27 +525,21 @@ class kmath:
         @staticmethod
         def mg(n: Number) -> Number:
             return round(n * 1e-3, 2)
-        
         @staticmethod
         def g(n: Number) -> Number:
             return round(n * 1e-6, 2)
-        
         @staticmethod
         def kg(n: Number) -> Number:
             return round(n * 1e-9, 2)
-        
         @staticmethod
         def ton(n: Number) -> Number:
             return round(n * 1e-12, 2)
-        
         @staticmethod
         def kiloton(n: Number) -> Number:
             return round(n * 1e-15, 2)
-        
         @staticmethod
         def oz(n: Number) -> Number:
             return round(n * 3.527e-8, 2)
-        
         @staticmethod
         def p(n: Number) -> Number:
             return round(n * 2.205e-9, 2)
@@ -539,27 +547,21 @@ class kmath:
         @staticmethod
         def mcg(n: Number) -> Number:
             return round(n * 1e3, 2)
-        
         @staticmethod
         def g(n: Number) -> Number:
             return round(n * 1e-3, 2)
-        
         @staticmethod
         def kg(n: Number) -> Number:
             return round(n * 1e-6, 2)
-        
         @staticmethod
         def ton(n: Number) -> Number:
             return round(n * 1e-9, 2)
-        
         @staticmethod
         def kiloton(n: Number) -> Number:
             return round(n * 1e-12, 2)
-        
         @staticmethod
         def oz(n: Number) -> Number:
             return round(n * 3.527e-5, 2)
-        
         @staticmethod
         def p(n: Number) -> Number:
             return round(n * 2.205e-6, 2)
@@ -567,27 +569,21 @@ class kmath:
         @staticmethod
         def mcg(n: Number) -> Number:
             return round(n * 1e6, 2)
-        
         @staticmethod
         def mg(n: Number) -> Number:
             return round(n * 1e3, 2)
-        
         @staticmethod
         def kg(n: Number) -> Number:
             return round(n / 1e3, 2)
-        
         @staticmethod
         def ton(n: Number) -> Number:
             return round(n / 1e6, 2)
-        
         @staticmethod
         def kiloton(n: Number) -> Number:
             return round(n / 1e9, 2)
-        
         @staticmethod
         def oz(n: Number) -> Number:
             return round(n * 3.5e-2, 2)
-        
         @staticmethod
         def p(n: Number) -> Number:
             return round(n * 2e-3, 2)
@@ -595,27 +591,21 @@ class kmath:
         @staticmethod
         def mcg(n: Number) -> Number:
             return round(n * 1e9, 2)
-        
         @staticmethod
         def mg(n: Number) -> Number:
             return round(n * 1e6, 2)
-        
         @staticmethod
         def g(n: Number) -> Number:
             return round(n * 1e3, 2)
-        
         @staticmethod
         def ton(n: Number) -> Number:
             return round(n / 1e3, 2)
-        
         @staticmethod
         def kiloton(n: Number) -> Number:
             return round(n / 1e6, 2)
-        
         @staticmethod
         def oz(n: Number) -> Number:
             return round(n * 3.5274e1, 2)
-        
         @staticmethod
         def p(n: Number) -> Number:
             return round(n * 2.204, 2)
@@ -623,27 +613,21 @@ class kmath:
         @staticmethod
         def mcg(n: Number) -> Number:
             return round(n * 1e12, 2)
-        
         @staticmethod
         def mg(n: Number) -> Number:
             return round(n * 1e9, 2)
-        
         @staticmethod
         def g(n: Number) -> Number:
             return round(n * 1e6, 2)
-        
         @staticmethod
         def kg(n: Number) -> Number:
             return round(n * 1e3, 2)
-        
         @staticmethod
         def kiloton(n: Number) -> Number:
             return round(n * 1e-3, 2)
-        
         @staticmethod
         def oz(n: Number) -> Number:
             return round(n * 3.5274e4, 2)
-        
         @staticmethod
         def p(n: Number) -> Number:
             return round(n * 2.204e3, 2)
@@ -651,27 +635,21 @@ class kmath:
         @staticmethod
         def mcg(n: Number) -> Number:
             return round(n * 1e15, 2)
-        
         @staticmethod
         def mg(n: Number) -> Number:
             return round(n * 1e12, 2)
-        
         @staticmethod
         def g(n: Number) -> Number:
             return round(n * 1e9, 2)
-        
         @staticmethod
         def kg(n: Number) -> Number:
             return round(n * 1e6, 2)
-        
         @staticmethod
         def ton(n: Number) -> Number:
             return round(n * 1e3, 2)
-        
         @staticmethod
         def oz(n: Number) -> Number:
             return round(n * 3.5274e7, 2)
-        
         @staticmethod
         def p(n: Number) -> Number:
             return round(n * 2.204e6, 2)
@@ -679,101 +657,77 @@ class kmath:
         @staticmethod
         def mcg(n: Number) -> Number:
             return round(n * 2.835e7, 2)
-        
         @staticmethod
         def mg(n: Number) -> Number:
             return round(n * 2.835e4, 2)
-        
         @staticmethod
         def g(n: Number) -> Number:
             return round(n * 2.835e1, 2)
-        
         @staticmethod
         def kg(n: Number) -> Number:
             return round(n * 2.8e-2, 2)
-        
         @staticmethod
         def ton(n: Number) -> Number:
             return round(n * 2.8e-5, 2)
-        
         @staticmethod
         def kiloton(n: Number) -> Number:
             return round(n * 2.8e-8, 2)
-        
         @staticmethod
         def p(n: Number) -> Number:
             return round(n * 6.3e-2, 2)
-
     class p:
         @staticmethod
         def mcg(n: Number) -> Number:
             return round(n * 4.536e8, 2)
-
         @staticmethod
         def mg(n: Number) -> Number:
             return round(n * 4.536e5, 2)
-
         @staticmethod
         def g(n: Number) -> Number:
             return round(n * 4.536e2, 2)
-
         @staticmethod
         def kg(n: Number) -> Number:
             return round(n * 4.53e-1, 2)
-
         @staticmethod
         def ton(n: Number) -> Number:
             return round(n * 4.53e-4, 2)
-
         @staticmethod
         def kiloton(n: Number) -> Number:
             return round(n * 4.53e-7, 2)
-
         @staticmethod
         def oz(n: Number) -> Number:
             return round(n * 1.6e1, 2)
-
     class ns:
         @staticmethod
         def mcs(n: Number) -> Number:
             return round(n * 1e-3, 2)
-
         @staticmethod
         def ms(n: Number) -> Number:
             return round(n * 1e-6, 2)
-
         @staticmethod
         def s(n: Number) -> Number:
             return round(n * 1e-9, 2)
-
         @staticmethod
         def m(n: Number) -> Number:
             return round(n * 1.6665e-11, 2)
-
         @staticmethod
         def h(n: Number) -> Number:
             return round(n * 2.7775e-13, 2)
-
         @staticmethod
         def d(n: Number) -> Number:
             return round(n * 1.157e-14, 2)
-
         @staticmethod
         def wk(n: Number) -> Number:
             return round(n * 1.653e-15, 2)
-
         @staticmethod
         def mn(n: Number) -> Number:
             return round(n * 3.805e-16, 2)
-
         @staticmethod
         def yr(n: Number) -> Number:
             return round(n * 3.17e-17, 2)
-
         @staticmethod
         def dc(n: Number) -> Number:
             return round(n * 3.17e-18, 2)
-
         @staticmethod
         def c(n: Number) -> Number:
             return round(n * 3.17e-19, 2)
@@ -1013,10 +967,31 @@ def filepath(filename: str) -> str:
     return os.path.join(os.getcwd(), filename)
 
 def main() -> none:
-    print(obj(key="value")["key"] == obj(key="value").key)
+    dictionary: obj = obj(key="value")
+    cloned = clone(dictionary)
+    cloned.key = 4
+    print(dictionary)
+    print(cloned)
     name = "Misty"
     x=4
     printf("$name, dont! You are, but a $10+5-8 -year-old kid. $x")
+    print(isstr(""))
+    print(isint(3))
+    print(isflt(""))
+    print(isstr(None))
+    print(isstr(None))
+    print(isstr(None))
+    print(isstr(None))
+    print(isstr(None))
+    print(isstr(None))
+    print(isfunc(internet_access))
+    curframe: Optional[FrameType] = inspect.currentframe()
+    caller_locals: obj = obj(curframe.f_locals | curframe.f_globals)
+    while hasattr(curframe, "f_back") and curframe.f_back != None:
+        caller_locals = caller_locals | curframe.f_locals | curframe.f_globals
+        curframe = curframe.f_back
+        # keep retrieving until you hit the oldest ancestor
+    print(caller_locals)
     
 if __name__ == "__main__":
     main()
