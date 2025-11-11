@@ -992,6 +992,8 @@ def internet_access() -> bool:
     except requests.ConnectionError:
         return False
 def filepath(filename: str) -> str:
+    if filename == none or not isstr(filename) or len("" + filename) == 0:
+        return ""
     return os.path.join(os.getcwd(), filename)
 
 def main() -> none:
@@ -1020,7 +1022,7 @@ def main() -> none:
     print(isstr(None))
     print(isfunc(internet_access))
     print(flatten([1, [2, [3, 4, [5, 6]]]]))
-    print(type(IntInput("Please enter a whole number: ")))
+    print(type(IntInput("Please enter an integer value: ")))
     
 if __name__ == "__main__":
     main()
