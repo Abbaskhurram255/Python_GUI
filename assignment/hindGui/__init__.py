@@ -37,6 +37,7 @@ from typing import List  # noqa
 from typing import Tuple  # noqa
 
 
+
 # get the tkinter detailed version
 tclversion_detailed = tkinter.Tcl().eval('info patchlevel')
 framework_version = tclversion_detailed
@@ -1762,7 +1763,7 @@ def FileBrowse(
     auto_size_button=None,
     button_color=None,
     change_submits=False,
-    enable_events=False,
+    enable_events=True,
     font=None,
     disabled=False,
     pad=None,
@@ -9651,14 +9652,8 @@ def keh(
     :rtype:                       str | None
     """
 
-    if not args:
-        args_to_print = ['']
-    else:
-        args_to_print = args
-    if line_width is not None:
-        local_line_width = line_width
-    else:
-        local_line_width = MESSAGE_BOX_LINE_WIDTH
+    args_to_print = args if args is not None else ['']
+    local_line_width = line_width if line_width is not None else MESSAGE_BOX_LINE_WIDTH
     _title = title if title is not None else args_to_print[0]
 
     layout = [[]]
@@ -9670,8 +9665,6 @@ def keh(
             layout += [[Image(data=image)]]
 
     for message in args_to_print:
-        # fancy code to check if string and convert if not is not need. Just always convert to string :-)
-        # if not isinstance(message, str): message = str(message)
         message = str(message)
         if message.count('\n'):  # if there are line breaks, then wrap each segment separately
             # message_wrapped = message         # used to just do this, but now breaking into smaller pieces
@@ -9689,10 +9682,7 @@ def keh(
         layout += [[Text(message_wrapped, auto_size_text=True, text_color=text_color, background_color=background_color)]]
         total_lines += height
 
-    if non_blocking:
-        PopupButton = DummyButton  # important to use or else button will die other windows too!
-    else:
-        PopupButton = Button
+    PopupButton = DummyButton if non_blocking else Button  # important to use, else the button will die, along with the other windows!
     # show either an OK or Yes/No depending on paramater
     if custom_text != (None, None):
         if type(custom_text) is not tuple:
@@ -9740,9 +9730,9 @@ def keh(
             ]
         ]
     elif button_type == POPUP_BUTTONS_CANCELLED:
-        layout += [[PopupButton('Cancelled', button_color=button_color, focus=True, bind_return_key=True)]]
+        layout += [[PopupButton('Cancel', button_color=button_color, focus=True, bind_return_key=True)]]
     elif button_type == POPUP_BUTTONS_ERROR:
-        layout += [[PopupButton('Error', size=(6, 1), button_color=button_color, focus=True, bind_return_key=True)]]
+        layout += [[PopupButton('OK', size=(6, 1), button_color=button_color, focus=True, bind_return_key=True)]]
     elif button_type == POPUP_BUTTONS_OK_CANCEL:
         layout += [
             [
@@ -16436,56 +16426,43 @@ from hindGui.elements.table import Table
 from hindGui.elements.text import Text
 from hindGui.elements.tree import Tree
 from hindGui.elements.tree import TreeData
+from hindGui.elements.center import Center, VCenter, HCenter
 from hindGui.tray import SystemTray
 from hindGui.window import Window
 from hindGui._utils import _error_popup_with_traceback
 
+Button.ko_click = Button.click
 # Element aliases
-In = Input
-InputText = Input
-I = Input  # noqa
-InputCombo = Combo
-DropDown = InputCombo
-Drop = InputCombo
-DD = Combo
+I = In = Inp = InputText = Input
+IC = ICombo = InCombo = InpCombo = InputCombo = DropDown = Drop = DD = Combo
 InputOptionMenu = OptionMenu
-LBox = Listbox
-LB = Listbox
-R = Radio
-Rad = Radio
-CB = Checkbox
-CBox = Checkbox
-Check = Checkbox
+ListBox = LBox = LB = List = Listbox
+R = Rad = Radio
+CheckBox = CBox = CB = Ch = Check = Checkbox
 Sp = Spin
-ML = Multiline
-MLine = Multiline
+ML = MLn = Mln = MLine = Mline = Multiline
 Txt = Text  # type: Text
 T = Text  # type: Text
 SBar = StatusBar
-B = Button
-Btn = Button
+B = Btn = b = btn = button = Button
 BMenu = ButtonMenu
 BM = ButtonMenu
-Im = Image
-PBar = ProgressBar
-Prog = ProgressBar
-Progress = ProgressBar
-G = Graph
+Im = Img = Image
+PBar = Prog = ProgBar = Progress = ProgressBar
+G = Gr = Graph
 Fr = Frame
-VSeperator = VerticalSeparator
-VSeparator = VerticalSeparator
-VSep = VerticalSeparator
+VSeparator = VSep = VerticalSeparator
+HSeparator = HSep = HorizontalSeparator
 MenuBar = Menu
-HSeparator = HorizontalSeparator
-HSep = HorizontalSeparator
-SGrip = Sizegrip
+SGrip = Grip = SG = Sizegrip
 Sl = Slider
-Col = Column
-MenuBar = Menu
-P = Push
-Stretch = Push
-VStretch = VPush
-VP = VPush
+Col = Clm = Column
+MenuBar = Me = Menu
+HStretch = Stretch = HorizontalGap = HGap = Gap = HSpace = Space = HSp = HS = HPush = HP = P = Push
+VStretch = VerticalGap = VGap = VSpace = VSp = VS = VP = VPush
+C = center = Center
+HC = hc = HCenter
+VC = vc = VCenter
 FlexForm = Window
 hindGui = Window
 
