@@ -71,7 +71,7 @@ def execute(filename: str) -> None:
         "jumla": "str",
         "nr": "Number",
     }
-    with open(filename, "r") as file:
+    with open(filename, "r", encoding="utf-8") as file:
         code = file.read()
         # Remove strings
         strings = find_matches(code, r"\"[^\"]*\"")
@@ -87,8 +87,8 @@ def execute(filename: str) -> None:
         code = replace(code, r"\bmangao (?<module>[\w\.]+)\b", "import $module")
         # sequence matters!
         # handling `A me B`, and `A B me` cases
-        code = replace(code, "(?<B>\S+) (?<A>(\w+|[\(\[\{\"\'](?:[\"\'\w\-\.]+[,\s]*[\)\]\}]*)+[\)\]\}\"\'])) me", "$B in $A")
-        code = replace(code, "(?<A>(\w+|[\(\[\{\"\'](?:[\"\'\w\-\.]+[,\s]*[\)\]\}]*)+[\)\]\}\"\'])) me (?<B>\S+) ", "$B in $A")
+        code = replace(code, r"(?<B>\S+) (?<A>(\w+|[\(\[\{\"\'](?:[\"\'\w\-\.]+[,\s]*[\)\]\}]*)+[\)\]\}\"\'])) me", "$B in $A")
+        code = replace(code, r"(?<A>(\w+|[\(\[\{\"\'](?:[\"\'\w\-\.]+[,\s]*[\)\]\}]*)+[\)\]\}\"\'])) me (?<B>\S+) ", "$B in $A")
         # handle (?<=cls )`B (of|from|>|inherits|ext(ends)?|is_?an?) A` cases
         code = replace(code, r"\bcls\b", "class")
         code = replace(code, r"(?<=\bclass\s)(?<B>\w+)\s(of|from|[>]|ext(ends)?|is[\s_]?an?)?\s(?<A>\w+)\b", "$B($A)")
@@ -108,17 +108,6 @@ def execute(filename: str) -> None:
         code = replace(code, r"(?<type>:\s*\w+)(?<optionalityoperator>\?)", "$type|None")
         code = replace(code, r"\bnone\b", "None")
         # announce :=
-        """
-        multi_assigment_regex: str = r"(?<k>\w+)\s*:=\s*\(?<v>[^)]+\)"
-        multi_assigments: str|None = re.match(multi_assigment_regex, code)
-        if multi_assignments is not None:
-        	multi_assigments = multi_assigments.
-        
-        for occurence in multi_assigments:
-        	code = replace(code, occurrence, "$k = ": ")
-        
-        a := (1, 2, 3)
-        """
         for key, value in keys.items():
             code = re.sub(r"(?<!(?:arz|var)\s)\b(" + re.escape(key) + r"(?!\s?:\s?\w+))\b", value, code)
         # Restore strings
@@ -139,8 +128,19 @@ def execute(filename: str) -> None:
 
 def main() -> None:
     arg: str
-    arg = argv[1] if len(argv) >= 2 else "test.klang"
-    execute(arg)
+    arg = argv[0] if len(argv) != 0 else "test"
+    if not arg.endswith(".klang"):
+        arg += ".klang"
+    if not File(arg).is_file():
+        if len(argv) != 0:
+            arg = argv[0]
+    if not File(arg).is_file():
+        arg = "main.klang"
+    try:
+        execute(arg)
+    except FileNotFoundError:
+        print("No entry point was found, please pass in a valid filename")
+                        
 
 if __name__ == "__main__":
     main()
