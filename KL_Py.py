@@ -1,5 +1,5 @@
 from types import *
-from typing import List, Callable, TypeVar, NewType, Any, Optional, Union, Final
+from typing import List, Callable, TypeVar, NewType, Any, Optional, Union, Final, Self, Generic
 from collections import defaultdict
 from collections.abc import Sequence
 from functools import reduce, lru_cache, cache
@@ -10,7 +10,7 @@ from numbers import Number
 from datetime import datetime
 from copy import deepcopy
 from pathlib import Path
-import os, sys, json, shutil, base64, requests, math, re, ast, webbrowser
+import os, sys, platform, json, shutil, base64, requests, math, re, ast, webbrowser
 from re import escape
 from enum import Enum
 from inspect import *
@@ -24,7 +24,8 @@ rand_from = rand_of = any_from = any_of = choice
 choices = sample
 haal = filhal = filhaal = bool
 nahi = lambda x: not(x)
-Str = lafz = jumla = str
+Str = lafz = jumla = Str = lambda x: str(x).strip() # trim the string after parsing
+# no one needs additional whitespace
 nr = num = Number
 Infinity = infinity = inf
 IntInfinity = int_infinity = int_inf = intinf = sys.maxsize
@@ -33,17 +34,21 @@ link = webbrowser
 typename = TypeT = typeT = TypeVar("T")
 def Int(x: str|int|float, base: int = 10) -> int:
     try:
-        x = Str(x)
-        if "." in x:
+        x = replace(Str(x).strip(), r"[^e\+\-\d\.]", "") # NOTE: keep the ., it's needed for now. keep. the. dot.
+        # ^ allow the dot . to pass through, for now, so 23.5 does NOT become 253
+        if "." in x and len(x) >= 2:
+            # and later, remove it gracefully
             x = x.split(".")[0]
         return int(x, base)
     except (ValueError, TypeError):
         return 0
 def Flt(x: str|int|float) -> float:
     try:
+        if isinstance(x, str):
+        	x = replace(x.strip(), r"[^e\+\-\d\.]", "")
         return float(x)
     except (ValueError, TypeError):
-        return 0
+        return 0.0
 def IntInput(*args, **kwargs):
     try:
         return Int(input(*args, **kwargs))
@@ -55,6 +60,90 @@ def FltInput(*args, **kwargs):
     except Exception:
         return 0
 intInput, fltInput = IntInput, FltInput
+collect = zip
+class numlist(list[Number]):
+	def __init__(self, *items: Number):
+		super().__init__(items)
+	def __add__(self, other: list[Number]):
+		lst: numlist = numlist()
+		for a, b in zip(self[0], other):
+			lst.append(a+b)
+		return lst
+	def __sub__(self, other: list[Number]):
+		lst: numlist = numlist()
+		for a, b in zip(self[0], other):
+			lst.append(a-b)
+		return lst
+	def __mul__(self, other: list[Number]):
+		lst: numlist = numlist()
+		for a, b in zip(self[0], other):
+			lst.append(a*b)
+		return lst
+	def __truediv__(self, other: list[Number]):
+		lst: numlist = numlist()
+		for a, b in zip(self[0], other):
+			if b == 0:
+				b = 1
+			lst.append(a/b)
+		return lst
+	def __neg__(self, other: list[Number]):
+		return numlist(-x for x in self[0])
+	def __abs__(self, other: list[Number]):
+		return numlist(-1 * x for x in self[0])
+	def __pow__(self, other: list[Number]):
+		lst: numlist = numlist()
+		for a, b in zip(self[0], other):
+			if b == 0:
+				b = 1
+			lst.append(a ** b)
+		return lst
+	def __gt__(self, other: list[Number]):
+		return all(a > b for a, b in zip(self[0], other))
+	def __lt__(self, other: list[Number]):
+		return all(a < b for a, b in zip(self[0], other))
+	def __ge__(self, other: list[Number]):
+		return all(a >= b for a, b in zip(self[0], other))
+	def __le__(self, other: list[Number]):
+		return all(a <= b for a, b in zip(self[0], other))
+	def __eq__(self, other: list[Number]):
+		return all(a == b for a, b in zip(self[0], other))
+	def __ne__(self, other: list[Number]):
+		return all(a != b for a, b in zip(self[0], other))
+	def __str__(self):
+		return f"numlist([{', '.join(map(str, self))}])"
+	def __repr__(self):
+		return f"numlist([{', '.join(map(repr, self))}])"
+class Stack(Generic[TypeT]):
+    def __init__(self, *items: T):
+        self.array: list[T] = []
+        self.length: int = -1
+        if len(items) != 0:
+            for item in items:
+                self.push(item)
+    def push(self, item: T) -> Self:
+        self.array.append(item)
+        self.length += 1
+        return self
+    def pop(self) -> Optional[T]:
+        if self.length == -1:
+            return None
+        popped: T = self.array[self.length]
+        self.length -= 1
+        return popped
+    def top(self) -> Optional[T]:
+        if self.length == -1:
+            return None
+        return self.array[self.length]
+    def len(self) -> int:
+        return self.length + 1
+    def length(self) -> int:
+        return self.len()
+    def size(self) -> int:
+        return self.len()
+    def __len__(self) -> int:
+        return self.len()
+    def __str__(self) -> str:
+        return str(self.array)
 class obj(dict):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -79,11 +168,11 @@ class obj(dict):
             else:
                 converted_collection.append(item)
         return type(collection)(converted_collection)
-    def __getattr__(self, key):
+    def __getattr__(self, key) -> Any|dict:
         try:
             return self[key]
-        except KeyError:
-            raise AttributeError(f"object '{self.__class__.__name__}' has no attribute '{key}'")
+        except KeyError as e:
+             raise AttributeError(f"object '{self.__class__.__name__}' has no attribute '{key}'")
     def __setattr__(self, key, value):
         if isinstance(value, dict):
             self[key] = obj(value)
@@ -112,12 +201,12 @@ def keys(dictionary: dict):
 def values(dictionary: dict):
     return list(dictionary.values())
 def entries(dictionary: dict):
-    return list(dictionary.entries())
-keysOf = keys
-valuesOf = values
-entriesOf = entries
+    return list(dictionary.items())
+get_keys = keys_of = keys
+get_values = values_of = values
+get_entries = entries_of = entries
 def remove_duplicates(lst: list) -> list:
-	if not lst:
+	if not lst or not isinstance(lst, list):
 		return []
 	return list(dict.fromkeys(lst).keys())
 def get_local_declarations() -> obj:
@@ -177,9 +266,14 @@ def reverse(x: str | list[any]):
 	return x[::-1]
 filter = lambda arr, condition: filter(condition, arr)
 # test this	
-def rng(x: str|list|tuple|Number, y: str|list|tuple|Number|None = None, step: Number = 1) -> list[int] | list[float]:
+def rng(x: str|list|tuple|Number, y: str|list|tuple|Number|None = None, step: Number = 1, **kwArgs) -> list[int] | list[float]:
     if x is None or not isinstance(x, (str, list, tuple, Number)) or not isinstance(y, (str, list, tuple, Number, NoneType)) or step is None or not isinstance(step, Number):
     	return []
+    if len(kwArgs.keys()) > 0:
+    	if "s" in kwArgs:
+    	    step = kwArgs.get("s", 0)
+    	elif "step" in kwArgs:
+    		step = kwArgs.get("step", 0)
     if step <= 0:
         step = 1
     if isinstance(y, Number) and step >= y:
@@ -251,7 +345,7 @@ def f(*args) -> str:
     frames = reversed(frames)
     # reverse the frames to prioritize the closest local scope first
     for scope in frames:
-    	caller_locals.update(scope.f_locals)
+    	caller_locals.update(scope.f_globals | scope.f_locals)
     blacklisted_keywords: list[str] = ['import', '__', 'open', 'exec', 'eval', 'del', 'lambda']
     blacklisted_functions: list[str] = ['system', 'popen', 'subprocess']
     blacklisted_items: list[str] = blacklisted_keywords + blacklisted_functions
@@ -266,16 +360,14 @@ def f(*args) -> str:
                     print(f"Forbidden keyword/function in input: '{item}'")
                     continue
             # Evaluate the expression
-            arg = re.sub(r"[\$\{]+([^\s\{\}\$]+)\}?", r"{\1}", arg)
-            arg = re.sub(r'[\$\{]+([a-zA-Z_][a-zA-Z0-9_.]*(\(.*?\))?(?:[^\}]*)?)\}?', r'{\1}', arg)
-            # fixing a syntactic bug...
-            arg = replace(arg, r",\}", "}")
+            arg = re.sub(r"(?<!\\)[\$\{]+([^\s\{\}\(\)\$]+(?:\(([\w\.\-]+(,\s*)?)*\))?)\}?", r"{\1}", arg)
+            # (?<!\\) means recognize escapes, and only match if the dollar '$', and opening_brace '{'' are not precededed by a forward slash '\' (which is the standard pattern for regex escapes)
             evaluation: str = eval(f"f'{arg}'", {"__builtins__": {}}, caller_locals)
             WHITESPACE_CHAR = " "
             # for readability, there should be a whitespace character after each argument, except the last one (though, for the last one, it does not really matter, as it usually goes unnoticed)
             formatted += evaluation + WHITESPACE_CHAR
-        except Exception:
-            return ""
+        except Exception as e:
+            print(e)
     formatted = formatted.rstrip()
     return formatted
 def printf(*args, **kwargs):
@@ -334,10 +426,37 @@ is_string = isstring = is_str = isstr = lambda x: isinstance(x, str)
 isnt_string = isntstring = isnt_str = isntstr = non_string = nonstring = non_str = nonstr = lambda x: not is_string(x)
 is_integer = isinteger = is_int = isint = lambda x: isinstance(x, int)
 isnt_integer = isntinteger = isnt_int = isntint = non_integer = noninteger = non_int = nonint = lambda x: not is_integer(x)
+def is_int_like(x: str) -> bool:
+	x = str(x)
+	parsed: int = 0
+	try:
+		parsed = int(x)
+		return True
+	except ValueError:
+		...
+	return False
 is_float = isfloat = is_flt = isflt = lambda x: isinstance(x, float)
 isnt_float = isntfloat = isnt_float = isntfloat = non_float = nonfloat = non_flt = nonflt = lambda x: not is_float(x)
+def is_float_like(x: str) -> bool:
+	x = str(x)
+	parsed: float = 0.0
+	try:
+		parsed = float(x)
+		return True
+	except ValueError:
+		...
+	return False
+is_flt_like = is_float_like
 is_boolean = isboolean = is_bool = isbool = lambda x: isinstance(x, bool)
 isnt_boolean = isntboolean = isnt_bool = isntbool = non_boolean = nonboolean = non_bool = nonbool = lambda x: not is_boolean(x)
+def is_bool_like(x: str) -> bool:
+	x = str(x)
+	parsed: bool = False
+	if x == "True":
+		parsed = True
+	elif x == "False":
+		parsed = False
+	return parsed
 is_array = isarray = is_arr = isarr = lambda x: isinstance(x, (list, tuple))
 isnt_array = isntarray = isnt_arr = isntarr = non_array = nonarray = non_arr = nonarr = lambda x: not is_array(x)
 is_stringarray = is_stringarr = is_strarray = is_strarr = isstringarray = isstringarr = isstrarray = isstrarr = lambda x: isinstance(x, (list[str], tuple[str, ...]))
@@ -352,8 +471,17 @@ is_iterable = isiterable = lambda x: isinstance(x, Iterable)
 isnt_iterable = isntiterable = non_iterable = noniterable = lambda x: not is_iterable(x)
 is_callable = iscallable = is_function = isfunction = is_func = isfunc = lambda x: callable(x)
 isnt_callable = isntcallable = non_callable = noncallable = lambda x: not is_callable(x)
-def split(srcString: str, regex: str, maxsplits: int = IntInfinity, flags: int = 0) -> str:
-    return re.split(regex, srcString, maxsplit=maxsplits, flags=flags)
+def split(srcString: str, regex: str = "", maxsplits: int = IntInfinity, flags: int = 0) -> list[str]:
+    if not srcString or not isinstance(srcString, str) or not isinstance(regex, str):
+    	# allow regex to be empty, as it will be sometimes
+    	return []
+    regex = re.sub(r"(\?)(<\w+>)", r"\1P\2", regex)
+    raw_list: list[str] = re.split(regex, srcString, maxsplit=maxsplits, flags=flags)
+    result: list[str] = []
+    for x in raw_list:
+    	if x.strip():
+    		result.append(x)
+    return result
 def replace(src: str, to_replace: str, replacement: str = "") -> str:
     if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, str):
     	# allow empty replacement for removals
@@ -400,28 +528,46 @@ def replace_one_i(src: str, to_replace: str, replacement: str = "") -> str:
     src = re.sub(to_replace, replacement, src, flags=re.IGNORECASE, count=1)
     return src
 replace_first_i: Callable[[str, str, str, Optional[bool]], str] = replace_one_i
-def find_matches(src: str, to_find: str) -> list:
+def find_matches(src: str, to_find: str) -> list[str]:
+    if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
+    	return []
+    to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = re.findall(to_find, src)
     return matches
 def find_matches_i(src: str, to_find: str) -> list:
+    if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
+    	return []
+    to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = re.findall(to_find, src, re.IGNORECASE)
     return matches
 def find_match(src: str, to_find: str) -> str:
+    if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
+    	return ""
+    to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = find_matches(src, to_find)
     if len(matches) == 0:
         return ""
     return matches[0]
 def find_match_i(src: str, to_find: str) -> str:
+    if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
+    	return ""
+    to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = find_matches_i(src, to_find)
     if len(matches) == 0 or not matches[0]:
         return ""
     return matches[0]
 def match(src: str, to_find: str) -> bool:
+    if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
+    	return []
+    to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = find_matches(src, to_find)
     if len(matches) == 0:
         return False
     return True
 def match_i(src: str, to_find: str) -> bool:
+    if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
+    	return []
+    to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = find_matches_i(src, to_find)
     if len(matches) == 0:
         return False
@@ -460,6 +606,18 @@ class money:
 class pesa(money):
     def __init__(self, amount=0, currency="Rs. "):
         super().__init__(amount, currency)
+def open_file_case_ins(filename: str, mode: str = 'r'):
+    if not filename or not os.path.isfile(filename):
+        raise FileNotFoundError(f"File '{filename}' doesn't exist")
+    directory, name = os.path.split(filename)
+    directory = directory or '.'  # Default to current directory if none specified
+    name_lower = name.lower()
+    for actual_file_name in os.listdir(directory):
+        if actual_file_name.lower() == name_lower:
+            actual_path = os.path.join(directory, actual_file_name)
+            if os.path.isfile(actual_path):
+                return open(actual_path, mode)
+open_case_ins = open_file_case_ins
 class File:
     def __init__(self, path: Union[str, Path]):
         self.pathname = Path(path)
@@ -541,7 +699,7 @@ class File:
         try:
             if not fname:
                 raise ValueError("File name is required")
-            with open(fname, 'r') as f:
+            with open_case_ins(fname, 'r') as f:
                 contents: str = f.read()
                 return contents
         except ValueError as e:
@@ -746,7 +904,7 @@ def main() -> none:
     print(name)
     x: num = 4
     print(x)
-    printf("$name, dont! You are, but a $10+5-8 -year-old kid. $x")
+    printf("$name dont! You are, but a $10+5-8 -year-old kid. $x")
     print(isstr(""))
     print(isint(3))
     print(isflt(""))
@@ -764,6 +922,10 @@ def main() -> none:
     printf("hi, $75000.77778:,")
     x = 12345.6789
     print(f("$x", "$x:.2f", f"{x:,}", f"{x:,.2f}"))
+    array = numlist([1, 2, 3])
+    array2 = numlist(2, 4, 6)
+    result = array ** array2
+    print(result)
     #pprint({"name": "Mike", "age": 17, "hobbies": ["horse riding", "country music", "farming"]})
     
 if __name__ == "__main__":
