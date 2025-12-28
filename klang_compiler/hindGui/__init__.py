@@ -37,13 +37,22 @@ from typing import List  # noqa
 from typing import Tuple  # noqa
 
 
-# get the tkinter detailed __hindGui_version__
-TCLVERSION_DETAILED = tkinter.Tcl().eval('info patchlevel')
-TCL_FWK_VERSION = TCLVERSION_DETAILED
-__hindGui_version__ = '0.0.0.0'
+
+# get the tkinter detailed HINDGUI_VERSON
+TCLHINDGUI_VERSON_DETAILED = tkinter.Tcl().eval('info patchlevel')
+HINDGUI_FW_HINDGUI_VERSON = TCLHINDGUI_VERSON_DETAILED
+
+HINDGUI_VERSON = __hindGui_version__ = 'v0.8'
+
+# The shortened HINDGUI_VERSON of HINDGUI_VERSON
+try:
+    ver = HINDGUI_VERSON.split(' ')[0]
+except:
+    ver = ''
 
 try:
     import webbrowser
+
     webbrowser_available = True
 except:
     webbrowser_available = False
@@ -55,9 +64,9 @@ nae = na_ae = False
 
 warnings.simplefilter('always', UserWarning)
 
-G__TIME_START_ = 0
-G__TIME_END_ = 0
-G__TIME_DELTA_ = 0
+G_TIME_START = 0
+G_TIME_END = 0
+G_TIME_DELTA = 0
 
 # ----====----====----==== Constants the user CAN safely change ====----====----====----#
 
@@ -118,12 +127,12 @@ NICE_BUTTON_COLORS = (
     (YELLOWS[0], BLUES[2]),
 )
 
-COLOR_SYSTEM_DEFAULT = '1234567890'  # A Magic Number kind of signal to hindGui that the color should not be set at all
+COLOR_SYSTEM_DEFAULT = '1234567890'  # A Magic Number kind of signal to HindGui that the color should not be set at all
 DEFAULT_BUTTON_COLOR = ('white', BLUES[0])  # Foreground, Background (None, None) == System Default
-OFFICIAL_PYSIMPLEGUI_BUTTON_COLOR = ('white', BLUES[0])
+OFFICIAL_HINDGUI_BUTTON_COLOR = ('white', BLUES[0])
 
-# The "default hindGui theme"
-OFFICIAL_PYSIMPLEGUI_THEME = CURRENT_LOOK_AND_FEEL = 'Dark Blue 3'
+# The "default HindGui theme"
+OFFICIAL_HINDGUI_THEME = CURRENT_LOOK_AND_FEEL = 'Dark Blue 3'
 
 DEFAULT_ERROR_BUTTON_COLOR = ('#FFFFFF', '#FF0000')
 DEFAULT_BACKGROUND_COLOR = None
@@ -490,10 +499,10 @@ def timer_start():
     Time your code easily.... starts the timer.
     Uses the time.time value, a technique known to not be terribly accurage, but tis' gclose enough for our purposes
     """
-    global G__TIME_START_
-    warnings.warn('The timer_start function is deprecated and will be removed in a future __hindGui_version__', DeprecationWarning, stacklevel=2)
+    global G_TIME_START
+    warnings.warn('The timer_start function is deprecated and will be removed in a future HINDGUI_VERSON', DeprecationWarning, stacklevel=2)
 
-    G__TIME_START_ = time.time()
+    G_TIME_START = time.time()
 
 
 def timer_stop():
@@ -503,12 +512,12 @@ def timer_stop():
     :return: delta in MILLISECONDS from timer_start was called
     :rtype:  int
     """
-    global G__TIME_DELTA_, G__TIME_END_
-    warnings.warn('The timer_stop function is deprecated and will be removed in a future __hindGui_version__', DeprecationWarning, stacklevel=2)
+    global G_TIME_DELTA, G_TIME_END
+    warnings.warn('The timer_stop function is deprecated and will be removed in a future HINDGUI_VERSON', DeprecationWarning, stacklevel=2)
 
-    G__TIME_END_ = time.time()
-    G__TIME_DELTA_ = G__TIME_END_ - G__TIME_START_
-    return int(G__TIME_DELTA_ * 1000)
+    G_TIME_END = time.time()
+    G_TIME_DELTA = G_TIME_END - G_TIME_START
+    return int(G_TIME_DELTA * 1000)
 
 
 def timer_stop_usec():
@@ -518,12 +527,12 @@ def timer_stop_usec():
     :return: delta in MICROSECONDS from timer_start was called
     :rtype:  int
     """
-    global G__TIME_DELTA_, G__TIME_END_
-    warnings.warn('The timer_stop_usec function is deprecated and will be removed in a future __hindGui_version__', DeprecationWarning, stacklevel=2)
+    global G_TIME_DELTA, G_TIME_END
+    warnings.warn('The timer_stop_usec function is deprecated and will be removed in a future HINDGUI_VERSON', DeprecationWarning, stacklevel=2)
 
-    G__TIME_END_ = time.time()
-    G__TIME_DELTA_ = G__TIME_END_ - G__TIME_START_
-    return int(G__TIME_DELTA_ * 1000000)
+    G_TIME_END = time.time()
+    G_TIME_DELTA = G_TIME_END - G_TIME_START
+    return int(G_TIME_DELTA * 1000000)
 
 
 def _timeit(func):
@@ -535,7 +544,7 @@ def _timeit(func):
     :return:     Execution time for the decorated function
     :rtype:
     """
-    warnings.warn('The _timeit function is deprecated and will be removed in a future __hindGui_version__', DeprecationWarning, stacklevel=2)
+    warnings.warn('The _timeit function is deprecated and will be removed in a future HINDGUI_VERSON', DeprecationWarning, stacklevel=2)
 
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -563,7 +572,7 @@ def _timeit_summary(func):
     :return:     Execution time for the decorated function
     :rtype:
     """
-    warnings.warn('The _timeit_summary function is deprecated and will be removed in a future __hindGui_version__', DeprecationWarning, stacklevel=2)
+    warnings.warn('The _timeit_summary function is deprecated and will be removed in a future HINDGUI_VERSON', DeprecationWarning, stacklevel=2)
 
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -744,7 +753,7 @@ SYMBOL_RIGHT_ARROWHEAD = '⮞'
 SYMBOL_UP_ARROWHEAD = '⮝'
 SYMBOL_DOWN_ARROWHEAD = '⮟'
 
-if sum([int(i) for i in TCLVERSION_DETAILED.split('.')]) > 19:
+if sum([int(i) for i in TCLHINDGUI_VERSON_DETAILED.split('.')]) > 19:
     SYMBOL_TITLEBAR_MINIMIZE = '_'
     SYMBOL_TITLEBAR_MAXIMIZE = '◻'
     SYMBOL_TITLEBAR_CLOSE = 'Ｘ'
@@ -757,15 +766,15 @@ else:
 # These paths are passed to os.path.expanduser to get the default path for user_settings
 # They can be changed using set_options
 
-DEFAULT_USER_SETTINGS_WIN_PATH = r'~\AppData\Local\hindGui\settings'
-DEFAULT_USER_SETTINGS_LINUX_PATH = r'~/.config/hindGui/settings'
-DEFAULT_USER_SETTINGS_MAC_PATH = r'~/Library/Application Support/hindGui/settings'
+DEFAULT_USER_SETTINGS_WIN_PATH = r'~\AppData\Local\HindGui\settings'
+DEFAULT_USER_SETTINGS_LINUX_PATH = r'~/.config/HindGui/settings'
+DEFAULT_USER_SETTINGS_MAC_PATH = r'~/Library/Application Support/HindGui/settings'
 DEFAULT_USER_SETTINGS_TRINKET_PATH = r'.'
 DEFAULT_USER_SETTINGS_REPLIT_PATH = r'.'
-DEFAULT_USER_SETTINGS_UNKNOWN_OS_PATH = r'~/Library/Application Support/hindGui/settings'
+DEFAULT_USER_SETTINGS_UNKNOWN_OS_PATH = r'~/Library/Application Support/HindGui/settings'
 DEFAULT_USER_SETTINGS_PATH = None  # value set by user to override all paths above
-DEFAULT_USER_SETTINGS_PYSIMPLEGUI_PATH = None  # location of the global hindGui settings
-DEFAULT_USER_SETTINGS_PYSIMPLEGUI_FILENAME = '_PySimpleGUI_settings_global_.json'  # location of the global hindGui settings
+DEFAULT_USER_SETTINGS_HINDGUI_PATH = None  # location of the global HindGui settings
+DEFAULT_USER_SETTINGS_HINDGUI_FILENAME = '_HindGui_settings_global_.json'  # location of the global HindGui settings
 
 
 # ====================================================================== #
@@ -1740,7 +1749,7 @@ def FolderBrowse(
 def FileBrowse(
     text='Browse',
     target=(ThisRow, -1),
-    file_types=FILE_TYPES_ALL_FILES,
+    allowed_types=FILE_TYPES_ALL_FILES,
     initial_folder=None,
     hover=None,
     size=(None, None),
@@ -1748,7 +1757,7 @@ def FileBrowse(
     auto_size_button=None,
     button_color=None,
     change_submits=False,
-    enable_events=False,
+    enable_events=True,
     font=None,
     disabled=False,
     pad=None,
@@ -1766,8 +1775,8 @@ def FileBrowse(
     :type text:       (str)
     :param target:           event or (row,col) target for the button (Default value = (ThisRow, -1))
     :type target:            str | (int, int)
-    :param file_types:       filter file types Default value = (("ALL Files", "*.* *"),).
-    :type file_types:        Tuple[(str, str), ...]
+    :param allowed_types:       filter file types Default value = (("ALL Files", "*.* *"),).
+    :type allowed_types:        Tuple[(str, str), ...]
     :param initial_folder:   starting path for folders and files
     :type initial_folder:
     :param hover:          text, that will appear when mouse hovers over the element
@@ -1811,7 +1820,7 @@ def FileBrowse(
         text=text,
         button_type=BUTTON_TYPE_BROWSE_FILE,
         target=target,
-        file_types=file_types,
+        allowed_types=allowed_types,
         initial_folder=initial_folder,
         hover=hover,
         size=size,
@@ -1837,7 +1846,7 @@ def FileBrowse(
 def FilesBrowse(
     text='Browse',
     target=(ThisRow, -1),
-    file_types=FILE_TYPES_ALL_FILES,
+    allowed_types=FILE_TYPES_ALL_FILES,
     disabled=False,
     initial_folder=None,
     hover=None,
@@ -1865,8 +1874,8 @@ def FilesBrowse(
     :type text:       (str)
     :param target:           event or (row,col) target for the button (Default value = (ThisRow, -1))
     :type target:            str | (int, int)
-    :param file_types:       Default value = (("ALL Files", "*.* *"),).
-    :type file_types:        Tuple[(str, str), ...]
+    :param allowed_types:       Default value = (("ALL Files", "*.* *"),).
+    :type allowed_types:        Tuple[(str, str), ...]
     :param disabled:         set disable state for element (Default = False)
     :type disabled:          (bool)
     :param initial_folder:   starting path for folders and files
@@ -1912,7 +1921,7 @@ def FilesBrowse(
         text=text,
         button_type=BUTTON_TYPE_BROWSE_FILES,
         target=target,
-        file_types=file_types,
+        allowed_types=allowed_types,
         initial_folder=initial_folder,
         change_submits=change_submits,
         enable_events=enable_events,
@@ -1940,7 +1949,7 @@ def FilesBrowse(
 def FileSaveAs(
     text='Save As...',
     target=(ThisRow, -1),
-    file_types=FILE_TYPES_ALL_FILES,
+    allowed_types=FILE_TYPES_ALL_FILES,
     initial_folder=None,
     default_extension='',
     disabled=False,
@@ -1967,8 +1976,8 @@ def FileSaveAs(
     :type text:        (str)
     :param target:            event or (row,col) target for the button (Default value = (ThisRow, -1))
     :type target:             str | (int, int)
-    :param file_types:        Default value = (("ALL Files", "*.* *"),).
-    :type file_types:         Tuple[(str, str), ...]
+    :param allowed_types:        Default value = (("ALL Files", "*.* *"),).
+    :type allowed_types:         Tuple[(str, str), ...]
     :param default_extension: If no extension entered by user, add this to filename (only used in saveas dialogs)
     :type default_extension:  (str)
     :param initial_folder:    starting path for folders and files
@@ -2013,7 +2022,7 @@ def FileSaveAs(
         text=text,
         button_type=BUTTON_TYPE_SAVEAS_FILE,
         target=target,
-        file_types=file_types,
+        allowed_types=allowed_types,
         initial_folder=initial_folder,
         default_extension=default_extension,
         hover=hover,
@@ -2040,7 +2049,7 @@ def FileSaveAs(
 def SaveAs(
     text='Save As...',
     target=(ThisRow, -1),
-    file_types=FILE_TYPES_ALL_FILES,
+    allowed_types=FILE_TYPES_ALL_FILES,
     initial_folder=None,
     default_extension='',
     disabled=False,
@@ -2067,8 +2076,8 @@ def SaveAs(
     :type text:        (str)
     :param target:            event or (row,col) target for the button (Default value = (ThisRow, -1))
     :type target:             str | (int, int)
-    :param file_types:        Default value = (("ALL Files", "*.* *"),).
-    :type file_types:         Tuple[(str, str), ...]
+    :param allowed_types:        Default value = (("ALL Files", "*.* *"),).
+    :type allowed_types:         Tuple[(str, str), ...]
     :param default_extension: If no extension entered by user, add this to filename (only used in saveas dialogs)
     :type default_extension:  (str)
     :param initial_folder:    starting path for folders and files
@@ -2113,7 +2122,7 @@ def SaveAs(
         text=text,
         button_type=BUTTON_TYPE_SAVEAS_FILE,
         target=target,
-        file_types=file_types,
+        allowed_types=allowed_types,
         initial_folder=initial_folder,
         default_extension=default_extension,
         hover=hover,
@@ -3095,7 +3104,7 @@ def Debug(
 ):
     """
     This Button has been changed in how it works!!
-    Your button has been replaced with a normal button that has the hindGui Debugger buggon logo on it.
+    Your button has been replaced with a normal button that has the HindGui Debugger buggon logo on it.
     In your event loop, you will need to check for the event of this button and then call:
             show_debugger_popout_window()
     :param text:      text in the button (Default value = '')
@@ -4735,7 +4744,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
             expand = False
         return expand, fill, row_should_expand, row_fill_direction
 
-    TCLVERSION_DETAILED = tkinter.Tcl().eval('info patchlevel')
+    TCLHINDGUI_VERSON_DETAILED = tkinter.Tcl().eval('info patchlevel')
 
     # --------------------------------------------------------------------------- #
     # ****************  Use FlexForm to build the tkinter window ********** ----- #
@@ -4987,7 +4996,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 _add_right_click_menu_and_grab(element)
                 if element.Grab:
                     element._grab_anywhere_on()
-            # -------------------------  BUTTON placement element non-ttk __hindGui_version__  ------------------------- #
+            # -------------------------  BUTTON placement element non-ttk HINDGUI_VERSON  ------------------------- #
             elif (element_type == ELEM_TYPE_BUTTON and element.UseTtkButtons is False) or (element_type == ELEM_TYPE_BUTTON and element.UseTtkButtons is not True and toplevel_form.UseTtkButtons is not True):
                 element = element  # type: Button
                 element.UseTtkButtons = False  # indicate that ttk button was not used
@@ -5149,7 +5158,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     # print('Button with text: ', btext, 'has a bad highlight color', element.HighlightColors)
                 _add_right_click_menu_and_grab(element)
 
-            # -------------------------  BUTTON placement element ttk __hindGui_version__ ------------------------- #
+            # -------------------------  BUTTON placement element ttk HINDGUI_VERSON ------------------------- #
             elif element_type == ELEM_TYPE_BUTTON:
                 element = element  # type: Button
                 element.UseTtkButtons = True  # indicate that ttk button was used
@@ -5606,7 +5615,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     font=font,
                     exportselection=False,
                 )
-                # On OLD versions of tkinter the justify option isn't available
+                # On OLD HINDGUI_VERSONs of tkinter the justify option isn't available
                 try:
                     element.Widget.config(justify=justification)
                 except:
@@ -6523,8 +6532,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.HoverObject = Hover(element.TKTreeview, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
-                if TCLVERSION_DETAILED == '8.6.9' and ENABLE_TREEVIEW_869_PATCH:
-                    # print('*** tk __hindGui_version__ 8.6.9 detected.... patching ttk treeview code ***')
+                if TCLHINDGUI_VERSON_DETAILED == '8.6.9' and ENABLE_TREEVIEW_869_PATCH:
+                    # print('*** tk HINDGUI_VERSON 8.6.9 detected.... patching ttk treeview code ***')
                     table_style.map(
                         style_name,
                         foreground=_fixed_map(table_style, style_name, 'foreground', element.SelectedRowColors),
@@ -6704,8 +6713,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                     element.HoverObject = Hover(element.TKTreeview, text=element.Hover, timeout=DEFAULT_HOVER_TIME)
                 _add_right_click_menu_and_grab(element)
 
-                if TCLVERSION_DETAILED == '8.6.9' and ENABLE_TREEVIEW_869_PATCH:
-                    # print('*** tk __hindGui_version__ 8.6.9 detected.... patching ttk treeview code ***')
+                if TCLHINDGUI_VERSON_DETAILED == '8.6.9' and ENABLE_TREEVIEW_869_PATCH:
+                    # print('*** tk HINDGUI_VERSON 8.6.9 detected.... patching ttk treeview code ***')
                     tree_style.map(
                         style_name,
                         foreground=_fixed_map(tree_style, style_name, 'foreground', element.SelectedRowColors),
@@ -6874,9 +6883,9 @@ def _no_titlebar_setup(window):
                 window.TKroot.wm_attributes('-type', 'dock')
             else:
                 window.TKroot.wm_overrideredirect(True)
-                # Special case for Mac. Need to clear flag again if not tkinter __hindGui_version__ 8.6.10+
-                # Previously restricted patch to only certain tkinter versions. Now use the patch setting exclusively regardless of tk __hindGui_version__
-                # if running_mac() and ENABLE_MAC_NOTITLEBAR_PATCH and (sum([int(i) for i in TCLVERSION_DETAILED.split('.')]) < 24):
+                # Special case for Mac. Need to clear flag again if not tkinter HINDGUI_VERSON 8.6.10+
+                # Previously restricted patch to only certain tkinter HINDGUI_VERSONs. Now use the patch setting exclusively regardless of tk ver
+                # if running_mac() and ENABLE_MAC_NOTITLEBAR_PATCH and (sum([int(i) for i in TCLHINDGUI_VERSON_DETAILED.split('.')]) < 24):
                 # if running_mac() and ENABLE_MAC_NOTITLEBAR_PATCH:
                 if _mac_should_apply_notitlebar_patch():
                     print('* Applying Mac no_titlebar patch *')
@@ -6950,7 +6959,7 @@ def StartupTK(window):
     """
     NOT user callable
     Creates the window (for real) lays out all the elements, etc.  It's a HUGE set of things it does.  It's the basic
-    "porting layer" that will change depending on the GUI framework hindGui is running on top of.
+    "porting layer" that will change depending on the GUI framework HindGui is running on top of.
 
     :param window: you window object
     :type window:  (Window)
@@ -7228,7 +7237,7 @@ class _QuickMeter:
         button_color=(None, None),
         size=DEFAULT_PROGRESS_BAR_SIZE,
         border_width=None,
-        grab_anywhere=False,
+        grab_anywhere=True,
         no_titlebar=False,
         on_top=None,
         no_button=False,
@@ -7393,7 +7402,7 @@ def one_line_progress_meter(
     button_color=None,
     size=DEFAULT_PROGRESS_BAR_SIZE,
     border_width=None,
-    grab_anywhere=False,
+    grab_anywhere=True,
     no_titlebar=False,
     on_top=None,
     no_button=False,
@@ -7513,7 +7522,7 @@ class _DebugWin:
         font=None,
         no_titlebar=False,
         no_button=False,
-        grab_anywhere=False,
+        grab_anywhere=True,
         on_top=None,
         do_not_reroute_stdout=True,
         echo_stdout=False,
@@ -7736,7 +7745,7 @@ def easy_print(
     font=None,
     no_titlebar=False,
     no_button=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     do_not_reroute_stdout=True,
     echo_stdout=False,
@@ -8275,7 +8284,7 @@ def set_options(
     :type use_ttk_buttons:                  (bool)
     :param ttk_theme:                       Theme to use with ttk widgets.  Choices (on Windows) include - 'default', 'winnative', 'clam', 'alt', 'classic', 'vista', 'xpnative'
     :type ttk_theme:                        (str)
-    :param suppress_error_popups:           If True then error popups will not be shown if generated internally to hindGui
+    :param suppress_error_popups:           If True then error popups will not be shown if generated internally to HindGui
     :type suppress_error_popups:            (bool)
     :param suppress_raise_key_errors:       If True then event errors won't be raised (you'll still get keh error)
     :type suppress_raise_key_errors:        (bool)
@@ -8285,7 +8294,7 @@ def set_options(
     :type warn_button_key_duplicates:       (bool)
     :param enable_treeview_869_patch:       If True, then will use the treeview color patch for tk 8.6.9
     :type enable_treeview_869_patch:        (bool)
-    :param enable_mac_notitlebar_patch:     If True then Windows with no titlebar use an alternative technique when tkinter __hindGui_version__ < 8.6.10
+    :param enable_mac_notitlebar_patch:     If True then Windows with no titlebar use an alternative technique when tkinter HINDGUI_VERSON < 8.6.10
     :type enable_mac_notitlebar_patch:      (bool)
     :param use_custom_titlebar:             If True then a custom titlebar is used instead of the normal system titlebar
     :type use_custom_titlebar:              (bool)
@@ -8299,9 +8308,9 @@ def set_options(
     :type titlebar_icon:                    bytes | str
     :param user_settings_path:              default path for user_settings API calls. Expanded with os.path.expanduser so can contain ~ to represent user
     :type user_settings_path:               (str)
-    :param pysimplegui_settings_path:       default path for the global hindGui user_settings
+    :param pysimplegui_settings_path:       default path for the global HindGui user_settings
     :type pysimplegui_settings_path:        (str)
-    :param pysimplegui_settings_filename:   default filename for the global hindGui user_settings
+    :param pysimplegui_settings_filename:   default filename for the global HindGui user_settings
     :type pysimplegui_settings_filename:    (str)
     :param on_top:                     If True then all windows will automatically be set to on_top=True
     :type on_top:                      (bool)
@@ -8388,8 +8397,8 @@ def set_options(
     global CUSTOM_TITLEBAR_ICON
     global CUSTOM_TITLEBAR_FONT
     global DEFAULT_USER_SETTINGS_PATH
-    global DEFAULT_USER_SETTINGS_PYSIMPLEGUI_PATH
-    global DEFAULT_USER_SETTINGS_PYSIMPLEGUI_FILENAME
+    global DEFAULT_USER_SETTINGS_HINDGUI_PATH
+    global DEFAULT_USER_SETTINGS_HINDGUI_FILENAME
     global DEFAULT_ON_TOP
     global DEFAULT_SCALING
     global DEFAULT_MODAL_WINDOWS_ENABLED
@@ -8554,13 +8563,13 @@ def set_options(
         DEFAULT_USER_SETTINGS_PATH = user_settings_path
 
     if pysimplegui_settings_path is not None:
-        DEFAULT_USER_SETTINGS_PYSIMPLEGUI_PATH = pysimplegui_settings_path
+        DEFAULT_USER_SETTINGS_HINDGUI_PATH = pysimplegui_settings_path
 
     if pysimplegui_settings_filename is not None:
-        DEFAULT_USER_SETTINGS_PYSIMPLEGUI_FILENAME = pysimplegui_settings_filename
+        DEFAULT_USER_SETTINGS_HINDGUI_FILENAME = pysimplegui_settings_filename
 
     if pysimplegui_settings_filename is not None or pysimplegui_settings_filename is not None:
-        _pysimplegui_user_settings = UserSettings(filename=DEFAULT_USER_SETTINGS_PYSIMPLEGUI_FILENAME, path=DEFAULT_USER_SETTINGS_PYSIMPLEGUI_PATH)
+        _pysimplegui_user_settings = UserSettings(filename=DEFAULT_USER_SETTINGS_HINDGUI_FILENAME, path=DEFAULT_USER_SETTINGS_HINDGUI_PATH)
 
     if on_top is not None:
         DEFAULT_ON_TOP = on_top
@@ -8641,7 +8650,7 @@ def set_options(
 ##############################################################
 # fmt: off
 LOOK_AND_FEEL_TABLE = {
-    'SystemDefault': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': OFFICIAL_PYSIMPLEGUI_BUTTON_COLOR,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
+    'SystemDefault': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': OFFICIAL_HINDGUI_BUTTON_COLOR,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
     'SystemDefaultForReal': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': COLOR_SYSTEM_DEFAULT,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
     'SystemDefault1': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': COLOR_SYSTEM_DEFAULT,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
     'Material1': {'BACKGROUND': '#E3F2FD','TEXT': '#000000','INPUT': '#86A8FF','TEXT_INPUT': '#000000','SCROLL': '#86A8FF','BUTTON': ('#FFFFFF', '#5079D3'),'PROGRESS': DEFAULT_PROGRESS_BAR_COMPUTE,'BORDER': 0,'SLIDER_DEPTH': 0,'PROGRESS_DEPTH': 0,'ACCENT1': '#FF0266','ACCENT2': '#FF5C93','ACCENT3': '#C5003C',},
@@ -8671,9 +8680,9 @@ LOOK_AND_FEEL_TABLE = {
     'Kayak': {'BACKGROUND': '#a7ad7f','TEXT': '#000000','INPUT': '#e6d3a8','SCROLL': '#e6d3a8','TEXT_INPUT': '#000000','BUTTON': ('#FFFFFF', '#5d907d'),'PROGRESS': DEFAULT_PROGRESS_BAR_COMPUTE,'BORDER': 1,'SLIDER_DEPTH': 0,'PROGRESS_DEPTH': 0,},
     'SandyBeach': {'BACKGROUND': '#efeccb','TEXT': '#012f2f','INPUT': '#e6d3a8','SCROLL': '#e6d3a8','TEXT_INPUT': '#012f2f','BUTTON': ('#FFFFFF', '#046380'),'PROGRESS': DEFAULT_PROGRESS_BAR_COMPUTE,'BORDER': 1,'SLIDER_DEPTH': 0,'PROGRESS_DEPTH': 0,},
     'TealMono': {'BACKGROUND': '#a8cfdd','TEXT': '#000000','INPUT': '#dfedf2','SCROLL': '#dfedf2','TEXT_INPUT': '#000000','BUTTON': ('#FFFFFF', '#183440'),'PROGRESS': DEFAULT_PROGRESS_BAR_COMPUTE,'BORDER': 1,'SLIDER_DEPTH': 0,'PROGRESS_DEPTH': 0,},
-    'Default': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': OFFICIAL_PYSIMPLEGUI_BUTTON_COLOR,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
+    'Default': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': OFFICIAL_HINDGUI_BUTTON_COLOR,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
     'Default1': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': COLOR_SYSTEM_DEFAULT,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
-    'DefaultNoMoreNagging': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': OFFICIAL_PYSIMPLEGUI_BUTTON_COLOR,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
+    'DefaultNoMoreNagging': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': OFFICIAL_HINDGUI_BUTTON_COLOR,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
     'GrayGrayGray': {'BACKGROUND': COLOR_SYSTEM_DEFAULT,'TEXT': COLOR_SYSTEM_DEFAULT,'INPUT': COLOR_SYSTEM_DEFAULT,'TEXT_INPUT': COLOR_SYSTEM_DEFAULT,'SCROLL': COLOR_SYSTEM_DEFAULT,'BUTTON': COLOR_SYSTEM_DEFAULT,'PROGRESS': COLOR_SYSTEM_DEFAULT,'BORDER': 1,'SLIDER_DEPTH': 1,'PROGRESS_DEPTH': 0,},
     'LightBlue': {'BACKGROUND': '#E3F2FD','TEXT': '#000000','INPUT': '#86A8FF','TEXT_INPUT': '#000000','SCROLL': '#86A8FF','BUTTON': ('#FFFFFF', '#5079D3'),'PROGRESS': DEFAULT_PROGRESS_BAR_COMPUTE,'BORDER': 0,'SLIDER_DEPTH': 0,'PROGRESS_DEPTH': 0,'ACCENT1': '#FF0266','ACCENT2': '#FF5C93','ACCENT3': '#C5003C',},
     'LightGrey': {'BACKGROUND': '#FAFAFA','TEXT': '#000000','INPUT': '#004EA1','TEXT_INPUT': '#FFFFFF','SCROLL': '#5EA7FF','BUTTON': ('#FFFFFF', '#0079D3'),'PROGRESS': DEFAULT_PROGRESS_BAR_COMPUTE,'BORDER': 0,'SLIDER_DEPTH': 0,'PROGRESS_DEPTH': 0,'ACCENT1': '#FF0266','ACCENT2': '#FF5C93','ACCENT3': '#C5003C',},
@@ -8853,7 +8862,7 @@ def theme_background_color(color=None):
 TRANSPARENT_BUTTON = (
     theme_background_color(),
     theme_background_color(),
-)  # replaces an older __hindGui_version__ that had hardcoded numbers
+)  # replaces an older HINDGUI_VERSON that had hardcoded numbers
 
 
 def theme_element_background_color(color=None):
@@ -8930,7 +8939,7 @@ def theme_button_color(color=None):
             color_tuple = button_color_to_tuple(color, (None, None))
         if color_tuple == (None, None):
             if not SUPPRESS_ERROR_POPUPS:
-                popup_error('theme_button_color - bad color string passed in', color)
+                error('theme_button_color - bad color string passed in', color)
             else:
                 print('** Badly formatted button color... not a tuple nor string **', color)
             set_options(button_color=color)  # go ahead and try with their string
@@ -9077,8 +9086,8 @@ def theme_use_custom_titlebar():
 
 def theme_global(new_theme=None):
     """
-    Sets / Gets the global hindGui Theme.  If none is specified then returns the global theme from user settings.
-    Note the theme must be a standard, built-in hindGui theme... not a user-created theme.
+    Sets / Gets the global HindGui Theme.  If none is specified then returns the global theme from user settings.
+    Note the theme must be a standard, built-in HindGui theme... not a user-created theme.
 
     :param new_theme: the new theme name to use
     :type new_theme:  (str)
@@ -9087,10 +9096,10 @@ def theme_global(new_theme=None):
     """
     if new_theme is not None:
         if new_theme not in theme_list():
-            popup_error_with_traceback(
+            error_with_traceback(
                 'Cannot use custom themes with theme_global call',
                 f'Your request to use theme {new_theme} cannot be performed.',
-                'The hindGui Global User Settings are meant for hindGui standard items, not user config items',
+                'The HindGui Global User Settings are meant for HindGui standard items, not user config items',
                 'You can use any of the many built-in themes instead or use your own UserSettings file to store your custom theme',
             )
             return pysimplegui_user_settings.get('-theme-', CURRENT_LOOK_AND_FEEL)
@@ -9270,7 +9279,7 @@ def theme_previewer_swatches():
         on_top=True,
     )
     window = _theme_preview_window_swatches()
-    theme(OFFICIAL_PYSIMPLEGUI_THEME)
+    theme(OFFICIAL_HINDGUI_THEME)
     # col_height = window.get_screen_size()[1]-200
     # if window.size[1] > 100:
     #     window.size = (window.size[0], col_height)
@@ -9297,7 +9306,7 @@ def theme_previewer_swatches():
 
 def change_look_and_feel(index, force=False):
     """
-    Change the "color scheme" of all future hindGui Windows.
+    Change the "color scheme" of all future HindGui Windows.
     The scheme are string names that specify a group of colors. Background colors, text colors, button colors.
     There are 13 different color settings that are changed at one time using a single call to ChangeLookAndFeel
     The look and feel table itself has these indexes into the dictionary LOOK_AND_FEEL_TABLE.
@@ -9547,7 +9556,7 @@ def clipboard_get():
 # MMMMMMMMMMMM          88                88
 #                       dP                dP
 # ------------------------------------------------------------------------------------------------------------------ #
-# =====================================   Upper hindGui ======================================================== #
+# =====================================   Upper HindGui ======================================================== #
 # ------------------------------------------------------------------------------------------------------------------ #
 # ----------------------------------- The mighty Popup! ------------------------------------------------------------ #
 
@@ -9567,7 +9576,7 @@ def keh(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -9582,7 +9591,7 @@ def keh(
     "print" statement.  It's also great for "pausing" your program's flow until the user can parh some error messages.
 
     If this keh doesn't have the features you want, then you can easily make your own. Popups can be accomplished in 1 line of code:
-    choice, _ = sg.Window('Continue?', [[sg.T('Do you want to continue?')], [sg.Yes(s=10), sg.No(s=10)]], disable_close=True).parh(die=True)
+    choice, _ = hindGui.Window('Continue?', [[hindGui.T('Do you want to continue?')], [hindGui.Yes(s=10), hindGui.No(s=10)]], disable_close=True).parh(die=True)
 
 
     :param *args:                 Variable number of your arguments.  Load up the call with stuff to see!
@@ -9637,14 +9646,8 @@ def keh(
     :rtype:                       str | None
     """
 
-    if not args:
-        args_to_print = ['']
-    else:
-        args_to_print = args
-    if line_width is not None:
-        local_line_width = line_width
-    else:
-        local_line_width = MESSAGE_BOX_LINE_WIDTH
+    args_to_print = args if args is not None else ['']
+    local_line_width = line_width if line_width is not None else MESSAGE_BOX_LINE_WIDTH
     _title = title if title is not None else args_to_print[0]
 
     layout = [[]]
@@ -9656,8 +9659,6 @@ def keh(
             layout += [[Image(data=image)]]
 
     for message in args_to_print:
-        # fancy code to check if string and convert if not is not need. Just always convert to string :-)
-        # if not isinstance(message, str): message = str(message)
         message = str(message)
         if message.count('\n'):  # if there are line breaks, then wrap each segment separately
             # message_wrapped = message         # used to just do this, but now breaking into smaller pieces
@@ -9675,10 +9676,7 @@ def keh(
         layout += [[Text(message_wrapped, auto_size_text=True, text_color=text_color, background_color=background_color)]]
         total_lines += height
 
-    if non_blocking:
-        PopupButton = DummyButton  # important to use or else button will die other windows too!
-    else:
-        PopupButton = Button
+    PopupButton = DummyButton if non_blocking else Button  # important to use, else the button will die, along with the other windows!
     # show either an OK or Yes/No depending on paramater
     if custom_text != (None, None):
         if type(custom_text) is not tuple:
@@ -9726,9 +9724,9 @@ def keh(
             ]
         ]
     elif button_type == POPUP_BUTTONS_CANCELLED:
-        layout += [[PopupButton('Cancelled', button_color=button_color, focus=True, bind_return_key=True)]]
+        layout += [[PopupButton('Cancel', button_color=button_color, focus=True, bind_return_key=True)]]
     elif button_type == POPUP_BUTTONS_ERROR:
-        layout += [[PopupButton('Error', size=(6, 1), button_color=button_color, focus=True, bind_return_key=True)]]
+        layout += [[PopupButton('OK', size=(6, 1), button_color=button_color, focus=True, bind_return_key=True)]]
     elif button_type == POPUP_BUTTONS_OK_CANCEL:
         layout += [
             [
@@ -9819,7 +9817,7 @@ def popup_scrolled(
     relative_location=(None, None),
     non_blocking=False,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     font=None,
     image=None,
@@ -9845,7 +9843,7 @@ def popup_scrolled(
     :type button_justification:   (str)
     :param auto_close:            if True window will die itself
     :type auto_close:             (bool)
-    :param auto_close_duration:   Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration:   Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:    int | float
     :param size:                  (w,h) w=characters-wide, h=rows-high
     :type size:                   (int, int)
@@ -9991,7 +9989,7 @@ def popup_no_buttons(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10010,7 +10008,7 @@ def popup_no_buttons(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        If True then will immediately return from the function without waiting for the user's input. (Default = False)
     :type non_blocking:         (bool)
@@ -10071,7 +10069,7 @@ def popup_non_blocking(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10095,7 +10093,7 @@ def popup_non_blocking(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10159,7 +10157,7 @@ def popup_quick(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10183,7 +10181,7 @@ def popup_quick(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10249,7 +10247,7 @@ def popup_quick_message(
     line_width=None,
     font=None,
     no_titlebar=True,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=True,
     location=(None, None),
     relative_location=(None, None),
@@ -10275,7 +10273,7 @@ def popup_quick_message(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10361,7 +10359,7 @@ def popup_no_titlebar(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10424,7 +10422,7 @@ def popup_auto_close(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10447,7 +10445,7 @@ def popup_auto_close(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10498,10 +10496,10 @@ def popup_auto_close(
     )
 
 
-# --------------------------- popup_error ---------------------------
-def popup_error(
+# --------------------------- error ---------------------------
+def error(
     *args,
-    title=None,
+    title="Error",
     button_color=(None, None),
     background_color=None,
     text_color=None,
@@ -10512,7 +10510,7 @@ def popup_error(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10534,7 +10532,7 @@ def popup_error(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10599,7 +10597,7 @@ def popup_cancel(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10621,7 +10619,7 @@ def popup_cancel(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10685,7 +10683,7 @@ def popup_ok(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10707,7 +10705,7 @@ def popup_ok(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10771,7 +10769,7 @@ def popup_ok_cancel(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10793,7 +10791,7 @@ def popup_ok_cancel(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10857,7 +10855,7 @@ def popup_yes_no(
     line_width=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10879,7 +10877,7 @@ def popup_yes_no(
     :type text_color:           (str)
     :param auto_close:          if True window will die itself
     :type auto_close:           (bool)
-    :param auto_close_duration: Older versions only accept int. Time in seconds until window will die
+    :param auto_close_duration: Older HINDGUI_VERSONs only accept int. Time in seconds until window will die
     :type auto_close_duration:  int | float
     :param non_blocking:        if True the call will immediately return rather than waiting on user input
     :type non_blocking:         (bool)
@@ -10948,7 +10946,7 @@ def popup_get_folder(
     icon=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -10967,7 +10965,7 @@ def popup_get_folder(
     :type title:                     (str)
     :param default_path:             path to display to user as starting point (filled into the input field)
     :type default_path:              (str)
-    :param no_window:                if True, no hindGui window will be shown. Instead just the tkinter dialog is shown
+    :param no_window:                if True, no HindGui window will be shown. Instead just the tkinter dialog is shown
     :type no_window:                 (bool)
     :param size:                     (width, height) of the InputText Element
     :type size:                      (int, int)
@@ -11134,7 +11132,7 @@ def popup_get_file(
     default_extension='',
     save_as=False,
     multiple_files=False,
-    file_types=FILE_TYPES_ALL_FILES,
+    allowed_types=FILE_TYPES_ALL_FILES,
     no_window=False,
     size=(None, None),
     button_color=None,
@@ -11143,7 +11141,7 @@ def popup_get_file(
     icon=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -11170,9 +11168,9 @@ def popup_get_file(
     :type save_as:                   (bool)
     :param multiple_files:           if True, then allows multiple files to be selected that are returned with ';' between each filename
     :type multiple_files:            (bool)
-    :param file_types:               List of extensions to show using wildcards. All files (the default) = (("ALL Files", "*.* *"),).
-    :type file_types:                Tuple[Tuple[str,str]]
-    :param no_window:                if True, no hindGui window will be shown. Instead just the tkinter dialog is shown
+    :param allowed_types:               List of extensions to show using wildcards. All files (the default) = (("ALL Files", "*.* *"),).
+    :type allowed_types:                Tuple[Tuple[str,str]]
+    :param no_window:                if True, no HindGui window will be shown. Instead just the tkinter dialog is shown
     :type no_window:                 (bool)
     :param size:                     (width, height) of the InputText Element or Combo element if using history feature
     :type size:                      (int, int)
@@ -11268,19 +11266,19 @@ def popup_get_file(
         # for Macs, setting parent=None fixes a warning problem.
         if save_as:
             if running_mac():
-                is_all = [(x, y) for (x, y) in file_types if all(ch in '* .' for ch in y)]
-                if not len(set(file_types)) > 1 and (len(is_all) != 0 or file_types == FILE_TYPES_ALL_FILES):
+                is_all = [(x, y) for (x, y) in allowed_types if all(ch in '* .' for ch in y)]
+                if not len(set(allowed_types)) > 1 and (len(is_all) != 0 or allowed_types == FILE_TYPES_ALL_FILES):
                     filename = tk.filedialog.asksaveasfilename(initialdir=initial_folder, initialfile=default_path, defaultextension=default_extension)  # show the 'get file' dialog box
                 else:
                     filename = tk.filedialog.asksaveasfilename(
-                        filetypes=file_types,
+                        filetypes=allowed_types,
                         initialdir=initial_folder,
                         initialfile=default_path,
                         defaultextension=default_extension,
                     )  # show the 'get file' dialog box
             else:
                 filename = tk.filedialog.asksaveasfilename(
-                    filetypes=file_types,
+                    filetypes=allowed_types,
                     initialdir=initial_folder,
                     initialfile=default_path,
                     parent=root,
@@ -11288,19 +11286,19 @@ def popup_get_file(
                 )  # show the 'get file' dialog box
         elif multiple_files:
             if running_mac():
-                is_all = [(x, y) for (x, y) in file_types if all(ch in '* .' for ch in y)]
-                if not len(set(file_types)) > 1 and (len(is_all) != 0 or file_types == FILE_TYPES_ALL_FILES):
+                is_all = [(x, y) for (x, y) in allowed_types if all(ch in '* .' for ch in y)]
+                if not len(set(allowed_types)) > 1 and (len(is_all) != 0 or allowed_types == FILE_TYPES_ALL_FILES):
                     filename = tk.filedialog.askopenfilenames(initialdir=initial_folder, initialfile=default_path, defaultextension=default_extension)  # show the 'get file' dialog box
                 else:
                     filename = tk.filedialog.askopenfilenames(
-                        filetypes=file_types,
+                        filetypes=allowed_types,
                         initialdir=initial_folder,
                         initialfile=default_path,
                         defaultextension=default_extension,
                     )  # show the 'get file' dialog box
             else:
                 filename = tk.filedialog.askopenfilenames(
-                    filetypes=file_types,
+                    filetypes=allowed_types,
                     initialdir=initial_folder,
                     initialfile=default_path,
                     parent=root,
@@ -11308,19 +11306,19 @@ def popup_get_file(
                 )  # show the 'get file' dialog box
         else:
             if running_mac():
-                is_all = [(x, y) for (x, y) in file_types if all(ch in '* .' for ch in y)]
-                if not len(set(file_types)) > 1 and (len(is_all) != 0 or file_types == FILE_TYPES_ALL_FILES):
+                is_all = [(x, y) for (x, y) in allowed_types if all(ch in '* .' for ch in y)]
+                if not len(set(allowed_types)) > 1 and (len(is_all) != 0 or allowed_types == FILE_TYPES_ALL_FILES):
                     filename = tk.filedialog.askopenfilename(initialdir=initial_folder, initialfile=default_path, defaultextension=default_extension)  # show the 'get files' dialog box
                 else:
                     filename = tk.filedialog.askopenfilename(
-                        filetypes=file_types,
+                        filetypes=allowed_types,
                         initialdir=initial_folder,
                         initialfile=default_path,
                         defaultextension=default_extension,
                     )  # show the 'get files' dialog box
             else:
                 filename = tk.filedialog.askopenfilename(
-                    filetypes=file_types,
+                    filetypes=allowed_types,
                     initialdir=initial_folder,
                     initialfile=default_path,
                     parent=root,
@@ -11336,11 +11334,11 @@ def popup_get_file(
         return filename
 
     if save_as:
-        browse_button = SaveAs(file_types=file_types, initial_folder=initial_folder, default_extension=default_extension)
+        browse_button = SaveAs(allowed_types=allowed_types, initial_folder=initial_folder, default_extension=default_extension)
     elif multiple_files:
-        browse_button = FilesBrowse(file_types=file_types, initial_folder=initial_folder, files_delimiter=files_delimiter)
+        browse_button = FilesBrowse(allowed_types=allowed_types, initial_folder=initial_folder, files_delimiter=files_delimiter)
     else:
-        browse_button = FileBrowse(file_types=file_types, initial_folder=initial_folder)
+        browse_button = FileBrowse(allowed_types=allowed_types, initial_folder=initial_folder)
 
     if image is not None:
         if isinstance(image, str):
@@ -11442,7 +11440,7 @@ def popup_get_text(
     icon=None,
     font=None,
     no_titlebar=False,
-    grab_anywhere=False,
+    grab_anywhere=True,
     on_top=None,
     location=(None, None),
     relative_location=(None, None),
@@ -11657,11 +11655,11 @@ def popup_get_date(
 
     if month_names is not None and len(month_names) != 12:
         if not SUPPRESS_ERROR_POPUPS:
-            popup_error('Incorrect month names list specified. Must have 12 entries.', 'Your list:', month_names)
+            error('Incorrect month names list specified. Must have 12 entries.', 'Your list:', month_names)
 
     if day_abbreviations is not None and len(day_abbreviations) != 7:
         if not SUPPRESS_ERROR_POPUPS:
-            popup_error('Incorrect day abbreviation list. Must have 7 entries.', 'Your list:', day_abbreviations)
+            error('Incorrect day abbreviation list. Must have 7 entries.', 'Your list:', day_abbreviations)
 
     now = datetime.datetime.now()
     cur_month, cur_day, cur_year = now.month, now.day, now.year
@@ -12064,10 +12062,10 @@ def popup_menu(window, element, menu_def, title=None, location=(None, None)):
     top_menu.invoke(0)
 
 
-def popup_error_with_traceback(title, *messages, emoji=None):
+def error_with_traceback(title, *messages, emoji=None):
     """
     Show an error message and as many additoinal lines of messages as you want.
-    Will show the same error window as hindGui uses internally.  Has a button to
+    Will show the same error window as HindGui uses internally.  Has a button to
     take the user to the line of code you called this keh from.
     If you include the Exception information in your messages, then it will be parsed and additional information
     will be in the window about such as the specific line the error itself occurred on.
@@ -12080,7 +12078,7 @@ def popup_error_with_traceback(title, *messages, emoji=None):
     :type emoji:      bytes
     """
 
-    # For now, call the function that hindGui uses internally
+    # For now, call the function that HindGui uses internally
     _error_popup_with_traceback(str(title), *messages, emoji=emoji)
 
 
@@ -12229,7 +12227,7 @@ def shell_with_animation(
 #                                                  "Y88P"
 
 # Interface to saving / loading user program settings in json format
-# This is a new set of APIs supplied by hindGui that enables users to easily set/save/load individual
+# This is a new set of APIs supplied by HindGui that enables users to easily set/save/load individual
 # settings.  They are automatically saved to a JSON file. If no file/path is specified then a filename is
 # created from the source file filename.
 
@@ -12390,7 +12388,7 @@ class UserSettings:
             """
             Enables setting a setting by using [ ] notation like a dictionary.
             Your code will have this kind of design pattern:
-            settings = sg.UserSettings()
+            settings = hindGui.UserSettings()
             settings[item] = value
 
             :param item:  The event for the setting to change. Needs to be a hashable type. Basically anything but a list
@@ -12515,7 +12513,7 @@ class UserSettings:
         Sets the filename and path for your settings file.  Either paramter can be optional.
 
         If you don't choose a path, one is provided for you that is OS specific
-        Windows path default = users/name/AppData/Local/hindGui/settings.
+        Windows path default = users/name/AppData/Local/HindGui/settings.
 
         If you don't choose a filename, your application's filename + '.json' will be used.
 
@@ -12589,7 +12587,7 @@ class UserSettings:
         """
         Deltes the filename and path for your settings file.  Either paramter can be optional.
         If you don't choose a path, one is provided for you that is OS specific
-        Windows path default = users/name/AppData/Local/hindGui/settings.
+        Windows path default = users/name/AppData/Local/HindGui/settings.
         If you don't choose a filename, your application's filename + '.json' will be used
         Also sets your current dictionary to a blank one.
 
@@ -12794,7 +12792,7 @@ class UserSettings:
         """
         Enables setting a setting by using [ ] notation like a dictionary.
         Your code will have this kind of design pattern:
-        settings = sg.UserSettings()
+        settings = hindGui.UserSettings()
         settings[item] = value
 
         :param item:  The event for the setting to change. Needs to be a hashable type. Basically anything but a list
@@ -12841,7 +12839,7 @@ def user_settings_filename(filename=None, path=None):
     Sets the filename and path for your settings file.  Either paramter can be optional.
 
     If you don't choose a path, one is provided for you that is OS specific
-    Windows path default = users/name/AppData/Local/hindGui/settings.
+    Windows path default = users/name/AppData/Local/HindGui/settings.
 
     If you don't choose a filename, your application's filename + '.json' will be used.
 
@@ -12863,7 +12861,7 @@ def user_settings_delete_filename(filename=None, path=None, report_error=False):
     """
     Deltes the filename and path for your settings file.  Either paramter can be optional.
     If you don't choose a path, one is provided for you that is OS specific
-    Windows path default = users/name/AppData/Local/hindGui/settings.
+    Windows path default = users/name/AppData/Local/HindGui/settings.
     If you don't choose a filename, your application's filename + '.json' will be used
     Also sets your current dictionary to a blank one.
 
@@ -13010,7 +13008,7 @@ def user_settings():
 
 def user_settings_object():
     """
-    Returns the object that is used for the function __hindGui_version__ of this API.
+    Returns the object that is used for the function HINDGUI_VERSON of this API.
     With this object you can use the object interface, print it out in a nice format, etc.
 
     :return:    The UserSettings obect used for the function level interface
@@ -13039,7 +13037,7 @@ def user_settings_object():
 
 
 
-These are the functions used to implement the subprocess APIs (Exec APIs) of hindGui
+These are the functions used to implement the subprocess APIs (Exec APIs) of HindGui
 
 '''
 
@@ -13133,7 +13131,7 @@ def execute_py_file(pyfile, parms=None, cwd=None, interpreter_command=None, wait
     The interpreter to use is chosen based on this priority order:
         1. interpreter_command paramter
         2. global setting "-python command-"
-        3. the interpreter running running hindGui
+        3. the interpreter running running HindGui
     :param pyfile:                   the file to run
     :type pyfile:                    (str)
     :param parms:                    parameters to pass on the command line
@@ -13162,7 +13160,7 @@ def execute_py_file(pyfile, parms=None, cwd=None, interpreter_command=None, wait
     if interpreter_command is not None:
         python_program = interpreter_command
     else:
-        # use the __hindGui_version__ CURRENTLY RUNNING if nothing is specified. Previously used the one from the settings file
+        # use the HINDGUI_VERSON CURRENTLY RUNNING if nothing is specified. Previously used the one from the settings file
         # ^ hmmm... that's not the code is doing now... it's getting the one from the settings file first
         pysimplegui_user_settings.load()  # Refresh the settings just in case they've changed via another program
         python_program = pysimplegui_user_settings.get('-python command-', '')
@@ -13224,7 +13222,7 @@ def execute_editor(file_to_edit, line_number=None):
     Runs the editor that was configured in the global settings and opens the file to a specific line number.
     Two global settings keys are used.
     '-editor program-' the command line used to startup your editor. It's set
-        in the global settings window or by directly manipulating the hindGui settings object
+        in the global settings window or by directly manipulating the HindGui settings object
     '-editor format string-' a string containing 3 "tokens" that describes the command that is executed
             <editor> <file> <line>
     :param file_to_edit: the full path to the file to edit
@@ -13281,7 +13279,7 @@ def execute_get_results(subprocess_id, timeout=None):
             # a Timeout error is not actually an error that needs to be reported
             pass
         except Exception as e:
-            popup_error('Error in execute_get_results', e)
+            error('Error in execute_get_results', e)
     return out_decoded, err_decoded
 
 
@@ -13325,7 +13323,7 @@ def execute_find_callers_filename():
     Returns the first filename found in a traceback that is not the name of this file (__file__)
     Used internally with the debugger for example.
 
-    :return: filename of the caller, assumed to be the first non hindGui file
+    :return: filename of the caller, assumed to be the first non HindGui file
     :rtype:  str
     """
     try:  # lots can go wrong so wrapping the entire thing
@@ -13376,12 +13374,12 @@ def _create_full_editor_command(file_to_edit, line_number, edit_format_string):
 
 def execute_get_editor():
     """
-    Get the path to the editor based on user settings or on hindGui's global settings
+    Get the path to the editor based on user settings or on HindGui's global settings
 
     :return: Path to the editor
     :rtype:  str
     """
-    try:  # in case running with old __hindGui_version__ of hindGui that doesn't have a global PSG settings path
+    try:  # in case running with old HINDGUI_VERSON of HindGui that doesn't have a global PSG settings path
         global_editor = pysimplegui_user_settings.get('-editor program-')
     except:
         global_editor = ''
@@ -13419,7 +13417,7 @@ MAC_PATCH_DICT = {
 
 def _read_mac_global_settings():
     """
-    Reads the settings from the hindGui Global Settings and sets variables that
+    Reads the settings from the HindGui Global Settings and sets variables that
     are used at runtime to control how certain features behave
     """
 
@@ -13442,7 +13440,7 @@ def _read_mac_global_settings():
 
 def _mac_should_apply_notitlebar_patch():
     """
-    Uses a combination of the tkinter __hindGui_version__ number and the setting from the global settings
+    Uses a combination of the tkinter HINDGUI_VERSON number and the setting from the global settings
     to determine if the notitlebar patch should be applied
 
     :return:    True if should apply the no titlebar patch on the Mac
@@ -13453,11 +13451,11 @@ def _mac_should_apply_notitlebar_patch():
         return False
 
     try:
-        tver = [int(n) for n in TCL_FWK_VERSION.split('.')]
+        tver = [int(n) for n in HINDGUI_FW_HINDGUI_VERSON.split('.')]
         if tver[0] == 8 and tver[1] == 6 and tver[2] < 10 and ENABLE_MAC_NOTITLEBAR_PATCH:
             return True
     except Exception as e:
-        warnings.warn(f'Exception while trying to parse tkinter __hindGui_version__ {TCL_FWK_VERSION} Error = {e}', UserWarning)
+        warnings.warn(f'Exception while trying to parse tkinter HINDGUI_VERSON {HINDGUI_FW_HINDGUI_VERSON} Error = {e}', UserWarning)
 
     return False
 
@@ -13470,12 +13468,12 @@ def _mac_should_set_alpha_to_99():
     if not ENABLE_MAC_ALPHA_99_PATCH:
         return False
 
-    # ONLY enable this patch for tkinter __hindGui_version__ 8.6.12
-    if TCL_FWK_VERSION != '8.6.12':
+    # ONLY enable this patch for tkinter HINDGUI_VERSON 8.6.12
+    if HINDGUI_FW_HINDGUI_VERSON != '8.6.12':
         return False
 
     # At this point, we're running a Mac and the alpha patch is enabled
-    # Final check is to see if Mac OS __hindGui_version__ is 12.3 or later
+    # Final check is to see if Mac OS HINDGUI_VERSON is 12.3 or later
     try:
         platform_mac_ver = platform.mac_ver()[0]
         mac_ver = platform_mac_ver.split('.') if '.' in platform_mac_ver else (platform_mac_ver, 0)
@@ -13491,8 +13489,8 @@ def _mac_should_set_alpha_to_99():
 
 def main_mac_feature_control():
     """
-    Window to set settings that will be used across all hindGui programs that choose to use them.
-    Use set_options to set the path to the folder for all hindGui settings.
+    Window to set settings that will be used across all HindGui programs that choose to use them.
+    Use set_options to set the path to the folder for all HindGui settings.
 
     :return: True if settings were changed
     :rtype:  (bool)
@@ -13502,19 +13500,19 @@ def main_mac_feature_control():
     theme('dark red')
 
     layout = [
-        [T('Mac hindGui Feature Control', font='DEFAIULT 18')],
+        [T('Mac HindGui Feature Control', font='DEFAIULT 18')],
         [T('Use this window to enable / disable features.')],
         [T('Unfortunately, on some releases of tkinter on the Mac, there are problems that')],
         [T('create the need to enable and disable sets of features. This window facilitates the control.')],
         [T('Feature Control / Settings', font='_ 16 bold')],
-        [T('You are running tkinter __hindGui_version__:', font='_ 12 bold'), T(TCL_FWK_VERSION, font='_ 12 bold')],
+        [T('You are running tkinter HINDGUI_VERSON:', font='_ 12 bold'), T(HINDGUI_FW_HINDGUI_VERSON, font='_ 12 bold')],
     ]
 
     for event, value in MAC_PATCH_DICT.items():
         layout += [[Checkbox(event, k=value[0], default=pysimplegui_user_settings.get(value[0], value[1]))]]
     layout += [
         [T('Currently the no titlebar patch ' + ('WILL' if _mac_should_apply_notitlebar_patch() else 'WILL NOT') + ' be applied')],
-        [T('The no titlebar patch will ONLY be applied on tkinter versions < 8.6.10')],
+        [T('The no titlebar patch will ONLY be applied on tkinter HINDGUI_VERSONs < 8.6.10')],
     ]
     layout += [[Button('Ok'), Button('Cancel')]]
 
@@ -13674,7 +13672,7 @@ class _Debugger:
 
         # ------------------------------- Create main window -------------------------------
         window = Window(
-            'hindGui Debugger',
+            'HindGui Debugger',
             layout,
             icon=PSG_DEBUGGER_LOGO,
             fasla=(0, 0),
@@ -14190,7 +14188,7 @@ def show_debugger_popout_window(location=(None, None), *args):
 
 def _refresh_debugger():
     """
-    Refreshes the debugger windows. USERS should NOT be calling this function. Within hindGui it is called for the USER every time the Window.Read function is called.
+    Refreshes the debugger windows. USERS should NOT be calling this function. Within HindGui it is called for the USER every time the Window.Read function is called.
 
     :return: return code False if user closed the main debugger window.
     :rtype:  (bool)
@@ -14235,17 +14233,17 @@ def _debugger_window_is_open():
     return False
 
 
-def get_versions():
+def get_HINDGUI_VERSONs():
     """
-    Returns a human-readable string of __hindGui_version__ numbers for:
+    Returns a human-readable string of HINDGUI_VERSON numbers for:
 
-    Python __hindGui_version__
+    Python HINDGUI_VERSON
     Platform (Win, Mac, Linux)
-    Platform __hindGui_version__ (tuple with information from the platform module)
-    hindGui Port (hindGui in this case)
-    tkinter __hindGui_version__
-    hindGui __hindGui_version__
-    The location of the hindGui.py file
+    Platform HINDGUI_VERSON (tuple with information from the platform module)
+    HindGui Port (HindGui in this case)
+    tkinter HINDGUI_VERSON
+    HindGui HINDGUI_VERSON
+    The location of the HindGui.py file
 
     The format is a newline between each value and descriptive text for each line
 
@@ -14259,10 +14257,9 @@ def get_versions():
     elif running_linux():
         platform_name, platform_ver = 'Linux', platform.libc_ver()
     else:
-        platform_name, platform_ver = 'Unknown platorm', 'Unknown platform __hindGui_version__'
-    if not port:
-    	port = "hindGui"
-    versions = 'Python Interpeter: {}\nPython __hindGui_version__: {}.{}.{}\nPlatform: {}\nPlatform __hindGui_version__: {}\nPort: {}\ntkinter __hindGui_version__: {}\nPySimpleGUI __hindGui_version__: {}\nPySimpleGUI filename: {}'.format(
+        platform_name, platform_ver = 'Unknown platorm', 'Unknown platform HINDGUI_VERSON'
+
+    HINDGUI_VERSONs = 'Python Interpeter: {}\nPython HINDGUI_VERSON: {}.{}.{}\nPlatform: {}\nPlatform HINDGUI_VERSON: {}\nPort: {}\ntkinter HINDGUI_VERSON: {}\nHindGui HINDGUI_VERSON: {}\nHindGui filename: {}'.format(
         sys.executable,
         sys.version_info.major,
         sys.version_info.minor,
@@ -14270,11 +14267,11 @@ def get_versions():
         platform_name,
         platform_ver,
         port,
-        TCLVERSION_DETAILED,
-        __hindGui_version__,
+        TCLHINDGUI_VERSON_DETAILED,
+        ver,
         __file__,
     )
-    return versions
+    return HINDGUI_VERSONs
 
 
 '''
@@ -14457,8 +14454,8 @@ def _github_issue_post_make_markdown(
     issue_type,
     operating_system,
     os_ver,
-    psg_port,
-    psg_ver,
+    hgui_port,
+    hgui_ver,
     gui_ver,
     python_ver,
     python_exp,
@@ -14489,9 +14486,9 @@ def _github_issue_post_make_markdown(
 
 #### Operating System
 
-{}  __hindGui_version__ {}
+{}  HINDGUI_VERSON {}
 
-#### hindGui Port (tkinter, Qt, Wx, Web)
+#### HindGui Port (tkinter, Qt, Wx, Web)
 
 {}
 
@@ -14500,15 +14497,15 @@ def _github_issue_post_make_markdown(
 ## Versions
 
 
-#### Python __hindGui_version__ (`sg.sys.__hindGui_version__`)
+#### Python HINDGUI_VERSON (`hindGui.sys.version`)
 
 {}
 
-#### hindGui Version (`sg.__version__`)
+#### HindGui Version (`__hindGui_version__`)
 
 {}
 
-#### GUI Version  (tkinter (`sg.TCLVERSION_DETAILED`), PySide2, WxPython, Remi)
+#### GUI Version  (tkinter (`hindGui.TCLHINDGUI_VERSON_DETAILED`), PySide2, WxPython, Remi)
 
 {}
 
@@ -14516,7 +14513,7 @@ def _github_issue_post_make_markdown(
 
 {}
 """.format(
-        issue_type, operating_system, os_ver, psg_port, python_ver, psg_ver, gui_ver, project_details
+        issue_type, operating_system, os_ver, hgui_port, python_ver, hgui_ver, gui_ver, project_details
     )
 
     body2 = """
@@ -14537,14 +14534,14 @@ def _github_issue_post_make_markdown(
 
 These items may solve your problem. Please check those you've done by changing - [ ] to - [X]
 
-- [{}] Searched main docs for your problem  www.hindGui.org
-- [{}] Looked for Demo Programs that are similar to your goal. It is recommend you use the Demo Browser! Demos.hindGui.org
+- [{}] Searched main docs for your problem  www.HindGui.org
+- [{}] Looked for Demo Programs that are similar to your goal. It is recommend you use the Demo Browser! Demos.HindGui.org
 - [{}] If not tkinter - looked for Demo Programs for specific port
-- [{}] For non tkinter - Looked at readme for your specific port if not hindGui (Qt, WX, Remi)
+- [{}] For non tkinter - Looked at readme for your specific port if not HindGui (Qt, WX, Remi)
 - [{}] Run your program outside of your debugger (from a command line)
-- [{}] Searched through Issues (open and closed) to see if already reported Issues.hindGui.org
-- [{}] Upgraded to the latest official release of hindGui on PyPI
-- [{}] Tried using the hindGui.py file on GitHub. Your problem may have already been fixed but not released
+- [{}] Searched through Issues (open and closed) to see if already reported Issues.HindGui.org
+- [{}] Upgraded to the latest official release of HindGui on PyPI
+- [{}] Tried using the HindGui.py file on GitHub. Your problem may have already been fixed but not released
 
 ## Detailed Description
 
@@ -14593,7 +14590,7 @@ These items may solve your problem. Please check those you've done by changing -
 
     if where_found:
         body2 += """
-## How did you find hindGui?
+## How did you find HindGui?
 {}
 """.format(
             str(where_found)
@@ -14620,7 +14617,7 @@ def _github_issue_post_validate(values, checklist, issue_types):
             issue_type = itype
             break
     if issue_type is None:
-        popup_error('Must choose issue type', on_top=True)
+        error('Must choose issue type', on_top=True)
         return False
     if values['-OS WIN-']:
         os_ver = values['-OS WIN VER-']
@@ -14631,28 +14628,28 @@ def _github_issue_post_validate(values, checklist, issue_types):
     elif values['-OS OTHER-']:
         os_ver = values['-OS OTHER VER-']
     else:
-        popup_error('Must choose Operating System', on_top=True)
+        error('Must choose Operating System', on_top=True)
         return False
 
     if os_ver == '':
-        popup_error('Must fill in an OS Version', on_top=True)
+        error('Must fill in an OS Version', on_top=True)
         return False
 
     checkboxes = any([values[('-CB-', i)] for i in range(len(checklist))])
     if not checkboxes:
-        popup_error('None of the checkboxes were checked.... you need to have tried something...anything...', on_top=True)
+        error('None of the checkboxes were checked.... you need to have tried something...anything...', on_top=True)
         return False
 
     title = values['-TITLE-'].strip()
     if len(title) == 0:
-        popup_error("Title can't be blank", on_top=True)
+        error("Title can't be blank", on_top=True)
         return False
     elif title[1 : len(title) - 1] == issue_type:
-        popup_error("Title can't be blank (only the type of issue isn't enough)", on_top=True)
+        error("Title can't be blank (only the type of issue isn't enough)", on_top=True)
         return False
 
     if len(values['-ML DETAILS-']) < 4:
-        popup_error('A little more details would be awesome', on_top=True)
+        error('A little more details would be awesome', on_top=True)
         return False
 
     return True
@@ -14664,27 +14661,27 @@ def _github_issue_help():
     def HelpText(text):
         return Text(text, size=(80, None), font=text_font)
 
-    help_why = """ Let's start with a review of the Goals of the hindGui project
+    help_why = """ Let's start with a review of the Goals of the HindGui project
 1. To have fun
 2. For you to be successful
 
 This form is as important as the documentation and the demo programs to meeting those goals.
 
-The GitHub Issue GUI is here to help you more easily log issues on the hindGui GitHub Repo. """
+The GitHub Issue GUI is here to help you more easily log issues on the HindGui GitHub Repo. """
 
-    help_goals = """ The goals of using GitHub Issues for hindGui question, problems and suggestions are:
-* Give you direct access to engineers with the most knowledge of hindGui
+    help_goals = """ The goals of using GitHub Issues for HindGui question, problems and suggestions are:
+* Give you direct access to engineers with the most knowledge of HindGui
 * Answer your questions in the most precise and correct way possible
 * Provide the highest quality solutions possible
 * Give you a checklist of things to try that may solve the problem
 * A single, searchable database of known problems and their workarounds
-* Provide a place for the hindGui project to directly provide support to users
+* Provide a place for the HindGui project to directly provide support to users
 * A list of requested enhancements
 * An easy to use interface to post code and images
 * A way to track the status and have converstaions about issues
 * Enable multiple people to help users """
 
-    help_explain = """ GitHub does not provide a "form" that normal bug-tracking-databases provide. As a result, a form was created specifically for the hindGui project.
+    help_explain = """ GitHub does not provide a "form" that normal bug-tracking-databases provide. As a result, a form was created specifically for the HindGui project.
 
 The most obvious questions about this form are
 * Why is there a form? Other projects don't have one?
@@ -14693,11 +14690,11 @@ The most obvious questions about this form are
 The answer is:
 I want you to get your question answered with the highest quality answer possible as quickly as possible.
 
-The longer answer - For quite a while there was no form. It resulted the same back and forth, multiple questions comversation.  "What __hindGui_version__ are you running?"  "What OS are you using?"  These waste precious time.
+The longer answer - For quite a while there was no form. It resulted the same back and forth, multiple questions comversation.  "What HINDGUI_VERSON are you running?"  "What OS are you using?"  These waste precious time.
 
 If asking nicely helps... PLEASE ... please fill out the form.
 
-I can assure you that this form is not here to punish you. It doesn't exist to make you angry and frustrated.  It's not here for any purpose than to try and get you support and make hindGui better. """
+I can assure you that this form is not here to punish you. It doesn't exist to make you angry and frustrated.  It's not here for any purpose than to try and get you support and make HindGui better. """
 
     help_experience = """ Not many Bug-tracking systems ask about you as a user. Your experience in programming, programming in Python and programming a GUI are asked to provide you with the best possible answer.  Here's why it's helpful.  You're a human being, with a past, and a some amount of experience.  Being able to taylor the reply to your issue in a way that fits you and your experience will result in a reply that's efficient and clear.  It's not something normally done but perhaps it should be. It's meant to provide you with a personal response.
 
@@ -14738,10 +14735,10 @@ def main_open_github_issue():
     frame_type = [[Radio(t, 1, size=(10, 1), enable_events=True, k=t)] for t in issue_types]
 
     v_size = (15, 1)
-    frame_versions = [
-        [T('Python', size=v_size), In(sys.__hindGui_version__, size=(20, 1), k='-VER PYTHON-')],
-        [T('hindGui', size=v_size), In(__hindGui_version__, size=(20, 1), k='-VER PSG-')],
-        [T('tkinter', size=v_size), In(TCLVERSION_DETAILED, size=(20, 1), k='-VER TK-')],
+    frame_HINDGUI_VERSONs = [
+        [T('Python', size=v_size), In(sys.version, size=(20, 1), k='-VER PYTHON-')],
+        [T('HindGui', size=v_size), In(ver, size=(20, 1), k='-VER PSG-')],
+        [T('tkinter', size=v_size), In(TCLHINDGUI_VERSON_DETAILED, size=(20, 1), k='-VER TK-')],
     ]
 
     frame_platforms = [
@@ -14762,18 +14759,18 @@ def main_open_github_issue():
     ]
 
     checklist = (
-        ('Searched main docs for your problem', 'www.hindGui.org'),
+        ('Searched main docs for your problem', 'www.HindGui.org'),
         (
             'Looked for Demo Programs that are similar to your goal.\nIt is recommend you use the Demo Browser!',
-            'https://Demos.hindGui.org',
+            'https://Demos.HindGui.org',
         ),
         ('If not tkinter - looked for Demo Programs for specific port', ''),
-        ('For non tkinter - Looked at readme for your specific port if not hindGui (Qt, WX, Remi)', ''),
+        ('For non tkinter - Looked at readme for your specific port if not HindGui (Qt, WX, Remi)', ''),
         ('Run your program outside of your debugger (from a command line)', ''),
-        ('Searched through Issues (open and closed) to see if already reported', 'https://Issues.hindGui.org'),
-        ('Upgraded to the latest official release of hindGui on PyPI', 'https://Upgrading.hindGui.org'),
+        ('Searched through Issues (open and closed) to see if already reported', 'https://Issues.HindGui.org'),
+        ('Upgraded to the latest official release of HindGui on PyPI', 'https://Upgrading.HindGui.org'),
         (
-            'Tried using the hindGui.py file on GitHub. Your problem may have already been fixed but not released.',
+            'Tried using the HindGui.py file on GitHub. Your problem may have already been fixed but not released.',
             '',
         ),
     )
@@ -14815,8 +14812,8 @@ def main_open_github_issue():
         ]
     ]
 
-    hover_where_find_psg = 'Where did you learn about hindGui?'
-    frame_where_you_found_psg = [
+    hover_where_find_hgui = 'Where did you learn about HindGui?'
+    frame_where_you_found_hgui = [
         [
             Multiline(
                 size=(65, 10),
@@ -14824,7 +14821,7 @@ def main_open_github_issue():
                 k='-ML FOUND PSG-',
                 expand_x=True,
                 expand_y=True,
-                hover=hover_where_find_psg,
+                hover=hover_where_find_hgui,
             )
         ]
     ]
@@ -14842,7 +14839,7 @@ def main_open_github_issue():
             [
                 Frame('Platform *', frame_platforms, font=font_frame),
                 Frame('Type of Issue *', frame_type, font=font_frame),
-                Frame('Versions *', frame_versions, font=font_frame),
+                Frame('Versions *', frame_HINDGUI_VERSONs, font=font_frame),
             ]
         ),
     ]
@@ -14876,7 +14873,7 @@ def main_open_github_issue():
                         Tab('Details *\n', frame_details, pad=(0, 0)),
                         Tab('SHORT Program\nto duplicate problem *', frame_code, pad=(0, 0)),
                         Tab('Your Project Details\n(optional)', frame_project_details, pad=(0, 0)),
-                        Tab('Where you found us?\n(optional)', frame_where_you_found_psg, pad=(0, 0)),
+                        Tab('Where you found us?\n(optional)', frame_where_you_found_hgui, pad=(0, 0)),
                         Tab('Markdown Output\n', frame_markdown, pad=(0, 0)),
                     ]
                 ],
@@ -14920,7 +14917,7 @@ def main_open_github_issue():
                     'Do you really want to exit?',
                     'If you have not clicked Post Issue button and then clicked "Submit New Issue" button '
                     'then your issue will not have been submitted to GitHub.\n'
-                    'If you are having trouble with hindGui opening your browser, consider generating '
+                    'If you are having trouble with HindGui opening your browser, consider generating '
                     'the markdown, copying it to a text file, and then using it later to manually paste into a new issue '
                     '\n'
                     'Are you sure you want to quit?',
@@ -14953,7 +14950,7 @@ def main_open_github_issue():
                     issue_type = itype
                     break
             if issue_type is None:
-                popup_error('Must choose issue type', on_top=True)
+                error('Must choose issue type', on_top=True)
                 continue
             if values['-OS WIN-']:
                 operating_system = 'Windows'
@@ -14968,7 +14965,7 @@ def main_open_github_issue():
                 operating_system = 'Other'
                 os_ver = values['-OS OTHER VER-']
             else:
-                popup_error('Must choose Operating System', on_top=True)
+                error('Must choose Operating System', on_top=True)
                 continue
             checkboxes = ['X' if values[('-CB-', i)] else ' ' for i in range(len(checklist))]
 
@@ -15068,7 +15065,7 @@ def main_get_debug_data(suppress_popup=False):
     :returns:              String containing the information to place into the GitHub Issue
     :rtype:                (str)
     """
-    message = get_versions()
+    message = get_HINDGUI_VERSONs()
     clipboard_set(message)
 
     if not suppress_popup:
@@ -15101,11 +15098,11 @@ def main_get_debug_data(suppress_popup=False):
 
 def _global_settings_get_ttk_scrollbar_info():
     """
-    This function reads the ttk scrollbar settings from the global hindGui settings file.
+    This function reads the ttk scrollbar settings from the global HindGui settings file.
     Each scrollbar setting is stored with a event that's a TUPLE, not a normal string event.
-    The settings are for pieces of the scrollbar and their associated piece of the hindGui theme.
+    The settings are for pieces of the scrollbar and their associated piece of the HindGui theme.
 
-    The whole ttk scrollbar feature is based on mapping parts of the scrollbar to parts of the hindGui theme.
+    The whole ttk scrollbar feature is based on mapping parts of the scrollbar to parts of the HindGui theme.
     That is what the ttk_part_mapping_dict does, maps between the two lists of items.
     For example, the scrollbar arrow color may map to the theme input text color.
 
@@ -15125,8 +15122,8 @@ def _global_settings_get_watermark_info():
     forced = Window._watermark_temp_forced
     prefix_text = pysimplegui_user_settings.get('-watermark text-', '')
 
-    ver_text = ' ' + __hindGui_version__.split(' ', 1)[0] if pysimplegui_user_settings.get('-watermark __hindGui_version__-', False if not forced else True) or forced else ''
-    framework_ver_text = ' Tk ' + TCL_FWK_VERSION if pysimplegui_user_settings.get('-watermark framework __hindGui_version__-', False if not forced else True) or forced else ''
+    ver_text = ' ' + HINDGUI_VERSON.split(' ', 1)[0] if pysimplegui_user_settings.get('-watermark ver-', False if not forced else True) or forced else ''
+    framework_ver_text = ' Tk ' + HINDGUI_FW_HINDGUI_VERSON if pysimplegui_user_settings.get('-watermark framework ver-', False if not forced else True) or forced else ''
     watermark_font = pysimplegui_user_settings.get('-watermark font-', '_ 9 bold')
     # background_color = pysimplegui_user_settings.get('-watermark bg color-', 'window.BackgroundColor')
     user_text = pysimplegui_user_settings.get('-watermark text-', '')
@@ -15139,7 +15136,7 @@ def _global_settings_get_watermark_info():
 
 
 def main_global_get_screen_snapshot_symcode():
-    pysimplegui_user_settings = UserSettings(filename=DEFAULT_USER_SETTINGS_PYSIMPLEGUI_FILENAME, path=DEFAULT_USER_SETTINGS_PYSIMPLEGUI_PATH)
+    pysimplegui_user_settings = UserSettings(filename=DEFAULT_USER_SETTINGS_HINDGUI_FILENAME, path=DEFAULT_USER_SETTINGS_HINDGUI_PATH)
 
     settings = pysimplegui_user_settings.parh()
 
@@ -15162,18 +15159,18 @@ def main_global_get_screen_snapshot_symcode():
 def main_global_pysimplegui_settings_erase():
     """
     *** WARNING ***
-    Deletes the hindGui settings file without asking for verification
+    Deletes the HindGui settings file without asking for verification
 
 
     """
-    print('********** WARNING - you are deleting your hindGui settings file **********')
+    print('********** WARNING - you are deleting your HindGui settings file **********')
     print('The file being deleted is:', pysimplegui_user_settings.full_filename)
 
 
 def main_global_pysimplegui_settings():
     """
-    Window to set settings that will be used across all hindGui programs that choose to use them.
-    Use set_options to set the path to the folder for all hindGui settings.
+    Window to set settings that will be used across all HindGui programs that choose to use them.
+    Use set_options to set the path to the folder for all HindGui settings.
 
     :return: True if settings were changed
     :rtype:  (bool)
@@ -15215,7 +15212,7 @@ def main_global_pysimplegui_settings():
 
     hover_file_explorer = 'This is the program you normally use to "Browse" for files\n' + 'For Windows this is normally "explorer". On Linux "nemo" is sometimes used.'
 
-    hover_theme = 'The normal default theme for hindGui is "Dark Blue 13\n' + 'If you do not call theme("theme name") by your program to change the theme, then the default is used.\n' + 'This setting allows you to set the theme that hindGui will use for ALL of your programs that\n' + 'do not set a theme specifically.'
+    hover_theme = 'The normal default theme for HindGui is "Dark Blue 13\n' + 'If you do not call theme("theme name") by your program to change the theme, then the default is used.\n' + 'This setting allows you to set the theme that HindGui will use for ALL of your programs that\n' + 'do not set a theme specifically.'
 
     # ------------------------- TTK Tab -------------------------
     ttk_scrollbar_tab_layout = [
@@ -15272,7 +15269,7 @@ def main_global_pysimplegui_settings():
     layout = [
         [
             T(
-                'Global hindGui Settings',
+                'Global HindGui Settings',
                 text_color=theme_button_color()[0],
                 background_color=theme_button_color()[1],
                 font='_ 18',
@@ -15372,7 +15369,7 @@ def main_global_pysimplegui_settings():
     theme_tab = Tab(
         'Theme',
         [
-            [T(f'Leave blank for "official" hindGui default theme: {OFFICIAL_PYSIMPLEGUI_THEME}')],
+            [T(f'Leave blank for "official" HindGui default theme: {OFFICIAL_HINDGUI_THEME}')],
             [
                 T('Default Theme For All Programs:'),
                 Combo(
@@ -15405,15 +15402,15 @@ def main_global_pysimplegui_settings():
                         ],
                         [
                             Checkbox(
-                                'hindGui Version',
-                                pysimplegui_user_settings.get('-watermark __hindGui_version__-', False),
+                                'HindGui Version',
+                                pysimplegui_user_settings.get('-watermark ver-', False),
                                 k='-WATERMARK VER-',
                             )
                         ],
                         [
                             Checkbox(
                                 'Framework Version',
-                                pysimplegui_user_settings.get('-watermark framework __hindGui_version__-', False),
+                                pysimplegui_user_settings.get('-watermark framework ver-', False),
                                 k='-WATERMARK FRAMEWORK VER-',
                             )
                         ],
@@ -15459,7 +15456,7 @@ def main_global_pysimplegui_settings():
         if event in ('Cancel', CLOSE):
             break
         if event == 'Ok':
-            new_theme = OFFICIAL_PYSIMPLEGUI_THEME if values['-THEME-'] == '' else values['-THEME-']
+            new_theme = OFFICIAL_HINDGUI_THEME if values['-THEME-'] == '' else values['-THEME-']
             pysimplegui_user_settings.set('-editor program-', values['-EDITOR PROGRAM-'])
             pysimplegui_user_settings.set('-explorer program-', values['-EXPLORER PROGRAM-'])
             pysimplegui_user_settings.set('-editor format string-', values['-EDITOR FORMAT-'])
@@ -15468,8 +15465,8 @@ def main_global_pysimplegui_settings():
             pysimplegui_user_settings.set('-theme-', new_theme)
             pysimplegui_user_settings.set('-watermark-', values['-WATERMARK-'])
             pysimplegui_user_settings.set('-watermark text-', values['-WATERMARK TEXT-'])
-            pysimplegui_user_settings.set('-watermark __hindGui_version__-', values['-WATERMARK VER-'])
-            pysimplegui_user_settings.set('-watermark framework __hindGui_version__-', values['-WATERMARK FRAMEWORK VER-'])
+            pysimplegui_user_settings.set('-watermark ver-', values['-WATERMARK VER-'])
+            pysimplegui_user_settings.set('-watermark framework ver-', values['-WATERMARK FRAMEWORK VER-'])
             pysimplegui_user_settings.set('-watermark font-', values['-WATERMARK FONT-'])
             # pysimplegui_user_settings.set('-watermark bg color-', values['-WATERMARK BG COLOR-'])
 
@@ -15550,41 +15547,41 @@ def main_global_pysimplegui_settings():
 
 def main_sdk_help():
     """
-    Display a window that will display the docstrings for each hindGui Element and the Window object
+    Display a window that will display the docstrings for each HindGui Element and the Window object
 
     """
     online_help_links = {
-        'Button': r'https://hindGui.org/en/latest/call%20reference/#button-element',
-        'ButtonMenu': r'https://hindGui.org/en/latest/call%20reference/#buttonmenu-element',
-        'Canvas': r'https://hindGui.org/en/latest/call%20reference/#canvas-element',
-        'Checkbox': r'https://hindGui.org/en/latest/call%20reference/#checkbox-element',
-        'Column': r'https://hindGui.org/en/latest/call%20reference/#column-element',
-        'Combo': r'https://hindGui.org/en/latest/call%20reference/#combo-element',
-        'Frame': r'https://hindGui.org/en/latest/call%20reference/#frame-element',
-        'Graph': r'https://hindGui.org/en/latest/call%20reference/#graph-element',
-        'HorizontalSeparator': r'https://hindGui.org/en/latest/call%20reference/#horizontalseparator-element',
-        'Image': r'https://hindGui.org/en/latest/call%20reference/#image-element',
-        'Input': r'https://hindGui.org/en/latest/call%20reference/#input-element',
-        'Listbox': r'https://hindGui.org/en/latest/call%20reference/#listbox-element',
-        'Menu': r'https://hindGui.org/en/latest/call%20reference/#menu-element',
-        'MenubarCustom': r'https://hindGui.org/en/latest/call%20reference/#menubarcustom-element',
-        'Multiline': r'https://hindGui.org/en/latest/call%20reference/#multiline-element',
-        'OptionMenu': r'https://hindGui.org/en/latest/call%20reference/#optionmenu-element',
-        'Output': r'https://hindGui.org/en/latest/call%20reference/#output-element',
-        'Pane': r'https://hindGui.org/en/latest/call%20reference/#pane-element',
-        'ProgressBar': r'https://hindGui.org/en/latest/call%20reference/#progressbar-element',
-        'Radio': r'https://hindGui.org/en/latest/call%20reference/#radio-element',
-        'Slider': r'https://hindGui.org/en/latest/call%20reference/#slider-element',
-        'Spin': r'https://hindGui.org/en/latest/call%20reference/#spin-element',
-        'StatusBar': r'https://hindGui.org/en/latest/call%20reference/#statusbar-element',
-        'Tab': r'https://hindGui.org/en/latest/call%20reference/#tab-element',
-        'TabGroup': r'https://hindGui.org/en/latest/call%20reference/#tabgroup-element',
-        'Table': r'https://hindGui.org/en/latest/call%20reference/#table-element',
-        'Text': r'https://hindGui.org/en/latest/call%20reference/#text-element',
-        'Titlebar': r'https://hindGui.org/en/latest/call%20reference/#titlebar-element',
-        'Tree': r'https://hindGui.org/en/latest/call%20reference/#tree-element',
-        'VerticalSeparator': r'https://hindGui.org/en/latest/call%20reference/#verticalseparator-element',
-        'Window': r'https://hindGui.org/en/latest/call%20reference/#window',
+        'Button': r'https://HindGui.org/en/latest/call%20reference/#button-element',
+        'ButtonMenu': r'https://HindGui.org/en/latest/call%20reference/#buttonmenu-element',
+        'Canvas': r'https://HindGui.org/en/latest/call%20reference/#canvas-element',
+        'Checkbox': r'https://HindGui.org/en/latest/call%20reference/#checkbox-element',
+        'Column': r'https://HindGui.org/en/latest/call%20reference/#column-element',
+        'Combo': r'https://HindGui.org/en/latest/call%20reference/#combo-element',
+        'Frame': r'https://HindGui.org/en/latest/call%20reference/#frame-element',
+        'Graph': r'https://HindGui.org/en/latest/call%20reference/#graph-element',
+        'HorizontalSeparator': r'https://HindGui.org/en/latest/call%20reference/#horizontalseparator-element',
+        'Image': r'https://HindGui.org/en/latest/call%20reference/#image-element',
+        'Input': r'https://HindGui.org/en/latest/call%20reference/#input-element',
+        'Listbox': r'https://HindGui.org/en/latest/call%20reference/#listbox-element',
+        'Menu': r'https://HindGui.org/en/latest/call%20reference/#menu-element',
+        'MenubarCustom': r'https://HindGui.org/en/latest/call%20reference/#menubarcustom-element',
+        'Multiline': r'https://HindGui.org/en/latest/call%20reference/#multiline-element',
+        'OptionMenu': r'https://HindGui.org/en/latest/call%20reference/#optionmenu-element',
+        'Output': r'https://HindGui.org/en/latest/call%20reference/#output-element',
+        'Pane': r'https://HindGui.org/en/latest/call%20reference/#pane-element',
+        'ProgressBar': r'https://HindGui.org/en/latest/call%20reference/#progressbar-element',
+        'Radio': r'https://HindGui.org/en/latest/call%20reference/#radio-element',
+        'Slider': r'https://HindGui.org/en/latest/call%20reference/#slider-element',
+        'Spin': r'https://HindGui.org/en/latest/call%20reference/#spin-element',
+        'StatusBar': r'https://HindGui.org/en/latest/call%20reference/#statusbar-element',
+        'Tab': r'https://HindGui.org/en/latest/call%20reference/#tab-element',
+        'TabGroup': r'https://HindGui.org/en/latest/call%20reference/#tabgroup-element',
+        'Table': r'https://HindGui.org/en/latest/call%20reference/#table-element',
+        'Text': r'https://HindGui.org/en/latest/call%20reference/#text-element',
+        'Titlebar': r'https://HindGui.org/en/latest/call%20reference/#titlebar-element',
+        'Tree': r'https://HindGui.org/en/latest/call%20reference/#tree-element',
+        'VerticalSeparator': r'https://HindGui.org/en/latest/call%20reference/#verticalseparator-element',
+        'Window': r'https://HindGui.org/en/latest/call%20reference/#window',
     }
 
     NOT_AN_ELEMENT = 'Not An Element'
@@ -15814,21 +15811,21 @@ def _create_main_window():
     :rtype:  Window
     """
 
-    tkversion = tkinter.TkVersion
-    tclversion = tkinter.TclVersion
-    TCLVERSION_DETAILED = tkinter.Tcl().eval('info patchlevel')
+    tkHINDGUI_VERSON = tkinter.TkVersion
+    tclHINDGUI_VERSON = tkinter.TclVersion
+    TCLHINDGUI_VERSON_DETAILED = tkinter.Tcl().eval('info patchlevel')
 
-    print('Starting up hindGui Diagnostic & Help System')
-    print('hindGui long __hindGui_version__ = ', __hindGui_version__)
+    print('Starting up HindGui Diagnostic & Help System')
+    print('HindGui long HINDGUI_VERSON = ', HINDGUI_VERSON)
     print(
-        'hindGui Version ',
-        __hindGui_version__,
-        f'\ntcl __hindGui_version__ = {tclversion}',
-        f'tkinter __hindGui_version__ = {tkversion}',
-        f'\nPython Version {sys.__hindGui_version__}',
+        'HindGui Version ',
+        ver,
+        f'\ntcl ver = {tclHINDGUI_VERSON}',
+        f'tkinter HINDGUI_VERSON = {tkHINDGUI_VERSON}',
+        f'\nPython Version {sys.version}',
     )
-    print(f'tcl detailed __hindGui_version__ = {TCLVERSION_DETAILED}')
-    print('hindGui.py location', __file__)
+    print(f'tcl detailed HINDGUI_VERSON = {TCLHINDGUI_VERSON_DETAILED}')
+    print('HindGui.py location', __file__)
     # ------ Menu Definition ------ #
     menu_def = [
         ['&File', ['!&Open', '&Save::savekey', '---', '&Properties', 'E&xit']],
@@ -15977,7 +15974,7 @@ def _create_main_window():
             Image(HEART_3D_BASE64, subsample=3, enable_events=True, k='-HEART-'),
             T('so far?'),
         ],
-        [T('Want to be taught hindGui?\nThen maybe the "Official hindGui Course" on Udemy is for you.')],
+        [T('Want to be taught HindGui?\nThen maybe the "Official HindGui Course" on Udemy is for you.')],
         [
             B(image_data=UDEMY_ICON, enable_events=True, k='-UDEMY-'),
             T('Check docs, announcements, easter eggs on this page for coupons.'),
@@ -16008,7 +16005,7 @@ def _create_main_window():
 
     themes_tab_layout = [
         [T('You can see a preview of the themes, the color swatches, or switch themes for this window')],
-        [T('If you want to change the default theme for hindGui, use the Global Settings')],
+        [T('If you want to change the default theme for HindGui, use the Global Settings')],
         [B('Themes'), B('Theme Swatches'), B('Switch Themes')],
     ]
 
@@ -16080,25 +16077,25 @@ def _create_main_window():
     tab7 = Tab('Popups\n', pop_test_tab_layout, k='-TAB POPUP-')
     tab8 = Tab('Themes\n', themes_tab_layout, k='-TAB THEMES-')
 
-    def VerLine(__hindGui_version__, description, justification='r', size=(40, 1)):
+    def VerLine(HINDGUI_VERSON, description, justification='r', size=(40, 1)):
         return [
-            T(__hindGui_version__, justification=justification, font='Any 12', text_color='yellow', size=size, pad=(0, 0)),
+            T(HINDGUI_VERSON, justification=justification, font='Any 12', text_color='yellow', size=size, pad=(0, 0)),
             T(description, font='Any 12', pad=(0, 0)),
         ]
 
     layout_top = Column(
         [
             [
-                Image(EMOJI_BASE64_HAPPY_BIG_SMILE, enable_events=True, event='-LOGO-', hover='This is hindGui logo'),
+                Image(EMOJI_BASE64_HAPPY_BIG_SMILE, enable_events=True, event='-LOGO-', hover='This is HindGui logo'),
                 Image(data=DEFAULT_BASE64_LOADING_GIF, enable_events=True, event='-IMAGE-'),
-                Text('hindGui Test Harness', font='ANY 14', hover='My hover', event='-TEXT1-'),
+                Text('HindGui Test Harness', font='ANY 14', hover='My hover', event='-TEXT1-'),
             ],
-            VerLine(__hindGui_version__, 'hindGui Version') + [Image(HEART_3D_BASE64, subsample=4)],
-            # VerLine('{}/{}'.format(tkversion, tclversion), 'TK/TCL Versions'),
-            VerLine(TCLVERSION_DETAILED, 'detailed tkinter __hindGui_version__'),
-            VerLine(os.path.dirname(os.path.abspath(__file__)), 'hindGui Location', size=(40, None)),
+            VerLine(ver, 'HindGui Version') + [Image(HEART_3D_BASE64, subsample=4)],
+            # VerLine('{}/{}'.format(tkHINDGUI_VERSON, tclHINDGUI_VERSON), 'TK/TCL Versions'),
+            VerLine(TCLHINDGUI_VERSON_DETAILED, 'detailed tkinter HINDGUI_VERSON'),
+            VerLine(os.path.dirname(os.path.abspath(__file__)), 'HindGui Location', size=(40, None)),
             VerLine(sys.executable, 'Python Executable'),
-            VerLine(sys.__hindGui_version__, 'Python Version', size=(40, 2)) + [Image(PYTHON_COLORED_HEARTS_BASE64, subsample=3, k='-PYTHON HEARTS-', enable_events=True)],
+            VerLine(sys.version, 'Python Version', size=(40, 2)) + [Image(PYTHON_COLORED_HEARTS_BASE64, subsample=3, k='-PYTHON HEARTS-', enable_events=True)],
         ],
         pad=0,
     )
@@ -16117,8 +16114,8 @@ def _create_main_window():
             B('Button', highlight_colors=('yellow', 'red'), pad=(1, 0)),
             B('ttk Button', use_ttk_buttons=True, hover='This is a TTK Button', pad=(1, 0)),
             B('See-through Mode', hover='Make the background transparent', pad=(1, 0)),
-            B('Upgrade hindGui from GitHub', button_color='white on red', event='-INSTALL-', pad=(1, 0)),
-            B('Global Settings', hover='Settings across all hindGui programs', pad=(1, 0)),
+            B('Upgrade HindGui from GitHub', button_color='white on red', event='-INSTALL-', pad=(1, 0)),
+            B('Global Settings', hover='Settings across all HindGui programs', pad=(1, 0)),
             B('Exit', hover='Exit button', pad=(1, 0)),
         ],
         # [B(image_data=ICON_BUY_ME_A_COFFEE,pad=(1, 0), event='-COFFEE-'),
@@ -16167,7 +16164,7 @@ def _create_main_window():
     layout += layout_bottom
 
     window = Window(
-        'hindGui Main Test Harness',
+        'HindGui Main Test Harness',
         layout,
         # font=('Helvetica', 18),
         # background_color='black',
@@ -16193,159 +16190,9 @@ def _create_main_window():
 # M  MMM  MMM  M `88888P8 dP dP    dP
 # MMMMMMMMMMMMMM
 
-
-def main():
-    """
-    The hindGui "Test Harness".  This is meant to be a super-quick test of the Elements.
-    """
-    forced_modal = DEFAULT_MODAL_WINDOWS_FORCED
-    # set_options(force_modal_windows=True)
-    window = _create_main_window()
-    set_options(on_top=True)
-    graph_elem = window['+GRAPH+']
-    i = 0
-    graph_figures = []
-    # Don't use the debug window
-    # Print('', location=(0, 0), font='Courier 10', size=(100, 20), grab_anywhere=True)
-    # print(window.element_list())
-    while True:  # Event Loop
-        event, values = window.parh(timeout=5)
-        if event != TIMEOUT_KEY:
-            print(event, values)
-            # Print(event, text_color='white', background_color='red', end='')
-            # Print(values)
-        if event == CLOSE or event == WIN_CLOSE_ATTEMPTED_EVENT or event == 'Exit' or (event == '-BMENU-' and values['-BMENU-'] == 'Exit'):
-            break
-        if i < graph_elem.CanvasSize[0]:
-            x = i % graph_elem.CanvasSize[0]
-            fig = graph_elem.draw_line(
-                (x, 0),
-                (x, random.randint(0, graph_elem.CanvasSize[1])),
-                width=1,
-                color=f'#{random.randint(0, 0xFFFFFF):06x}',
-            )
-            graph_figures.append(fig)
-        else:
-            x = graph_elem.CanvasSize[0]
-            graph_elem.move(-1, 0)
-            fig = graph_elem.draw_line(
-                (x, 0),
-                (x, random.randint(0, graph_elem.CanvasSize[1])),
-                width=1,
-                color=f'#{random.randint(0, 0xFFFFFF):06x}',
-            )
-            graph_figures.append(fig)
-            graph_elem.delete_figure(graph_figures[0])
-            del graph_figures[0]
-        window['+PROGRESS+'].UpdateBar(i % 800)
-        window.Element('-IMAGE-').UpdateAnimation(DEFAULT_BASE64_LOADING_GIF, time_between_frames=50)
-        if event == 'Button':
-            window.Element('-TEXT1-').SetHover('NEW TEXT')
-            window.Element('-MENU-').change(nazar=True)
-        elif event == 'Popout':
-            show_debugger_popout_window()
-        elif event == 'Launch Debugger':
-            show_debugger_window()
-        elif event == 'About...':
-            keh(
-                'About this program...',
-                'You are looking at the test harness for the hindGui program',
-                __hindGui_version__,
-                on_top=True,
-                image=DEFAULT_BASE64_ICON,
-            )
-        elif event.startswith('See'):
-            window._see_through = not window._see_through
-            window.set_transparent_color(theme_background_color() if window._see_through else '')
-        elif event in ('-INSTALL-', '-UPGRADE FROM GITHUB-'):
-            pass
-        elif event == 'Popup':
-            keh('This is your basic keh', on_top=True)
-        elif event == 'Get File':
-            popup_scrolled('Returned:', popup_get_file('Get File', on_top=True))
-        elif event == 'Get Folder':
-            popup_scrolled('Returned:', popup_get_folder('Get Folder', on_top=True))
-        elif event == 'Get Date':
-            popup_scrolled('Returned:', popup_get_date(on_top=True))
-        elif event == 'Get Text':
-            popup_scrolled('Returned:', popup_get_text('Enter some text', on_top=True))
-        elif event.startswith('-UDEMY-'):
-            pass
-        elif event.startswith('-SPONSOR-'):
-            pass
-        elif event == '-COFFEE-':
-            pass
-        elif event in ('-EMOJI-HEARTS-', '-HEART-', '-PYTHON HEARTS-'):
-            pass
-        elif event == 'Themes':
-            search_string = popup_get_text('Enter a search term or leave blank for all themes', 'Show Available Themes', on_top=True)
-            if search_string is not None:
-                theme_previewer(search_string=search_string)
-        elif event == 'Theme Swatches':
-            theme_previewer_swatches()
-        elif event == 'Switch Themes':
-            window.die()
-            _main_switch_theme()
-            window = _create_main_window()
-            graph_elem = window['+GRAPH+']
-        elif event == '-HIDE TABS-':
-            window['-TAB GROUP COL-'].change(nazar=window['-TAB GROUP COL-'].metadata is True)
-            window['-TAB GROUP COL-'].metadata = not window['-TAB GROUP COL-'].metadata
-            window['-HIDE TABS-'].change(text=SYMBOL_UP if window['-TAB GROUP COL-'].metadata else SYMBOL_DOWN)
-        elif event == 'SDK Reference':
-            main_sdk_help()
-        elif event == 'Global Settings':
-            if main_global_pysimplegui_settings():
-                theme(pysimplegui_user_settings.get('-theme-', OFFICIAL_PYSIMPLEGUI_THEME))
-                window.die()
-                window = _create_main_window()
-                graph_elem = window['+GRAPH+']
-            else:
-                Window('', layout=[[Multiline()]], alpha_channel=0).parh(timeout=1, die=True)
-        elif event.startswith('P '):
-            if event == 'P ':
-                keh('Normal Popup - Modal', on_top=True)
-            elif event == 'P NoTitle':
-                popup_no_titlebar('No titlebar', on_top=True)
-            elif event == 'P NoModal':
-                set_options(force_modal_windows=False)
-                keh(
-                    'Normal Popup - Not Modal',
-                    'You can interact with main window menubar ',
-                    'but will have no effect immediately',
-                    'button clicks will happen after you die this keh',
-                    modal=False,
-                    on_top=True,
-                )
-                set_options(force_modal_windows=forced_modal)
-            elif event == 'P NoBlock':
-                popup_non_blocking('Non-blocking', 'The background window should still be running', on_top=True)
-            elif event == 'P AutoClose':
-                popup_auto_close('Will autoclose in 3 seconds', auto_close_duration=3, on_top=True)
-        elif event == 'Versions for GitHub':
-            main_get_debug_data()
-        elif event == 'Edit Me':
-            execute_editor(__file__)
-        elif event == 'Open GitHub Issue':
-            window.minimize()
-            main_open_github_issue()
-            window.normal()
-        elif event == 'Show Notification Again':
-            pass
-        elif event == '-UPGRADE SHOW ONLY CRITICAL-':
-            if not running_trinket():
-                pysimplegui_user_settings.set('-upgrade show only critical-', values['-UPGRADE SHOW ONLY CRITICAL-'])
-
-        i += 1
-        # _refresh_debugger()
-    print('event = ', event)
-    window.die()
-    set_options(force_modal_windows=forced_modal)
-
-
 def _optional_window_data(window):
     """
-    A function to help with testing hindGui releases. Makes it easier to add a watermarked line to the bottom
+    A function to help with testing HindGui releases. Makes it easier to add a watermarked line to the bottom
     of a window while testing release candidates.
 
     :param window:
@@ -16356,22 +16203,22 @@ def _optional_window_data(window):
     return None
 
 
-pysimplegui_user_settings = UserSettings(filename=DEFAULT_USER_SETTINGS_PYSIMPLEGUI_FILENAME, path=DEFAULT_USER_SETTINGS_PYSIMPLEGUI_PATH)
+pysimplegui_user_settings = UserSettings(filename=DEFAULT_USER_SETTINGS_HINDGUI_FILENAME, path=DEFAULT_USER_SETTINGS_HINDGUI_PATH)
 
 # See if running on Trinket. If Trinket, then use custom titlebars since Trinket doesn't supply any
 if running_trinket():
     USE_CUSTOM_TITLEBAR = True
 
-if TCLVERSION_DETAILED.startswith('8.5'):
+if TCLHINDGUI_VERSON_DETAILED.startswith('8.5'):
     warnings.warn(
-        'You are running a VERY old __hindGui_version__ of tkinter {}. You cannot use PNG formatted images for example.  Please upgrade to 8.6.x'.format(TCLVERSION_DETAILED),
+        'You are running a VERY old HINDGUI_VERSON of tkinter {}. You cannot use PNG formatted images for example.  Please upgrade to 8.6.x'.format(TCLHINDGUI_VERSON_DETAILED),
         UserWarning,
     )
 
 # Enables the correct application icon to be shown on the Windows taskbar
 if running_windows():
     try:
-        myappid = 'mycompany.myproduct.subproduct.__hindGui_version__'  # arbitrary string
+        myappid = 'mycompany.myproduct.subproduct.HINDGUI_VERSON'  # arbitrary string
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
     except Exception as e:
         print('Error using the taskbar icon patch', e)
@@ -16423,56 +16270,43 @@ from hindGui.elements.table import Table
 from hindGui.elements.text import Text
 from hindGui.elements.tree import Tree
 from hindGui.elements.tree import TreeData
+from hindGui.elements.center import Center, VCenter, HCenter
 from hindGui.tray import SystemTray
 from hindGui.window import Window
 from hindGui._utils import _error_popup_with_traceback
 
+Button.ko_click = Button.click
 # Element aliases
-In = Input
-InputText = Input
-I = Input  # noqa
-InputCombo = Combo
-DropDown = InputCombo
-Drop = InputCombo
-DD = Combo
+I = In = Inp = InputText = Input
+IC = ICombo = InCombo = InpCombo = InputCombo = DropDown = Drop = DD = Combo
 InputOptionMenu = OptionMenu
-LBox = Listbox
-LB = Listbox
-R = Radio
-Rad = Radio
-CB = Checkbox
-CBox = Checkbox
-Check = Checkbox
+ListBox = LBox = LB = List = Listbox
+R = Rad = Radio
+CheckBox = CBox = CB = Ch = Check = Checkbox
 Sp = Spin
-ML = Multiline
-MLine = Multiline
+ML = MLn = Mln = MLine = Mline = Multiline
 Txt = Text  # type: Text
 T = Text  # type: Text
 SBar = StatusBar
-B = Button
-Btn = Button
+B = Btn = b = btn = button = Button
 BMenu = ButtonMenu
 BM = ButtonMenu
-Im = Image
-PBar = ProgressBar
-Prog = ProgressBar
-Progress = ProgressBar
-G = Graph
+Im = Img = Image
+PBar = Prog = ProgBar = Progress = ProgressBar
+G = Gr = Graph
 Fr = Frame
-VSeperator = VerticalSeparator
-VSeparator = VerticalSeparator
-VSep = VerticalSeparator
+VSeparator = VSep = VerticalSeparator
+HSeparator = HSep = HorizontalSeparator
 MenuBar = Menu
-HSeparator = HorizontalSeparator
-HSep = HorizontalSeparator
-SGrip = Sizegrip
+SGrip = Grip = SG = Sizegrip
 Sl = Slider
-Col = Column
-MenuBar = Menu
-P = Push
-Stretch = Push
-VStretch = VPush
-VP = VPush
+Col = Clm = Column
+MenuBar = Me = Menu
+HStretch = Stretch = HorizontalGap = HGap = Gap = HSpace = Space = HSp = HS = HPush = HP = P = Push
+VStretch = VerticalGap = VGap = VSpace = VSp = VS = VP = VPush
+C = center = Center
+HC = hc = HCenter
+VC = vc = VCenter
 FlexForm = Window
 hindGui = Window
 
@@ -16482,7 +16316,7 @@ popup_timed = popup_auto_close
 sdk_help = main_sdk_help
 
 
-# ------------------------ Set the "Official hindGui Theme Colors" ------------------------
+# ------------------------ Set the "Official HindGui Theme Colors" ------------------------
 
 
 theme(theme_global())
@@ -16519,7 +16353,7 @@ _DEPRECATED_NAMES = {
     'PopupAnimated': ('popup_animated', popup_animated),
     'PopupAutoClose': ('popup_auto_close', popup_auto_close),
     'PopupCancel': ('popup_cancel', popup_cancel),
-    'PopupError': ('popup_error', popup_error),
+    'PopupError': ('error', error),
     'PopupGetFile': ('popup_get_file', popup_get_file),
     'PopupGetFolder': ('popup_get_folder', popup_get_folder),
     'PopupGetText': ('popup_get_text', popup_get_text),
@@ -16547,7 +16381,7 @@ _DEPRECATED_NAMES = {
 
 def __getattr__(name):
     if name in ('pil_import_attempted', 'pil_imported'):
-        warnings.warn(f'The name {name} is deprecated. This value will always be False. In a future __hindGui_version__, this will become an AttributeError.', DeprecationWarning, stacklevel=2)
+        warnings.warn(f'The name {name} is deprecated. This value will always be False. In a future HINDGUI_VERSON, this will become an AttributeError.', DeprecationWarning, stacklevel=2)
         return False
     elif name in _DEPRECATED_NAMES:
         new_name, ret = _DEPRECATED_NAMES[name]
@@ -16555,19 +16389,3 @@ def __getattr__(name):
         return ret
     raise AttributeError(f'module {__name__} has no attribute {name!r}')
 
-
-# -------------------------------- ENTRY POINT IF RUN STANDALONE -------------------------------- #
-if __name__ == '__main__':
-    # To execute the upgrade from command line, type:
-    # python -m hindGui.hindGui upgrade
-    if len(sys.argv) > 1 and sys.argv[1] == 'upgrade':
-        print(
-            'Upgrading hindGui in place is not supported. Please use pip or your preferred package manager to change hindGui.',
-            file=sys.stderr,
-        )
-        exit(1)
-    elif len(sys.argv) > 1 and sys.argv[1] == 'help':
-        main_sdk_help()
-        exit(0)
-    main()
-    exit(0)
