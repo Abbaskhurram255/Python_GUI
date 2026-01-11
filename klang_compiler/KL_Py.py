@@ -1,6 +1,6 @@
 from types import *
 from typing import List, Callable, TypeVar, NewType, Any, Optional, Union, Final, Self, Generic
-from collections import defaultdict
+from collections import defaultdict, Counter
 from collections.abc import Sequence
 from functools import reduce, lru_cache, cache
 from dataclasses import dataclass
@@ -12,7 +12,7 @@ from threading import Timer
 from datetime import datetime
 from copy import deepcopy
 from pathlib import Path
-import os, sys, platform, json, shutil, base64, requests, math, re, ast, webbrowser
+import builtins, os, sys, platform, json, shutil, base64, requests, math, re, ast, webbrowser, subprocess
 from re import escape
 import enum # NOTE: to allow enum.auto without making it global
 # both of these imports are needed ^V
@@ -46,10 +46,46 @@ IntInfinity = int_infinity = int_inf = intinf = sys.maxsize
 goto = webbrowser.open
 link = webbrowser
 typename = TypeT = typeT = TypeVar("T")
+def run_process(command: str|list[str], new_window: bool = False) -> None:
+	if not command or not isinstance(command, (str, list)):
+		return
+	if isinstance(command, str):
+		if not re.search(r"(?<=\w)\s(?=\w)", command):
+			return
+		command = command.split(" ")
+	try:
+		if new_window:
+			subprocess.Popen(command)
+		else:
+			subprocess.run(command, check=True)
+	except:
+		...
+def kill_process(process_name: str) -> bool:
+	process_name = str(process_name).strip()
+	killed: bool = False
+	if not process_name:
+		killed = False
+	opsys: str = platform.system()
+	try:
+	    if opsys == "Windows":
+	    	run_process(f"taskkill /im /f {process_name}")
+	    	killed = True
+	    else:
+		    run_process(f"pkill -f {process_name}")
+		    killed = True
+	except subprocess.CalledProcessError:
+		killed = False
+	return killed
 def Int(x: str|int|float, base: int = 10) -> int:
     try:
-        x = replace(Str(x).strip(), r"[^e\+\-\d\.]", "") # NOTE: keep the ., it's needed for now. keep. the. dot.
-        # ^ allow the dot . to pass through, for now, so 23.5 does NOT become 253
+        if not x or not isinstance(x, (str, int, float)):
+            return 0
+        if not base or not isinstance(base, int) or base <= 0 or base >= Infinity:
+        	base = 10
+        x = str(x).strip()
+        x = replace(x, r"[^\-\.\d]", "")
+        # NOTE: keep the dot(.), it's needed for now. keep. the. dot.
+        # ^ allow the dot(.) to pass through, for now, so that 23.5 does NOT become 253
         if "." in x and len(x) >= 2:
             # and later, remove it gracefully
             x = x.split(".")[0]
@@ -58,11 +94,64 @@ def Int(x: str|int|float, base: int = 10) -> int:
         return 0
 def Flt(x: str|int|float) -> float:
     try:
+        if not x or not isinstance(x, (str, int, float)):
+            return 0.0
         if isinstance(x, str):
-        	x = replace(x.strip(), r"[^e\+\-\d\.]", "")
+        	x = replace(x.strip(), r"[^e\+\-\.\d]", "")
         return float(x)
     except (ValueError, TypeError):
         return 0.0
+def is_pos(n: int|float) -> bool:
+    if not n or not isinstance(n, (int, float)):
+        return False
+    return n > 0
+def is_neg(n: int|float) -> bool:
+    if not n or not isinstance(n, (int, float)):
+        return False
+    return n < 0
+def is_even(n: int) -> bool:
+    if not isinstance(n, (int, float)):
+        return False
+    # allow zero to pass through
+    # might not seem like it,
+    # but it does have the quality OF being even,
+    # or odd, it even... though
+    return n % 2 == 0
+def is_odd(n: int) -> bool:
+    if not isinstance(n, (int, float)):
+        return False
+    # allow zero to pass through
+    # might not seem like it,
+    # but it does have the quality OF being even,
+    # or odd, it's not odd though
+    return n % 2 != 0
+def delay(n: Union[int, float], fn: Callable) -> None:
+    """
+    @param
+              n                               <int | float>
+              the delay in seconds
+    @param fn
+              fn                              <Callable>
+              the function to be executed after the delay
+    @return
+              <None>
+              nothing is returned
+    """
+    if not n or is_neg(n) or not isinstance(n, (int, float)):
+        n = 1
+    MAX_DELAY: int = 1e5
+    if n > MAX_DELAY:
+        n = MAX_DELAY
+    # good practice
+    if not isinstance(fn, Callable):
+        return
+    timed_fn: Timer = Timer(n, fn)
+    timed_fn.start()
+sec, mint = 1, 60
+# helpers contants
+# so we can do delay(5*min, lambda: doSomeThing())
+# again, helper constants
+after = baad = delay
 def th(n: Number) -> str:
     if n is None or not isinstance(n, Number):
     	return ""
@@ -117,16 +206,81 @@ def FltInput(*args, **kwargs):
     except Exception:
         return 0
 intInput, fltInput = IntInput, FltInput
-def collect(x, *rest):
-    if not x or len(rest) == 0 or not is_iterable(x) or not all(is_iterable(it) for it in [x, *rest]):
+def flattened(lst: list[Any]) -> list[Any]:
+    if lst is None or not isinstance(lst, list):
+        return []
+    out: list[Any] = []
+    for item in lst:
+        if isinstance(item, Iterable) and not isinstance(item, (str, bytes)):
+            out.extend(flattened(item))
+        else:
+            out.append(item)
+    return out
+flat = flatten = flattened
+def clone(item: list|tuple|dict) -> list|tuple|dict:
+    if item is None:
+        return None
+    return deepcopy(item)
+    """
+    __KL_Py.deepcopy__
+    
+    @param       item
+      @@type     (list, tuple, dict)
+						:: object to clone
+    @return        
+       @@type    (list, tuple, dict)
+                        :: a cloned object
+                           depending on
+                           the type passed
+                           in as the argument
+    """
+def hissa(x: str|list|tuple|dict, y: str|list|tuple|dict) -> haal:
+    if isinstance(x, str) and isinstance(y, str):
+        return match_i(x, y)
+    return x in y
+def kism(x: Any) -> type:
+	return type(x)
+def he_kism(x: Any, y: type) -> bool:
+	return isinstance(x, y)
+is_type = istype = he_kism
+def barabar(x, y) -> haal:
+    if isinstance(x, str) and isinstance(y, str):
+        return x.lower() == y.lower()
+    return x == y
+def collect(x, *rest) -> list[list[Any], list[Any]]:
+    if not x or not rest or len(rest) == 0 or not is_iterable(x) or not all(is_iterable(it) for it in [x, *rest]):
         return [[], []]
     args: list = [x, *rest]
     return list(zip(args))
+# wraps the old enumerate function
+# to avoid stack overflow
+# we'll need this
+old_enumerate = builtins.enumerate
+def numbered(x: str|list|tuple|dict) -> list[list[Any], list[int]]:
+    if not x or not isinstance(x, (str, list, tuple, dict)):
+    	return []
+    enumeration_object: old_enumerate = old_enumerate(x)
+    if not enumeration_object:
+    	return []
+    lst: list = list(enumeration_object)
+    if not lst:
+    	return []
+    return [(v, i) for i, v in lst]
+	# WARNING: the `old_enumerate` part
+	# is supposed to be AS/IS
+	# this function overrides
+	# the old enumerate function
+	# for Klang
+	# and replaces it with numbered
+	# also, the swapping is a mandatory step
+	# allowing the following syntax:
+	#	for item, i in numbered(arr):
+	#        print("{i}. {item}")
 class numlist(list[Number]):
 	def __init__(self, *items: Number|list[Number]):
 		super().__init__()
 		self.push(*items)
-	def __add__(self, other: Number|list[Number]):
+	def __add__(self, other: Number|list[Number]) -> Self:
 		if isinstance(other, list):
 			lst: numlist = numlist()
 			for a, b in zip(self, other):
@@ -135,7 +289,7 @@ class numlist(list[Number]):
 		if isinstance(other, Number):
 			self.append(other)
 		return self
-	def __radd__(self, other: Number|list[Number]):
+	def __radd__(self, other: Number|list[Number]) -> Self:
 		if isinstance(other, list):
 			lst: numlist = numlist()
 			for a, b in zip(self, other):
@@ -144,86 +298,133 @@ class numlist(list[Number]):
 		if isinstance(other, Number):
 			self.insert(0, other)
 		return self
-	def __sub__(self, other: list[Number]):
+	def __sub__(self, other: list[Number]) -> Self:
 		lst: numlist = numlist()
 		for a, b in zip(self, other):
 			lst.append(a-b)
 		return lst
-	def __rsub__(self, other: list[Number]):
+	def __rsub__(self, other: list[Number]) -> Self:
 		lst: numlist = numlist()
 		for a, b in zip(self, other):
 			lst.append(b-a)
 		return lst
-	def __mul__(self, other: list[Number]):
+	def __mul__(self, other: list[Number]) -> Self:
 		lst: numlist = numlist()
 		for a, b in zip(self, other):
 			lst.append(a*b)
 		return lst
-	def __truediv__(self, other: list[Number]):
+	def __truediv__(self, other: list[Number]) -> Self:
 		lst: numlist = numlist()
 		for a, b in zip(self, other):
 			if b == 0:
 				b = 1
 			lst.append(a/b)
 		return lst
-	def __pos__(self):
+	def __pos__(self) -> Self:
+		return numlist(+x for x in self)
+	def __neg__(self) -> Self:
 		return numlist(-x for x in self)
-	def __neg__(self):
-		return numlist(-x for x in self)
-	def __abs__(self):
+	def __abs__(self) -> Self:
 		return numlist(abs(x) for x in self)
-	def __pow__(self, other: list[Number]):
+	def __pow__(self, other: list[Number]) -> Self:
 		lst: numlist = numlist()
 		for a, b in zip(self, other):
 			if b == 0:
 				b = 1
 			lst.append(a ** b)
 		return lst
-	def __gt__(self, other: list[Number]):
+	def __gt__(self, other: list[Number]) -> bool:
 		return all(a > b for a, b in zip(self, other))
-	def __lt__(self, other: list[Number]):
+	def __lt__(self, other: list[Number]) -> bool:
 		return all(a < b for a, b in zip(self, other))
-	def __ge__(self, other: list[Number]):
+	def __ge__(self, other: list[Number]) -> bool:
 		return all(a >= b for a, b in zip(self, other))
-	def __le__(self, other: list[Number]):
+	def __le__(self, other: list[Number]) -> bool:
 		return all(a <= b for a, b in zip(self, other))
-	def __eq__(self, other: list[Number]):
+	def __eq__(self, other: list[Number]) -> bool:
 		return all(a == b for a, b in zip(self, other))
-	def __ne__(self, other: list[Number]):
+	def __ne__(self, other: list[Number]) -> bool:
 		return not all(a == b for a, b in zip(self, other))
-	def __str__(self):
+	def __str__(self) -> str:
 		return f"numlist([{', '.join(map(str, self))}])"
-	def __repr__(self):
+	def __repr__(self) -> str:
 		return f"numlist([{', '.join(map(repr, self))}])"
-	def sum(self):
+	def sum(self) -> Number:
+		if not len(self):
+			return 0
 		return sum(self)
-	"""
-	def difference(self):
-		return sum(self)
+	def difference(self) -> Number:
+		if not len(self):
+			return 0
+		diff: Number = self[0]
+		for i, item in old_enumerate(self):
+			if i == 0:
+				continue
+			# since we've already taken care of the first item
+			# we don't that
+			if item > 1e9:
+				item = 1e9
+			if item < 1e-9:
+				item = 1e-9
+			diff -= item
+		return diff
 	diff = difference
-	def product(self):
-		return sum(self)
+	def product(self) -> Number:
+		if not len(self):
+			return 0
+		prd: Number = self[0]
+		for i, item in old_enumerate(self):
+			if i == 0:
+				continue
+			# since we've already taken care of the first item
+			# we don't that
+			if item > 1e9:
+				item = 1e9
+			if item < 1e-9:
+				item = 1e-9
+			prd *= item
+		return prd
 	prd = product
-	def quotient(self):
-		return sum(self)
+	def quotient(self) -> Number:
+		if not len(self):
+			return 0
+		quo: Number = self[0]
+		for i, item in old_enumerate(self):
+			if i == 0:
+				continue
+			# since we've already taken care of the first item
+			# we don't that
+			if item == 0:
+				item = 1
+			if item > 1e9:
+				item = 1e9
+			if item < 1e-9:
+				item = 1e-9
+			quo /= item
+		return quo
 	quo = quotient
-	"""
-	def max(self):
+	def max(self) -> Number:
+		if not len(self):
+			return 0
 		return max(self)
-	def min(self):
+	def min(self) -> Number:
+		if not len(self):
+			return 0
 		return min(self)
 	def combine(self, *args: list[Number]) -> Self:
 		if not args:
 			return self
 		for arg in args:
-			if not isinstance(arg, (Number, list)) and not all(isinstance(x, Number) for x in arg):
-				# if neither of the supported types
+			if not isinstance(arg, (Number, list)):
+				continue
+			if (isinstance(arg, list) and not all(isinstance(item, Number) for item in arg)):
+				# if it's neither of the supported types
 				# don't push anything
 				continue
 			if isinstance(arg, tuple):
 				arg = list(arg)
-				# what's that, a tuple?
-				# we don't need that
+				# a tuple?
+				# no thanks,
 				# we need a list
 			if isinstance(arg, list):
 			    self.extend(arg)
@@ -232,7 +433,7 @@ class numlist(list[Number]):
 		return self
 	add = push = combine
 	def push_at(self, i: int, *items) -> Self:
-		if not len(items):
+		if not len(items) or not all(isinstance(item, Number) for item in items):
 			return self
 		if not isinstance(i, int):
 			i = len(self)
@@ -240,23 +441,70 @@ class numlist(list[Number]):
 			i = 0
 		elif i > len(self):
 			i = len(self)
-		updated_list: numlist = numlist(self[:i] + items + self[i+len(items):])
+		items = flatten(list(items))
+		x = self[:i] + list(items) + self[i+len(items)-1:]
+		updated_list: numlist = numlist(x)
 		self.clear()
 		self.extend(updated_list)
 		return self
-	def push_start(self, item) -> None:
-		self.push_at(0, item)
-	def shift(self) -> Any|None:
+	def push_start(self, *items) -> Self:
+		self.push_at(0, *items)
+		return self
+	unshift = push_start
+	def shift(self) -> Number:
 		if len(self) == 0:
-			return None
+			return 0
 		return self.pop(0)
-	#def pop
+	# OVERRIDE self.remove
+	old_remove = list[Number].remove
+	def remove(self, *items: list[Number]) -> Number:
+		if not len(self) or not all(isinstance(item, (Number, list)) for item in items if item is not None):
+			return 0
+		if not len(items):
+			return super().pop()
+		items = flatten(list(items))
+		last_removed: Number = items[-1]
+		for item in items:
+			if not self.contains(item):
+				continue
+			self.old_remove(item)
+		return last_removed
+	rmv = remove
+	# OVERRIDE self.pop
+	old_pop = list[Number].pop
+	def pop(self, *items: list[Number]) -> Number:
+		if not len(self) or not all(isinstance(item, (Number, list)) for item in items if item is not None):
+			return 0
+		if not len(items):
+			return super().pop()
+		items = flatten(list(items))
+		last_popped: Number = self.old_pop(items[-1])
+		for index in items:
+			if index >= len(self):
+				continue
+			if index < 0:
+				index = len(self) - abs(index)
+				if index < 0 or index >= len(self):
+					continue
+			self.old_pop(index)
+		return last_popped
 	#def pop_at
 	def contains(self, item) -> bool:
 		return self.count(item) > 0
 	has = includes = contains
-	find = find_index = index_of = list[Number].index
-	no_of = list[Number].count
+	def index_of(self, x: Number) -> int:
+		if not isinstance(x, Number) or not self.contains(x):
+			return -1
+		return self.index(x)
+	find = find_index = index_of
+	no_of = counts_of = list[Number].count
+"""
+nlist: numlist = numlist([2, 0, 5])
+print(nlist.pop(0, -2))
+print(nlist.quo())
+print(nlist.find(1))
+print(nlist)
+"""
 num_list = numlist
 class intlist(list[int]):
 	def __init__(self, *items: int):
@@ -388,24 +636,24 @@ class fltlist(list[float]):
 	def __repr__(self) -> str:
 		return f"fltlist([{', '.join(map(repr, self))}])"
 flt_list = fltlist
-class Stack(Generic[TypeT]):
-    def __init__(self, *items: TypeT):
-        self.array: list[TypeT] = []
+class Stack[T]:
+    def __init__(self, *items: T):
+        self.array: list[T] = []
         self.length: int = -1
         if len(items) != 0:
             for item in items:
                 self.push(item)
-    def push(self, item: TypeT) -> Self:
+    def push(self, item: T) -> Self:
         self.array.append(item)
         self.length += 1
         return self
-    def pop(self) -> Optional[TypeT]:
+    def pop(self) -> Optional[T]:
         if self.length == -1:
             return None
-        popped: TypeT = self.array[self.length]
+        popped: T = self.array[self.length]
         self.length -= 1
         return popped
-    def top(self) -> Optional[TypeT]:
+    def top(self) -> Optional[T]:
         if self.length == -1:
             return None
         return self.array[self.length]
@@ -482,6 +730,12 @@ def remove_duplicates(lst: list) -> list:
 	if not lst or not isinstance(lst, list):
 		return []
 	return list(dict.fromkeys(lst).keys())
+__old_Counter__ = Counter
+def Count(obj: dict) -> dict[int, Any]:
+    if not isinstance(obj, dict):
+        return {}
+    return dict(__old_Counter__ (obj))
+builtins.Counter = Count
 def get_local_declarations() -> obj:
     """
     @return
@@ -646,47 +900,6 @@ def f(*args) -> str:
 def printf(*args, **kwargs):
     print(f(*args), **kwargs)
 kaho = printf
-def flatten(lst: list) -> list:
-    if lst is None:
-        return []
-    out = []
-    for item in lst:
-        if isinstance(item, Iterable) and not isinstance(item, (str, bytes)):
-            out.extend(flatten(item))
-        else:
-            out.append(item)
-    return out
-flat = flatten
-def clone(item: list|tuple|dict) -> list|tuple|dict:
-    if item is None:
-        return None
-    return deepcopy(item)
-    """
-    __KL_Py.deepcopy__
-    
-    @param       item
-      @@type     (list, tuple, dict)
-						:: object to clone
-    @return        
-       @@type    (list, tuple, dict)
-                        :: a cloned object
-                           depending on
-                           the type passed
-                           in as the argument
-    """
-def hissa(x: str|list|tuple|dict, y: str|list|tuple|dict) -> haal:
-    if isinstance(x, str) and isinstance(y, str):
-        return match_i(x, y)
-    return x in y
-def kism(x: Any) -> type:
-	return type(x)
-def he_kism(x: Any, y: type) -> bool:
-	return isinstance(x, y)
-is_type = istype = he_kism
-def barabar(x, y) -> haal:
-    if isinstance(x, str) and isinstance(y, str):
-        return x.lower() == y.lower()
-    return x == y
 def khali(x: Iterable) -> haal:
     if x is None:
         return False
@@ -752,52 +965,65 @@ def split(srcString: str, regex: str = "", maxsplits: int = IntInfinity, flags: 
     raw_list: list[str] = re.split(regex, srcString, maxsplit=maxsplits, flags=flags)
     result: list[str] = []
     for x in raw_list:
-    	if x.strip():
-    		result.append(x)
+    	if not x.strip():
+    		continue
+    	result.append(x)
     return result
 def replace(src: str, to_replace: str, replacement: str = "") -> str:
-    if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, str):
+    if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, (str, Callable)):
     	# allow empty replacement for removals
     	return ""
-    to_replace = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_replace)
-    replacement = re.sub(r"\$\{?(\d+)(\}(?!#{4}))?", r"\\\1", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
-    # achieve JavaScript-like numbered-group convention ^
-    replacement = re.sub(r"\$\{?([A-Za-z]+\w*)(\}(?!#{4}))?", r"\\g<\1>", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
-    # achieve JavaScript-like named-group convention ^
+    if isinstance(replacement, str):
+        # if it's a string, rather than a callable---usually in the form of a lambda function
+        to_replace = re.sub(r"\$&", r"\0", to_replace)
+        to_replace = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_replace)
+        replacement = re.sub(r"\$\{?(\d+)(\}(?!#{4}))?", r"\\\1", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
+        # achieve JavaScript-like numbered-group convention ^
+        replacement = re.sub(r"\$\{?([A-Za-z]+\w*)(\}(?!#{4}))?", r"\\g<\1>", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
+        # achieve JavaScript-like named-group convention ^
     src = re.sub(to_replace, replacement, src)
     return src
 def replace_i(src: str, to_replace: str, replacement: str = "") -> str:
-    if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, str):
+    if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, (str, Callable)):
     	# allow empty replacement for removals
     	return ""
-    to_replace = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_replace)
-    replacement = re.sub(r"\$\{?(\d+)(\}(?!#{4}))?", r"\\\1", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
-    # achieve JavaScript-like numbered-group convention ^
-    replacement = re.sub(r"\$\{?([A-Za-z]+\w*)(\}(?!#{4}))?", r"\\g<\1>", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
-    # achieve JavaScript-like named-group convention ^
+    if isinstance(replacement, str):
+        # if it's a string, rather than a callable---usually in the form of a lambda function
+        to_replace = re.sub(r"\$&", r"\0", to_replace)
+        to_replace = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_replace)
+        replacement = re.sub(r"\$\{?(\d+)(\}(?!#{4}))?", r"\\\1", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
+        # achieve JavaScript-like numbered-group convention ^
+        replacement = re.sub(r"\$\{?([A-Za-z]+\w*)(\}(?!#{4}))?", r"\\g<\1>", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
+        # achieve JavaScript-like named-group convention ^
     src = re.sub(to_replace, replacement, src, flags=re.IGNORECASE)
     return src
 def replace_one(src: str, to_replace: str, replacement: str = "") -> str:
-    if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, str):
+    if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, (str, Callable)):
     	# allow empty replacement for removals
     	return ""
-    to_replace = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_replace)
-    replacement = re.sub(r"\$\{?(\d+)(\}(?!#{4}))?", r"\\\1", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
-    # achieve JavaScript-like numbered-group convention ^
-    replacement = re.sub(r"\$\{?([A-Za-z]+\w*)(\}(?!#{4}))?", r"\\g<\1>", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
-    # achieve JavaScript-like named-group convention ^
+    if isinstance(replacement, str):
+        # if it's a string, rather than a callable---usually in the form of a lambda function
+        to_replace = re.sub(r"\$&", r"\0", to_replace)
+        to_replace = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_replace)
+        replacement = re.sub(r"\$\{?(\d+)(\}(?!#{4}))?", r"\\\1", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
+        # achieve JavaScript-like numbered-group convention ^
+        replacement = re.sub(r"\$\{?([A-Za-z]+\w*)(\}(?!#{4}))?", r"\\g<\1>", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
+        # achieve JavaScript-like named-group convention ^
     src = re.sub(to_replace, replacement, src, count=1)
     return src
 replace_first: Callable[[str, str, str, Optional[bool]], str] = replace_one
 def replace_one_i(src: str, to_replace: str, replacement: str = "") -> str:
-    if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, str):
+    if not src or not isinstance(src, str) or not to_replace or not isinstance(to_replace, str) or not isinstance(replacement, (str, Callable)):
     	# allow empty replacement for removals
     	return ""
-    to_replace = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_replace)
-    replacement = re.sub(r"\$\{?(\d+)(\}(?!#{4}))?", r"\\\1", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
-    # achieve JavaScript-like numbered-group convention ^
-    replacement = re.sub(r"\$\{?([A-Za-z]+\w*)(\}(?!#{4}))?", r"\\g<\1>", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
-    # achieve JavaScript-like named-group convention ^
+    if isinstance(replacement, str):
+        # if it's a string, rather than a callable---usually in the form of a lambda function
+        to_replace = re.sub(r"\$&", r"\0", to_replace)
+        to_replace = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_replace)
+        replacement = re.sub(r"\$\{?(\d+)(\}(?!#{4}))?", r"\\\1", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
+        # achieve JavaScript-like numbered-group convention ^
+        replacement = re.sub(r"\$\{?([A-Za-z]+\w*)(\}(?!#{4}))?", r"\\g<\1>", replacement) # the function sees and uses 4 hashes (####) as an escape sequence for a replacement regex group's closing brace
+        # achieve JavaScript-like named-group convention ^
     src = re.sub(to_replace, replacement, src, flags=re.IGNORECASE, count=1)
     return src
 replace_first_i: Callable[[str, str, str, Optional[bool]], str] = replace_one_i
@@ -812,6 +1038,22 @@ def find_matches_i(src: str, to_find: str) -> list:
     	return []
     to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = re.findall(to_find, src, re.IGNORECASE)
+    return matches
+def find_matches_as_obj(src: str, to_find: str) -> obj[str, str]:
+    if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
+    	return obj()
+    to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
+    matches: obj[str, str] = {}
+    if matches_found := re.search(to_find, src):
+    	matches = matches_found.groupdict()
+    return matches
+def find_matches_as_obj_i(src: str, to_find: str) -> obj[str, str]:
+    if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
+    	return obj()
+    to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
+    matches: obj[str, str] = {}
+    if matches_found := re.search(to_find, src, flags=re.IGNORECASE):
+    	matches = matches_found.groupdict()
     return matches
 def find_match(src: str, to_find: str) -> str:
     if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
@@ -909,6 +1151,10 @@ class File:
         return self.pathname.is_dir()
     def exists(self) -> bool:
         return self.pathname.exists()
+    def exists_file(self) -> bool:
+        return self.is_file() and self.exists()
+    def exists_folder(self) -> bool:
+        return self.is_folder() and self.exists()
     @staticmethod
     def create(fname: str, content: str = "") -> bool:
         try:
@@ -1011,7 +1257,6 @@ class File:
         except Exception as e:
             print(f"[KL.file.JobFailed]: {e}")
         return None
-
     @staticmethod
     def write(fname: str, content: str) -> bool:
 	    try:
@@ -1056,7 +1301,7 @@ class File:
     def delete(fname: str) -> bool:
         try:
             if not fname:
-                raise ValueError("File name is required")
+                return
             if re.search(r"(?<=\\w)\\s*[\\|\\+\\&\\,\\;]\\s*(?=\\w)", fname):
                 for subFileName in re.split(r"\\s*[\\|\\+\\&\\,\\;]\\s*", fname):
                     File.delete(subFileName)
@@ -1067,8 +1312,6 @@ class File:
                 os.remove(fname)
             print(f"[KL.file.JobSuccess]:\nFile {fname} deleted successfully.")
             return True
-        except ValueError as e:
-            print(f"[KL.file.JobFailed]: {e}")
         except FileNotFoundError:
             print(f"[KL.file.JobFailed]: File {fname} does not exist")
         except PermissionError:
@@ -1187,8 +1430,6 @@ def filepath(to_filename: str) -> str:
         return ""
     return os.path.join(os.getcwd(), to_filename)
 file_path = path_to = filepath
-
-name: str = "Cindy"
 
 def main() -> none:
     print(Int("100", 2))
