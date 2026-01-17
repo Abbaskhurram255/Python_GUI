@@ -1,7 +1,6 @@
 from types import *
-from typing import List, Callable, TypeVar, NewType, Any, Optional, Union, Final, Self, Generic
-from collections import defaultdict, Counter
-from collections.abc import Sequence
+from typing import Callable, TypeVar, NewType, Any, Optional, Union, Final, Self, Generic, Sequence, Iterable, defaultdict, Counter
+from abc import abstractmethod, ABCMeta, ABC as AbstractBaseClass
 from functools import reduce, lru_cache, cache
 from dataclasses import dataclass
 from math import *
@@ -19,7 +18,6 @@ import enum # NOTE: to allow enum.auto without making it global
 from enum import Enum
 from inspect import *
 from hindGui import *
-Iterable = str | list | tuple
 argv = sys.argv = sys.argv[1:]
 date = time = datetime
 rand_int = randint
@@ -45,6 +43,44 @@ Infinity = infinity = inf
 IntInfinity = int_infinity = int_inf = intinf = sys.maxsize
 goto = webbrowser.open
 link = webbrowser
+# crucial \/
+class AbstractMethodsRehteHeError(TypeError):
+	def __init__(self, name: str):
+		name = str(name)
+		super().__init__(name)
+class AbstractBaseClassMeta(ABCMeta):
+    def __new__(mcs, name, bases, namespace, **kwargs):
+        cls = super().__new__(mcs, name, bases, namespace, **kwargs)
+        if ABCMeta in cls.__mro__ and cls.__abstractmethods__:
+            return cls
+        abstract_methods: set = set()
+        for base in bases:
+            if isinstance(base, ABCMeta):
+                abstract_methods.update(base.__abstractmethods__)
+        missing_methods = abstract_methods - set(cls.__dict__)
+        for method_name in abstract_methods:
+            if not any(method_name in base.__dict__ for base in inspect.getmro(cls)[1:]):
+                missing_methods.add(method_name)
+        if missing_methods:
+            raise AbstractMethodsRehteHeError(
+                f"Base class '{name}' ke methods {missing_methods} ko implement karna laazmi he"
+            )
+        for method_name in abstract_methods:
+        	if method_name not in cls.__dict__ :
+        		continue
+        	subclass_method = cls.__dict__[method_name]
+        	for base in inspect.getmro(cls)[1:]:
+        		if method_name not in base.__dict__:
+        			continue
+        		base_method = base.__dict__[method_name]
+        		base_method_type = inspect.signature(base_method)
+        		subclass_method_type = inspect.signature(subclass_method)
+        		if base_method_type == subclass_method_type:
+        			continue
+        		raise TypeError(
+        		    f"Concrete class '{name}' ke method '{method_name}' ka kism BASE CLASS '{base.__name__}' ke sath match nahi karta"
+        		)
+        return cls
 typename = TypeT = typeT = TypeVar("T")
 def run_process(command: str|list[str], new_window: bool = False) -> None:
 	if not command or not isinstance(command, (str, list)):
@@ -139,7 +175,7 @@ def delay(n: Union[int, float], fn: Callable) -> None:
     """
     if not n or is_neg(n) or not isinstance(n, (int, float)):
         n = 1
-    MAX_DELAY: int = 1e5
+    MAX_DELAY: int = int(1e5)
     if n > MAX_DELAY:
         n = MAX_DELAY
     # good practice
@@ -248,7 +284,7 @@ def barabar(x, y) -> haal:
         return x.lower() == y.lower()
     return x == y
 def collect(x, *rest) -> list[list[Any], list[Any]]:
-    if not x or not rest or len(rest) == 0 or not is_iterable(x) or not all(is_iterable(it) for it in [x, *rest]):
+    if not x or not rest or len(rest) == 0 or not is_iterable(x) or not all(isinstance(item, Iterable) for item in [x, *rest]):
         return [[], []]
     args: list = [x, *rest]
     return list(zip(args))
@@ -897,12 +933,16 @@ def f(*args) -> str:
             print(e)
     formatted = formatted.rstrip()
     return formatted
-def printf(*args, **kwargs):
+def printf(*args, **kwargs) -> None:
     print(f(*args), **kwargs)
 kaho = printf
-def khali(x: Iterable) -> haal:
+def khali(x: Iterable) -> bool:
     if x is None:
-        return False
+        return True
+    if not isinstance(x, Iterable):
+    	return not x
+    if isinstance(x, str):
+    	return not x.strip()
     return len(x) == 0
 is_empty = isempty = khali
 # type checks
@@ -957,12 +997,12 @@ is_iterable = isiterable = lambda x: isinstance(x, Iterable)
 isnt_iterable = isntiterable = non_iterable = noniterable = lambda x: not is_iterable(x)
 is_callable = iscallable = is_function = isfunction = is_func = isfunc = lambda x: callable(x)
 isnt_callable = isntcallable = non_callable = noncallable = lambda x: not is_callable(x)
-def split(srcString: str, regex: str = "", maxsplits: int = IntInfinity, flags: int = 0) -> list[str]:
-    if not srcString or not isinstance(srcString, str) or not isinstance(regex, str):
+def split(src: str, regex: str = "", maxsplits: int = IntInfinity, flags: int = 0) -> list[str]:
+    if not src or not isinstance(src, str) or not isinstance(regex, str):
     	# allow regex to be empty, as it will be sometimes
     	return []
     regex = re.sub(r"(\?)(<\w+>)", r"\1P\2", regex)
-    raw_list: list[str] = re.split(regex, srcString, maxsplit=maxsplits, flags=flags)
+    raw_list: list[str] = re.split(regex, src, maxsplit=maxsplits, flags=flags)
     result: list[str] = []
     for x in raw_list:
     	if not x.strip():
@@ -1033,7 +1073,7 @@ def find_matches(src: str, to_find: str) -> list[str]:
     to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = re.findall(to_find, src)
     return matches
-def find_matches_i(src: str, to_find: str) -> list:
+def find_matches_i(src: str, to_find: str) -> list[str]:
     if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
     	return []
     to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
@@ -1073,7 +1113,7 @@ def find_match_i(src: str, to_find: str) -> str:
     return matches[0]
 def match(src: str, to_find: str) -> bool:
     if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
-    	return []
+    	return False
     to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = find_matches(src, to_find)
     if len(matches) == 0:
@@ -1081,7 +1121,7 @@ def match(src: str, to_find: str) -> bool:
     return True
 def match_i(src: str, to_find: str) -> bool:
     if not src or not isinstance(src, str) or not to_find or not isinstance(to_find, str):
-    	return []
+    	return False
     to_find = re.sub(r"(\?)(<\w+>)", r"\1P\2", to_find)
     matches: list[str] = find_matches_i(src, to_find)
     if len(matches) == 0:
