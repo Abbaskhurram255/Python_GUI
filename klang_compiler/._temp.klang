@@ -1,3 +1,2 @@
 fc main():
-	name: str = "Damon"
-	print "hey"
+	print x is 5
